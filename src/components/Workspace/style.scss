@@ -1,0 +1,98 @@
+@import "../../styles/colors";
+
+.resizeBox {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.resizeLeft {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background-color: rgba(255,255,255,0.9);
+  left: 0;
+  cursor: col-resize;
+  &:hover {
+    background-color: rgba(0,0,0,0.5);
+    //border-left: 1px solid rgba(255, 0, 0, 0.5);
+    //border-right: 1px solid rgba(255, 0, 0, 0.5);
+  }
+}
+
+.resizeRight {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background-color: rgba(255,255,255,0.9);
+  right: 0;
+  cursor: ew-resize;
+  &:hover {
+    background-color: rgba(0,0,0,0.5);
+  }
+}
+
+.resizeTop {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(255,255,255,0.9);
+  top: 0;
+  cursor: row-resize;
+  &:hover {
+    background-color: rgba(0,0,0,0.5);
+  }
+}
+
+.resizeBottom {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(255,255,255,0.9);
+  bottom: 0;
+  cursor: row-resize;
+  &:hover {
+    background-color: rgba(0,0,0,0.5);
+  }
+}
+
+.config {
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+  color: $palette-blue-300;
+  &:hover {
+    color: $palette-blue-500;
+    background-color: rgba(0,0,0,0.2);
+  }
+}
+
+.remove {
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+  color: $palette-red-300;
+  &:hover {
+    color: $palette-red-500;
+    background-color: rgba(0,0,0,0.2);
+  }
+}
+
+.resize {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: 0;
+  right: 0;
+  background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg08IS0tIEdlbmVyYXRvcjogQWRvYmUgRmlyZXdvcmtzIENTNiwgRXhwb3J0IFNWRyBFeHRlbnNpb24gYnkgQWFyb24gQmVhbGwgKGh0dHA6Ly9maXJld29ya3MuYWJlYWxsLmNvbSkgLiBWZXJzaW9uOiAwLjYuMSAgLS0+DTwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DTxzdmcgaWQ9IlVudGl0bGVkLVBhZ2UlMjAxIiB2aWV3Qm94PSIwIDAgNiA2IiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmMDAiIHZlcnNpb249IjEuMSINCXhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbDpzcGFjZT0icHJlc2VydmUiDQl4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjZweCIgaGVpZ2h0PSI2cHgiDT4NCTxnIG9wYWNpdHk9IjAuMzAyIj4NCQk8cGF0aCBkPSJNIDYgNiBMIDAgNiBMIDAgNC4yIEwgNCA0LjIgTCA0LjIgNC4yIEwgNC4yIDAgTCA2IDAgTCA2IDYgTCA2IDYgWiIgZmlsbD0iIzAwMDAwMCIvPg0JPC9nPg08L3N2Zz4=');
+  background-position: bottom right;
+  padding: 0 3px 3px 0;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  cursor: se-resize;
+}
