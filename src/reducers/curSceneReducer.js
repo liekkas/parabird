@@ -1,14 +1,15 @@
 /**
  * Created by liekkas on 15/12/17.
  */
-import { CurSceneActionTypes } from '../constants/ActionTypes';
+import { GlobalActionTypes, CurSceneActionTypes } from '../constants/ActionTypes';
 import { fromJS } from 'immutable';
 import { createUniqueId } from '../tools/ztools';
 
 const initState = fromJS({
   id: createUniqueId('Scene'),
-  group: '',
+  group: '未分组',
   name: '未命名',
+  cover: '',
   state: 'unsaved',
   desc: '',
   createDate: '',
@@ -19,10 +20,16 @@ const initState = fromJS({
 
 export default function curSceneReducer(state = initState, action = {}) {
   switch (action.type) {
+    case GlobalActionTypes.INIT_USER:
+      return state.update('createUser', () => action.payload);
+    case CurSceneActionTypes.INIT_SCENE:
+      return state.merge(action.payload.curScene);
     case CurSceneActionTypes.NEW_SCENE:
       return state.merge(initState).update('id', id => createUniqueId('Scene'));
     case CurSceneActionTypes.SAVE_SCENE:
       return state.merge(action.payload);
+    case GlobalActionTypes.THEME_CHANGED: //主题变化同时也改变当前场景的主题
+      return state.update('theme', () => action.payload);
     case CurSceneActionTypes.PREVIEW_SCENE:
       return state;
     case CurSceneActionTypes.DRAG_COMPONENT_INTO_WORKSPACE:

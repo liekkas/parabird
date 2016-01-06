@@ -1,7 +1,7 @@
 /**
  * Created by liekkas on 15/12/17.
  */
-import { GlobalActionTypes } from '../constants/ActionTypes';
+import { GlobalActionTypes, CurSceneActionTypes } from '../constants/ActionTypes';
 import { fromJS } from 'immutable';
 
 const initState = fromJS({
@@ -12,11 +12,14 @@ const initState = fromJS({
     id: 'No10000',
     name: '斜风细雨',
     role: 'admin',
+    configed: 'false',
   }
 });
 
 export default function globalReducer(state = initState, action = {}) {
   switch (action.type) {
+    case CurSceneActionTypes.INIT_SCENE:
+      return state.updateIn(['user', 'configed'], () => 'true');
     case GlobalActionTypes.THEME_CHANGED:
       return state.update('theme', () => action.payload);
     case GlobalActionTypes.SCREEN_RATIO_CHANGED:
