@@ -4,6 +4,9 @@
 import * as comp from '../components';
 
 export const Lookup = {
-  'LineChart': comp.LineChart,
-  'LineChartEditor': comp.LineChartEditor,
+  LineChart: comp.LineChart,
+  LineChartEditor: comp.LineChartEditor,
+
+  PBImage: comp.PBImage,
+  PBImageEditor: comp.PBImageEditor,
 };
