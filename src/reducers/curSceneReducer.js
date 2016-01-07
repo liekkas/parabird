@@ -13,6 +13,7 @@ const initState = fromJS({
   state: 'unsaved',
   desc: '',
   createDate: '',
+  updateDate: '',
   createUser: '',
   theme: 'TealTheme',
   placers: [],
@@ -25,7 +26,9 @@ export default function curSceneReducer(state = initState, action = {}) {
     case CurSceneActionTypes.INIT_SCENE:
       return state.merge(action.payload.curScene);
     case CurSceneActionTypes.NEW_SCENE:
-      return state.merge(initState).update('id', id => createUniqueId('Scene'));
+      return state.merge(initState)
+        .update('id', () => createUniqueId('Scene'))
+        .update('createUser', () => action.payload);
     case CurSceneActionTypes.SAVE_SCENE:
       return state.merge(action.payload);
     case GlobalActionTypes.THEME_CHANGED: //主题变化同时也改变当前场景的主题
