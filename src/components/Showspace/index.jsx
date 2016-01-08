@@ -1,18 +1,32 @@
 import React, { PropTypes } from 'react';
 import { RaisedButton } from 'material-ui';
-import Placer from '../Workspace/Placer';
+import PurePlacer from './PurePlacer';
+import style from './style.scss';
+import { Colors } from 'material-ui/lib/styles';
 
+/**
+ * 单个场景呈现界面
+ */
 class Showspace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showClose: false,
     };
+  }
+
+  //退出场景并关闭当前窗口
+  _handleClick() {
+    console.log('>>> Showspace Closed');
+    window.close();
   }
 
   renderScene() {
     //return null;
-    return this.props.scene.placers.map(({ name, x, y, w, h, componentType }, i) =>
-      <Placer name={name} x={x} y={y} w={w} h={h} componentType={componentType} key={i}/>);
+    return this.props.scene.placers.map(({ name, x, y, w, h, componentType, componentId, componentConfig }, i) =>
+      <PurePlacer name={name} x={x} y={y} w={w} h={h}
+                  componentType={componentType} componentId={componentId}
+                  componentConfig={componentConfig} key={i}/>);
   }
 
   render() {
@@ -25,6 +39,7 @@ class Showspace extends React.Component {
         width: '100vw',
         backgroundColor: bgColor,
         height: '100vh',
+        zIndex: '999',
       }}>
         {this.renderScene()}
         {
@@ -34,7 +49,20 @@ class Showspace extends React.Component {
             justifyContent: 'center',
           }}>
             <RaisedButton label="关闭预览" primary={true} onClick={onClosePreView} />
-          </div> : null
+          </div> : <div style={{
+            width: '100%',
+            height: '5vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#fff',
+            cursor: 'pointer',
+            backgroundColor: Colors.red400,
+            opacity: this.state.showClose ? 1 : 0,
+          }} onClick={this._handleClick} onMouseEnter={() => this.setState({ showClose: true })}
+                        onMouseLeave={() => this.setState({ showClose: false })}>
+            <label style={{ cursor: 'pointer' }}>退出该场景</label>
+          </div>
         }
       </div>
     );
@@ -42,13 +70,13 @@ class Showspace extends React.Component {
 }
 
 Showspace.propTypes = {
-  isPreview: PropTypes.bool.isRequired,
+  isPreview: PropTypes.bool,
   onClosePreView: PropTypes.func,
-  bgColor: PropTypes.string.isRequired,
+  bgColor: PropTypes.string,
   scene: PropTypes.object.isRequired,
 };
 Showspace.defaultProps = {
-  isPreview: 'false',
+  isPreview: false,
   bgColor: '#FFFFFF',
   scene: { placers: [] },
 };
