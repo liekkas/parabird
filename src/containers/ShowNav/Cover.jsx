@@ -37,7 +37,7 @@ class Cover extends React.Component {
         {
           showScenes.map(({ id, name, cover }, index) =>
             <img className={style.img} key={index} src={this.getCover(cover)}
-                 alt={name} url={'http://localhost:3000/#/show/2'} />
+                 alt={name} url={'http://localhost:3000/#/show/' + this.props.user.name + '/' + id} />
           )
         }
       </Coverflow>
@@ -47,6 +47,7 @@ class Cover extends React.Component {
 
 Cover.propTypes = {
   showScenes: React.PropTypes.array.isRequired,
+  user: React.PropTypes.object.isRequired,
 };
 Cover.defaultProps = {
   showScenes: []

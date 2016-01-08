@@ -4,6 +4,7 @@ import Coverflow from 'react-coverflow';
 import { Loader } from 'react-loaders';
 import _ from 'lodash';
 import { screenCoverImages } from '../../constants/Consts';
+import { LOADING_STYLE } from '../../config';
 import style from './style.scss';
 import Cover from './Cover';
 
@@ -14,12 +15,12 @@ class ShowNav extends React.Component {
   }
 
   render() {
-    const { scenes } = this.props;
+    const { user, scenes } = this.props;
     return (
       <div className={style.root}>
         {
           scenes.entries.length > 0 ?
-            <Cover showScenes={scenes.entries} /> : <Loader type="pacman" active="true" />
+            <Cover user={user} showScenes={scenes.entries} /> : <Loader type={LOADING_STYLE} active={true} />
         }
       </div>
     );
@@ -42,7 +43,7 @@ function select(state) {
     themeP: state.getIn(['global', 'theme']),
     screenRatio: state.getIn(['global', 'screenRatio']),
     screenNums: state.getIn(['global', 'screenNums']),
-    user: state.getIn(['global', 'user']),
+    user: state.getIn(['global', 'user']).toJS(),
     scenes: convert(state.get('scenes').toJS()),
     //scenes: {
     //  entries: [
