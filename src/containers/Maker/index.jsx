@@ -5,7 +5,10 @@
 import React from 'react';
 import { Dialog, FlatButton } from 'material-ui';
 import _ from 'lodash';
-import { CompsBox, ToolBar, Workspace, Showspace } from '../../components';
+import CompsBox from './CompsBox';
+import ToolBar from './ToolBar';
+import Workspace from './Workspace';
+import Showspace from '../Shower/Showspace';
 import Home from '../Home/Home';
 import style from './style.scss';
 import { connect } from 'react-redux';

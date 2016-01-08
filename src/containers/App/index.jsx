@@ -5,10 +5,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 //Material-UI部分组件依赖于此
 injectTapEventPlugin();
 
-const App = React.createClass({
-
-
-
+export default class App extends React.Component {
   render() {
     return (
       <div>
@@ -16,6 +13,4 @@ const App = React.createClass({
       </div>
     );
   }
-});
-
-export default App;
+}

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import echarts from 'echarts/echarts';
 import 'echarts/chart/line';
 import 'echarts/chart/bar';
+import _ from 'lodash';
+import { createUniqueId } from '../../tools/ztools';
 
 let option = {
   //backgroundColor:colors.red['500'],
@@ -82,9 +84,19 @@ let option = {
   ]
 };
 
+let mychart;
+
 export default class LineChart extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: createUniqueId('EChartsLine'),
+    };
+  }
+
   componentDidMount() {
-    let mychart = echarts.init(document.getElementById('chart'));
+    mychart = echarts.init(document.getElementById(this.state.id));
     let theme = {
       color:['#FF00FF'],
       title: {
@@ -95,13 +107,36 @@ export default class LineChart extends React.Component {
         }
       },
     };
-    mychart.setOption(option,theme);
+    option.title.text = this.props.config.title;
+    mychart.setOption(option, theme);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('>>> LineChart:shouldComponentUpdate', nextProps, nextState);
+    return this.props.config.title !== nextProps.config.title;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    //console.log('>>> LineChart:update', this.props.id);
+    option.series[0].data[2] = _.random(100);
+    option.title.text = this.props.config.title;
+    mychart.setOption(option);
   }
 
   render() {
+    //console.log('>>> LineChart:render:', this.props.id);
+
     return (
-        <div id="chart" style={{width: '100vw', height: '80vh'}} />
+        <div id={this.state.id} style={{ width: '100%', height: '100%' }} />
     );
   }
+}
+
+LineChart.propTypes = {
+  id: PropTypes.string.isRequired,
+  config: PropTypes.object.isRequired,
+};
+LineChart.defaultProps = {
+  config: { title: '33' },
 };
 

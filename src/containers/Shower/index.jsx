@@ -3,7 +3,7 @@ import style from './style.scss';
 import { Loader } from 'react-loaders';
 import fetch from 'isomorphic-fetch';
 import { REST_API_BASE_URL, LOADING_STYLE } from '../../config';
-import { Showspace } from '../../components';
+import Showspace from './Showspace';
 
 /**
  * 单个场景的呈现

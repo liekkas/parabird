@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
-import { ItemTypes } from '../../constants/DndTypes';
+import { ItemTypes } from '../../../constants/DndTypes';
 import { DragSource } from 'react-dnd';
-import LineChart from '../LineChart/LineChart';
-import { ResizableBox } from 'react-resizable';
 import style from './style.scss';
 import { FontIcon, IconButton, RaisedButton } from 'material-ui';
 import { Colors } from 'material-ui/lib/styles';
 import classNames from 'classnames/bind';
+import ReactTooltip from 'react-tooltip';
+import { Lookup } from '../../../constants/LookUp';
+import shallowEqual from 'react-pure-render/shallowEqual';
 
 const cx = classNames.bind(style);
 let isDrag = true;
@@ -57,14 +58,19 @@ class Placer extends React.Component {
     img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAG66AABuugHW3rEXAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAAADElEQVQIHWNgIAoAAAAnAAFYYnoBAAAAAElFTkSuQmCC';
   }
 
+  //shouldComponentUpdate(nextProps, nextState) {
+  //  console.log('>>> Placer:shouldComponentUpdate', nextProps, nextState);
+  //  return false;
+  //}
+
   renderComponent() {
-    switch (this.props.componentType) {
-      case 'LineChart':
-        return  <LineChart />;
-      case 'Button':
-        return <button>myButton</button>;
-      default:
-        return null;
+    const { componentType, componentId, componentConfig } = this.props;
+    if (Lookup.hasOwnProperty(componentType)) {
+      return React.createElement(
+        Lookup[componentType], { id: componentId, config: componentConfig }
+      );
+    } else {
+      return null;
     }
   }
 
@@ -79,8 +85,10 @@ class Placer extends React.Component {
   }
 
   render() {
-    const { x, y, w, h, name, componentType, connectDragSource, isDragging,
+    const { x, y, w, h, name, componentType, componentConfig, connectDragSource, isDragging,
       onRemovePlacer, onConfigPlacer } = this.props;
+
+    //console.log('>>> Placer:render:', name);
     //
     //if (isDragging) {
     //  return null;
@@ -111,9 +119,10 @@ class Placer extends React.Component {
           right: '0',
           fontSize: '24px',
           backgroundColor: 'rgba(255,255,255,0.6)',
+          zIndex: '3',
         }}>
           <span className={configClassName}
-                onClick={() => onConfigPlacer(name)} />
+                onClick={() => onConfigPlacer(name, componentType, componentConfig)} />
           <span className={removeClassName}
                 onClick={() => onRemovePlacer(name)} />
         </div>
@@ -131,12 +140,15 @@ Placer.propTypes = {
   w: PropTypes.number.isRequired,
   h: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  componentType: PropTypes.string.isRequired,
+  componentId: PropTypes.string.isRequired,
+  componentConfig: PropTypes.object.isRequired,
+
   connectDragSource: PropTypes.func.isRequired,
   connectDragPreview: PropTypes.func.isRequired,
   isDragging: React.PropTypes.bool.isRequired,
-  componentType: PropTypes.string.isRequired,
-  onRemovePlacer: PropTypes.func.isRequired,
-  onConfigPlacer: PropTypes.func.isRequired,
+  onRemovePlacer: PropTypes.func,
+  onConfigPlacer: PropTypes.func,
 };
 
 Placer.defaultProps = {
@@ -146,6 +158,19 @@ Placer.defaultProps = {
   h: 100,
   name: '_Placer',
   componentType: 'Void',
+  componentId: '_Void',
+  componentConfig: {},
 };
 
-export default DragSource(ItemTypes.Placer, source, collect)(Placer);
+//只有位置,尺寸变化才重新渲染
+function arePropsEqual(nextProps, props) {
+  return nextProps.x === props.x &&
+    nextProps.y === props.y &&
+    nextProps.w === props.w &&
+    nextProps.h === props.h &&
+    shallowEqual(nextProps.componentConfig, props.componentConfig);
+}
+
+const options = { arePropsEqual };
+
+export default DragSource(ItemTypes.Placer, source, collect, options)(Placer);

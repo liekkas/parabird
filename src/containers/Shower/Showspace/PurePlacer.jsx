@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Lookup } from '../../constants/LookUp';
+import { Lookup } from '../../../constants/LookUp';
 
 /**
  * 呈现界面的组件父容器

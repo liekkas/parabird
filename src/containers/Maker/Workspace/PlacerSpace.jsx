@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
-import { ItemTypes } from '../../constants/DndTypes';
+import { ItemTypes } from '../../../constants/DndTypes';
 import { DropTarget } from 'react-dnd';
 
 const target = {

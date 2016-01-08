@@ -6,12 +6,11 @@ import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import update from 'react-addons-update';
 import _ from 'lodash';
-import LineChart from '../LineChart/LineChart';
-import HBox from './HBox';
-import VBox from './VBox';
 import Placer from './Placer';
 import PlacerSpace from './PlacerSpace';
-import { createUniqueId } from '../../tools/ztools';
+import { createUniqueId } from '../../../tools/ztools';
+import { Dialog, FlatButton } from 'material-ui';
+import { Lookup } from '../../../constants/LookUp';
 
 //使用scrollwidth有效
 //let s = "";
@@ -69,7 +68,8 @@ class WorkSpace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      placers: [],
+      placers: this.props.placers,
+      open: false,
     };
   }
 
@@ -111,11 +111,12 @@ class WorkSpace extends React.Component {
     const xValue = ((calcX - xywh.x) / xywh.w * 100).toFixed(4);
     const yValue = ((calcY - xywh.y) / xywh.h * 100).toFixed(4);
 
-    const layout = { name: createUniqueId('Placer'), x: Number(xValue), y: Number(yValue), w: 30, h: 30, componentType: type };
+    const layout = { name: createUniqueId('Placer'), x: Number(xValue), y: Number(yValue),
+      w: 30, h: 30, componentType: type, componentId: createUniqueId(type), componentConfig: {} };
     this.setState(update(this.state, {
       placers: {
-        $push: [layout]
-      }
+        $push: [layout],
+      },
     }));
 
     this.props.dropComponentIntoWorkspace(layout);
@@ -192,8 +193,13 @@ class WorkSpace extends React.Component {
     this.props.onRemovePlacer(name);
   }
 
-  handleConfigPlacer(name) {
+  handleConfigPlacer(name, type, config) {
     const index = _.findIndex(this.state.placers, 'name', name);
+    this.setState({ open: true, editorPlacer: name, editorType: type });
+
+    //if(!this.state.hasOwnProperty('editorConfig')) {
+    //  this.setState({ editorConfig: config });
+    //}
     console.log('>>> Config,', name, index);
 
     //this.setState(update(this.state, {
@@ -203,24 +209,77 @@ class WorkSpace extends React.Component {
     //}));
     //this.props.onRemovePlacer(name);
   }
-/*
 
-  renderLayout(row, column) {
-    const { dropTargetPlaceholder } = this.state;
-    return _.range(row).map((index) =>
-      <HBox w="100%" h={100 / row + '%'} key={index}>
-        {
-          _.range(column).map((i) =>
-            <Placeholder w={100 / column + '%'} h="100%"
-                         name={_.uniqueId('Placeholder')} key={i}
-                         droppedEleType="void"
-                         onDrop={(item) => this.handleDrop(item, i)} />
-          )
+  //单个组件设置保存
+  handleConfigSubmit = (config) => {
+    const { editorPlacer, placers } = this.state;
+    const index = _.findIndex(placers, 'name', editorPlacer);
+    this.setState(update(this.state, {
+      placers: {
+        [index]: {
+          $merge: { componentConfig: config }
         }
-      </HBox>
-    );
+      },
+    }));
+
+    this.setState({ open: false });
+    this.props.onConfigPlacer({ name: editorPlacer, componentConfig: config });
+  };
+
+
+  handleOpen = () => {
+    this.setState({open: true});
   }
-*/
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    //console.log('>>> WorkSpace::', nextProps, nextContext);
+    this.setState({ placers: nextProps.placers });
+  }
+
+  //shouldComponentUpdate(nextProps, nextState) {
+  //  console.log('>>> WorkSpace:shouldComponentUpdate', nextProps, nextState);
+  //  return true;
+  //}
+  /*
+
+    renderLayout(row, column) {
+      const { dropTargetPlaceholder } = this.state;
+      return _.range(row).map((index) =>
+        <HBox w="100%" h={100 / row + '%'} key={index}>
+          {
+            _.range(column).map((i) =>
+              <Placeholder w={100 / column + '%'} h="100%"
+                           name={_.uniqueId('Placeholder')} key={i}
+                           droppedEleType="void"
+                           onDrop={(item) => this.handleDrop(item, i)} />
+            )
+          }
+        </HBox>
+      );
+    }
+  */
+
+  //渲染组件的设置器
+  renderEditor() {
+    const { open, placers, editorPlacer, editorType,  } = this.state;
+    if (open) {
+      const index = _.findIndex(placers, 'name', editorPlacer);
+      return React.createElement(
+        Lookup[editorType + 'Editor'],
+        {
+          config: placers[index].componentConfig,
+          onSave: (config) => this.handleConfigSubmit(config),
+          onCancel: () => this.setState({open: false})
+        }
+      );
+    } else {
+      return null;
+    }
+  }
 
   render() {
     const { screenRatio, screenNums } = this.props;
@@ -240,24 +299,44 @@ class WorkSpace extends React.Component {
                    onComponentDrop={(item, nodeXY) => this.handleComponentDrop(item, nodeXY)}
                    onCanPlacerDrop={(item, nodeXY) => this.handleCanPlacerDrop(item, nodeXY)}
                    onPlacerHover={(item, nodeXY, mouseXYOffset) => this.handlePlacerHover(item, nodeXY, mouseXYOffset)}>
-        {this.state.placers.map(({ name, x, y, w, h, componentType }, i) =>
-          <Placer name={name} x={x} y={y} w={w} h={h} componentType={componentType} key={i}
+        {this.state.placers.map(({ name, x, y, w, h, componentType, componentId, componentConfig }, i) =>
+          <Placer name={name} x={x} y={y} w={w} h={h} componentType={componentType}
+                  componentId={componentId} componentConfig={componentConfig} key={i}
                   onRemovePlacer={(placeName) => this.handleRemovePlacer(placeName)}
-                  onConfigPlacer={(placeName) => this.handleConfigPlacer(placeName)} />
+                  onConfigPlacer={(placeName, type, config) => this.handleConfigPlacer(placeName, type, config)} />
         )}
+
+        {
+          this.state.open ? <Dialog
+            title="Placer47 设置"
+            style={{
+            //width: '75%',
+            height: '50%',
+            //left: '25%',
+          }}
+            modal={true}
+            open={this.state.open}
+            onRequestClose={this.handleClose}>
+            { this.renderEditor() }
+          </Dialog> : null
+        }
+
       </PlacerSpace>
     );
   }
 }
 
 WorkSpace.propTypes = {
+  placers: React.PropTypes.array.isRequired,
   screenRatio: React.PropTypes.string.isRequired,
   screenNums: React.PropTypes.string.isRequired,
   dropPlacerOnWorkspace: React.PropTypes.func.isRequired,
   dropComponentIntoWorkspace: React.PropTypes.func.isRequired,
   onRemovePlacer: React.PropTypes.func.isRequired,
+  onConfigPlacer: React.PropTypes.func.isRequired,
 };
 WorkSpace.defaultProps = {
+  placers: [],
 };
 
 export default WorkSpace;
