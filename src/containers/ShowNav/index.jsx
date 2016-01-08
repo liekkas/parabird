@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Coverflow from 'react-coverflow';
+import { Loader } from 'react-loaders';
 import _ from 'lodash';
 import { screenCoverImages } from '../../constants/Consts';
 import style from './style.scss';
@@ -18,7 +19,7 @@ class ShowNav extends React.Component {
       <div className={style.root}>
         {
           scenes.entries.length > 0 ?
-            <Cover showScenes={scenes.entries} /> : null
+            <Cover showScenes={scenes.entries} /> : <Loader type="pacman" active="true" />
         }
       </div>
     );

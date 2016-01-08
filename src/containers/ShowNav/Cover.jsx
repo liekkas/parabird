@@ -19,17 +19,19 @@ class Cover extends React.Component {
     console.log('>>> Cover:Render', this.props.showScenes);
     const { showScenes } = this.props;
     return (
-      <Coverflow displayQuantityOfSide={1}
+      <Coverflow displayQuantityOfSide={2}
                  navigation={false}
                  enableScroll={true}
                  media={{
                   '@media (max-width: 100vw)': {
-                    width: '100vw',
-                    height: '100vh'
+                    width: '90vw',
+                    height: '100vh',
+                    background: 'none',
                   },
                   '@media (min-width: 900px)': {
-                    width: '100vw',
-                    height: '100vh'
+                    width: '90vw',
+                    height: '100vh',
+                    background: 'none',
                   }
                 }}>
         {
