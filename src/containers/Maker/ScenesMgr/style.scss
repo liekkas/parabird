@@ -1,12 +1,155 @@
+@import "../../../styles/colors";
+
 .root {
-  position: absolute;
-  width: 50vw;
-  left: 25vw;
+  //position: absolute;
+  width: 60vw;
+  left: 20vw;
   top: 10vh;
-  opacity: 0.5;
+  //opacity: 0.5;
+  padding: 6px;
+  //display: flex;
+  //flex-direction: row;
+  //align-items: center;
+  //justify-content: center;
 }
 
-.card {
-  width: 16vw;
-  height: 30vh;
+.confirmBox {
+  position: absolute;
+  //margin: 4vh auto 4vh;
+  padding: 5px;
+  width: 100%;
+  color: white;
+  top: 0;
+  background-color: $palette-red-400;
+  display: flex;
+  flex-direction: row;
+  div {
+    margin: auto;
+  }
+}
+@-webkit-keyframes fadeout{
+  0%{opacity:1;visibility:visible;}
+  99%{opacity:0;}
+  100%{opacity:0;visibility: hidden;}
+}
+.fadeout {
+  -webkit-animation:fadeout 1s linear;
+  visibility:hidden;
+}
+@-webkit-keyframes fadein{
+  0%{opacity:0;visibility:visible;}
+  100%{opacity:1;}
+}
+.fadein {
+  -webkit-animation:fadein 1s linear;
+}
+
+.sceneDimmer {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.2);
+}
+
+.slickBox {
+  //margin-top: 10px;
+  //margin-left: 5%;
+  //margin-right: 5%;
+  //padding: 10px;
+  margin: 4vh auto 4vh;
+  width: 90%;
+  height: 100%;
+  //background-color: $palette-teal-600;
+}
+
+.groupCard {
+  margin: 2px;
+  background-color: $palette-lime-400;
+  color: white;
+  display: flex;
+  flex-direction: row;
+
+  label {
+    margin: 10px 10px 0;
+  }
+}
+
+.groupRemove {
+  padding-top: 6px;
+  width: 40px;
+  font-size: 24px;
+  text-align: center;
+  background-color: $palette-red-300;
+  cursor: pointer;
+  &:hover {
+    //color: $palette-red-500;
+    background-color: $palette-red-600;
+  }
+}
+
+.wrapper {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.sceneCard {
+  margin: 2px;
+  //margin: 0;
+  //width: 12vw;
+  //height: 24vh;
+  //border: solid 2px rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 8px 6px 8px;
+  color: #ffffff;
+  box-shadow: inset 0 0 20px #ffffff;
+  //border-radius: 8%;
+
+  img {
+    margin-top: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 96%;
+    //border-radius: 4%;
+    cursor: pointer;
+    //height: 90%;
+  }
+}
+
+.toolbox {
+  bottom: 0;
+  height: 30px;
+  font-size: 14px;
+  font-weight: normal;
+  background-color: rgba(255,255,255,0.6);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit {
+  padding-top: 8px;
+  width: 50%;
+  height: 22px;
+  cursor: pointer;
+  color: $palette-blue-300;
+  text-align: center;
+  &:hover {
+    color: $palette-blue-500;
+    background-color: rgba(0,0,0,0.2);
+  }
+}
+
+.remove {
+  padding-top: 8px;
+  width: 50%;
+  height: 22px;
+  cursor: pointer;
+  color: $palette-red-300;
+  &:hover {
+    color: $palette-red-500;
+    background-color: rgba(0,0,0,0.2);
+  }
 }
