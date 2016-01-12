@@ -3,6 +3,7 @@ import Coverflow from 'react-coverflow';
 import style from './style.scss';
 import _ from 'lodash';
 import { screenCoverImages } from '../../constants/Consts';
+import { BASE_URL } from '../../config';
 
 class Cover extends React.Component {
 
@@ -37,7 +38,7 @@ class Cover extends React.Component {
         {
           showScenes.map(({ id, name, cover }, index) =>
             <img className={style.img} key={index} src={this.getCover(cover)}
-                 alt={name} url={'http://localhost:3000/#/show/' + this.props.user.name + '/' + id} />
+                 alt={name} url={BASE_URL + '#/show/' + this.props.user.name + '/' + id} />
           )
         }
       </Coverflow>
