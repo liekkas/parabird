@@ -1,7 +1,7 @@
 /**
  * Created by liekkas on 15/12/17.
  */
-import { GlobalActionTypes, CurSceneActionTypes } from '../constants/ActionTypes';
+import { GlobalActionTypes, CurSceneActionTypes, ScenesActionTypes } from '../constants/ActionTypes';
 import { fromJS } from 'immutable';
 import { createUniqueId } from '../tools/ztools';
 
@@ -27,14 +27,11 @@ export default function curSceneReducer(state = initState, action = {}) {
       return state.merge(action.payload.curScene);
     case CurSceneActionTypes.NEW_SCENE:
       return state.merge(initState)
-        .update('id', () => createUniqueId('Scene'))
-        .update('createUser', () => action.payload);
+        .update('id', () => createUniqueId('Scene'));
     case CurSceneActionTypes.SAVE_SCENE:
       return state.merge(action.payload);
     case GlobalActionTypes.THEME_CHANGED: //主题变化同时也改变当前场景的主题
       return state.update('theme', () => action.payload);
-    case CurSceneActionTypes.PREVIEW_SCENE:
-      return state;
     case CurSceneActionTypes.DRAG_COMPONENT_INTO_WORKSPACE:
       return state.update('placers', () => state.get('placers').push(fromJS(action.payload)));
     //上面保存位置,下面保存配置,逻辑都是一样,合并处理了
@@ -46,7 +43,15 @@ export default function curSceneReducer(state = initState, action = {}) {
       const i = state.get('placers').findIndex(item => item.get('name') === action.payload);
       return state.update('placers', () => state.get('placers').remove(i));
     case CurSceneActionTypes.EDIT_SCENE:
-      return state.find(item => item.get('id') === action.payload);
+      return fromJS(action.payload);
+    //如果删除的场景是当前curScene那么就相当于新建,不是就什么也没发生
+    case ScenesActionTypes.DELETE_SCENE:
+      return state.get('id') === action.payload ? state.merge(initState)
+        .update('id', () => createUniqueId('Scene')) : state;
+    //如果删除的场景组包括当前curScene,那么逻辑跟上面一样
+    case ScenesActionTypes.DELETE_GROUP:
+      return state.get('group') === action.payload ? state.merge(initState)
+        .update('id', () => createUniqueId('Scene')) : state;
     default:
       return state;
   }

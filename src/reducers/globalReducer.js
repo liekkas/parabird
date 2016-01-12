@@ -1,7 +1,7 @@
 /**
  * Created by liekkas on 15/12/17.
  */
-import { GlobalActionTypes, CurSceneActionTypes } from '../constants/ActionTypes';
+import { GlobalActionTypes, CurSceneActionTypes, ScenesActionTypes } from '../constants/ActionTypes';
 import { fromJS } from 'immutable';
 
 const initState = fromJS({
@@ -12,7 +12,7 @@ const initState = fromJS({
   needSave: false, //是否需要保存
   user: {
     id: 'No10000',
-    name: '斜风细雨',
+    name: 'root',
     role: 'admin',
     configed: false, //该帐号下是否有配置文件
   }
@@ -23,6 +23,8 @@ export default function globalReducer(state = initState, action = {}) {
     case CurSceneActionTypes.INIT_SCENE:
       return state.updateIn(['user', 'configed'], () => true);
     case CurSceneActionTypes.SAVE_SCENE:
+    case ScenesActionTypes.DELETE_GROUP:
+    case ScenesActionTypes.DELETE_SCENE:
       return state.update('needSave', () => true);
     case CurSceneActionTypes.SAVE_SUCCESS:
     case CurSceneActionTypes.SAVE_FAILURE:
