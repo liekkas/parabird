@@ -19,6 +19,7 @@ class ScenesMgr extends React.Component {
     this.state = {
       curGroup: props.groups[0].name,
       open: props.open,
+      slickIndex: 0,
       showAlert: false,
       deleteType: 'group',
       needDeleteGroupName: '',
@@ -56,7 +57,7 @@ class ScenesMgr extends React.Component {
       //如果要删除的group是当前的group,那么向左移,因为第一个是不让删的,肯定有值
       if (needDeleteGroupName === this.state.curGroup) {
         const i = _.findIndex(this.props.groups, 'name', needDeleteGroupName);
-        this.setState({ curGroup: this.props.groups[i - 1].name });
+        this.setState({ curGroup: this.props.groups[i - 1].name, slickIndex: 0 });
       }
       this.props.onGroupDelete(needDeleteGroupName);
     } else {
@@ -74,19 +75,19 @@ class ScenesMgr extends React.Component {
   }
 
   render() {
-    const { onScenesMgrClose, groups, user } = this.props;
+    const { onScenesMgrClose, onSceneEdit, groups, user } = this.props;
     const editClassName = cx('edit', 'zmdi', 'zmdi-edit');
     const removeClassName = cx('remove', 'zmdi', 'zmdi-delete');
     const removeGroupClassName = cx('groupRemove', 'zmdi', 'zmdi-delete');
     const confirmBoxClassName = cx('confirmBox');
-    const { alertText, showAlert, curGroup, curScenes } = this.state;
+    const { slickIndex, alertText, showAlert, curGroup, curScenes } = this.state;
 
     console.log('>>> SceneMgr:', curGroup, curScenes, groups, this.props.entries);
     return (
       <Popover zDepth={2} open={true} className={style.root}
                onRequestClose={onScenesMgrClose} >
-        <Slider className={style.slickBox} dots={false} arrows={groups.length > 4} initialSlide={0}
-                lazyLoad={false} infinite={false} speed={500} slidesToShow={4} slidesToScroll={4}>
+        <Slider className={style.slickBox} dots={false} draggable={true} slickGoTo={slickIndex} arrows={groups.length > 3}
+                lazyLoad={false} infinite={false} speed={500} slidesToShow={3} slidesToScroll={3}>
           {
             groups.map(({ name, num }, index) =>
               <div className={style.wrapper} key={index}>
@@ -113,20 +114,21 @@ class ScenesMgr extends React.Component {
                       onClick={() => this._handleAlertShow(false)} />
         </div>
 
-        <Slider className={style.slickBox} dots={true} arrows={_.filter(this.props.entries, { 'group': curGroup }).length > 4} initialSlide={0}
-                lazyLoad={false} infinite={false} speed={500} slidesToShow={4} slidesToScroll={4}>
+        <Slider className={style.slickBox} dots={true} draggable={true} arrows={_.filter(this.props.entries, { 'group': curGroup }).length > 4} initialSlide={0}
+                animating={false} lazyLoad={false} infinite={false} speed={500} slidesToShow={4} slidesToScroll={4}>
           {
-            _.filter(this.props.entries, { 'group': curGroup }).map(({ id, name, updateDate, cover }, index) =>
+            _.filter(this.props.entries, { 'group': curGroup }).map((scene, index) =>
               <div className={style.wrapper} key={index}>
                 <div className={style.sceneCard}>
-                  <h4>{name}</h4>
-                  <img src={this._getCover(cover)}
-                       onClick={() => window.open(BASE_URL + '#/show/' + user.name + '/' + id)}/>
-                  <h5>更新于{updateDate.substr(0, 10)}</h5>
+                  <h4>{scene.name}</h4>
+                  <img src={this._getCover(scene.cover)}
+                       onClick={() => window.open(BASE_URL + '#/show/' + user.name + '/' + scene.id)}/>
+                  <h5>更新于{scene.updateDate.substr(0, 10)}</h5>
                   <div className={style.toolbox}>
-                    <span className={editClassName}>&nbsp;编辑</span>
+                    <span className={editClassName}
+                          onClick={() => onSceneEdit(scene)}>&nbsp;编辑</span>
                     <span className={removeClassName}
-                          onClick={() => this._handleSceneDelete(id, name)} >&nbsp;删除</span>
+                          onClick={() => this._handleSceneDelete(scene.id, scene.name)} >&nbsp;删除</span>
                   </div>
                 </div>
               </div>
@@ -150,6 +152,7 @@ ScenesMgr.propTypes = {
   groups: PropTypes.array.isRequired,
   entries: PropTypes.array.isRequired,
   onScenesMgrClose: PropTypes.func.isRequired,
+  onSceneEdit: PropTypes.func,
   onSceneDelete: PropTypes.func,
   onGroupDelete: PropTypes.func,
 };
