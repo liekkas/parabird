@@ -9,6 +9,7 @@ import CompsBox from './CompsBox';
 import ToolBar from './ToolBar';
 import Workspace from './Workspace';
 import Showspace from '../Shower/Showspace';
+import ScenesMgr from './ScenesMgr';
 import Home from '../Home/Home';
 import style from './style.scss';
 import { connect } from 'react-redux';
@@ -52,8 +53,9 @@ const Maker = React.createClass({
       theme: this.props.themeP,
       screenRatio: this.props.screenRatio,
       screenNums: this.props.screenNums,
-      open: false,
+      openPreview: false,
       openSave: false,
+      openScenesMgr: false,
     };
   },
 
@@ -75,7 +77,7 @@ const Maker = React.createClass({
 
     console.log('>>> Maker:WillReceiveRrops', needSave);
     if (needSave) {
-      user.get('configed') ?
+      user.configed ?
         updateParabird('root', { curScene, scenes }, this.props.dispatch) :
         saveParabird('root', { curScene, scenes }, this.props.dispatch);
     }
@@ -94,7 +96,7 @@ const Maker = React.createClass({
   },
 
   onNewScene() {
-    this.props.dispatch(createAction(CurSceneActionTypes.NEW_SCENE, this.props.user.get('name')));
+    this.props.dispatch(createAction(CurSceneActionTypes.NEW_SCENE, this.props.user.name));
   },
 
   //两处需要保存,当前curScene的,以及scenes里的状态
@@ -102,9 +104,13 @@ const Maker = React.createClass({
     this.handleSaveWindowOpen();
   },
 
+  onScenesMgr() {
+    this.setState({ openScenesMgr: true });
+  },
+
   onPreviewScene() {
     //this.props.dispatch(createAction(CurSceneActionTypes.PREVIEW_UNSAVED_SCENE));
-    this.setState({ open: true });
+    this.setState({ openPreview: true });
   },
 
   onDropPlacerOnWorkspace(payload) {
@@ -124,11 +130,11 @@ const Maker = React.createClass({
   },
 
   handleOpen() {
-    this.setState({ open: true });
+    this.setState({ openPreview: true });
   },
 
   handleClose() {
-    this.setState({ open: false });
+    this.setState({ openPreview: false });
   },
 
   handleSaveWindowOpen() {
@@ -143,9 +149,32 @@ const Maker = React.createClass({
     const { dispatch, user, curScene, scenes } = this.props;
     if (curScene.state === 'unsaved') {
       curScene.createDate = config.updateDate;
+      curScene.createUser = user.name;
     }
     dispatch(createAction(CurSceneActionTypes.SAVE_SCENE, _.merge(curScene, config)));
     this.handleSaveWindowClose();
+  },
+
+  _handleSceneMgrGroups() {
+    const { groups, entries } = this.props.scenes;
+    const result = [];
+    const count = _.countBy(entries, 'group');
+    _.forEach(groups, function (item) {
+      result.push({ name: item.name, num: count.hasOwnProperty([item.name]) ? count[item.name] : 0 });
+    });
+    return result;
+  },
+
+  _handleSceneEdit(scene) {
+    this.props.dispatch(createAction(CurSceneActionTypes.EDIT_SCENE, scene));
+  },
+
+  _handleSceneDelete(sceneId) {
+    this.props.dispatch(createAction(ScenesActionTypes.DELETE_SCENE, sceneId));
+  },
+
+  _handleGroupDelete(groupName) {
+    this.props.dispatch(createAction(ScenesActionTypes.DELETE_GROUP, groupName));
   },
 
   render() {
@@ -153,16 +182,18 @@ const Maker = React.createClass({
     const headerBG = { 'background': appTheme.toolbarBgColor };
     const compsBoxBG = { 'background': appTheme.compsBoxBgColor };
     const workspaceBG = { 'background': appTheme.workspaceBgColor };
-    const { curScene } = this.props;
+    const { curScene, scenes, user } = this.props;
 
     return (
       <div className={style.myroot}>
         <div className={style.header} style={headerBG}>
-          <ToolBar onThemeChanged={this.onThemeChanged}
+          <ToolBar curScene={curScene}
+                   onThemeChanged={this.onThemeChanged}
                    onScreenRatioChanged={this.onScreenRatioChanged}
                    onScreenNumChanged={this.onScreenNumChanged}
                    onNewScene={this.onNewScene}
                    onSaveScene={this.onSaveScene}
+                   onScenesMgr={this.onScenesMgr}
                    onPreviewScene={this.onPreviewScene}/>
         </div>
         <div className={style.hbox}>
@@ -180,10 +211,21 @@ const Maker = React.createClass({
           </div>
         </div>
 
-        { this.state.open ? <Showspace isPreview={true}
+        { this.state.openPreview ? <Showspace isPreview={true}
                                        scene={curScene}
                                        bgColor={appTheme.workspaceBgColor}
                                        onClosePreView={this.handleClose} /> : null
+        }
+
+        {
+          this.state.openScenesMgr ? <ScenesMgr
+            user={user}
+            groups={this._handleSceneMgrGroups()}
+            entries={scenes.entries}
+            onSceneEdit={(scene) => this._handleSceneEdit(scene)}
+            onSceneDelete={(sceneId) => this._handleSceneDelete(sceneId)}
+            onGroupDelete={(groupName) => this._handleGroupDelete(groupName)}
+            onScenesMgrClose={() => this.setState({ openScenesMgr: false })} /> : null
         }
 
         {
@@ -200,6 +242,7 @@ const Maker = React.createClass({
             <SaveWindow name={curScene.name}
                         desc={curScene.desc}
                         group={curScene.group}
+                        groups={_.pluck(this.props.scenes.groups, 'name')}
                         cover={curScene.cover}
                         onCancel={this.handleSaveWindowClose}
                         onSave={ (config) => this.handleSave(config) }/>
@@ -230,7 +273,7 @@ function select(state) {
     themeP: state.getIn(['global', 'theme']),
     screenRatio: state.getIn(['global', 'screenRatio']),
     screenNums: state.getIn(['global', 'screenNums']),
-    user: state.getIn(['global', 'user']),
+    user: state.getIn(['global', 'user']).toJS(),
     needSave: state.getIn(['global', 'needSave']),
     curScene: state.get('curScene').toJS(),
     scenes: state.get('scenes').toJS(),
