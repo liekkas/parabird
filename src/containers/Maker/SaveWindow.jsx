@@ -67,7 +67,7 @@ class SaveWindow extends React.Component {
   }
 
   render() {
-    const { name, desc, group, theme, cover } = this.state;
+    const { name, desc, group, groups, theme, cover } = this.state;
     const { onSave, onCancel } = this.props;
     return (
       <div>
@@ -91,7 +91,7 @@ class SaveWindow extends React.Component {
               searchText={group}
               showAllItems={true}
               animated={true}
-              dataSource={['12345', '23456', '34567']}
+              dataSource={this.props.groups}
               onNewRequest={(g) => this.setState({ group: g })} />
 
           </div>
@@ -132,7 +132,8 @@ class SaveWindow extends React.Component {
 SaveWindow.propTypes = {
   name: PropTypes.string, //场景名称
   desc: PropTypes.string, //场景描述
-  group: PropTypes.string, //场景组
+  group: PropTypes.string, //当前场景组
+  groups: PropTypes.array.isRequired, //所有的场景组
   theme: PropTypes.string, //主题
   cover: PropTypes.string, //场景封面
   onCancel: PropTypes.func.isRequired,
@@ -141,6 +142,7 @@ SaveWindow.propTypes = {
 SaveWindow.defaultProps = {
   theme: 'TealTheme',
   group: '未分组',
+  groups: [],
   cover: screenCoverImages[0].name,
 };
 
