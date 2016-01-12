@@ -5,7 +5,7 @@
 import React from 'react';
 import { ItemTypes } from '../../../constants/DndTypes';
 import { DragSource } from 'react-dnd';
-import defaultCompSnap from './default.png';
+import defaultCompSnap from './../../../images/compsnaps/default.png';
 import style from './style.scss';
 
 const source = {
@@ -36,7 +36,7 @@ class CompSnap extends React.Component {
     const { connectDragSource, isDragging, image, name } = this.props;
     return connectDragSource(
       <div className={style.snap} style={getStyle(isDragging)}>
-        <img src={image} style={{ width: '4vmin', height: '4vim' }}/>
+        <img src={image} style={{ width: '4vmin', height: '4vim', marginBottom: '5px' }}/>
         <label>{name}</label>
       </div>
     );
