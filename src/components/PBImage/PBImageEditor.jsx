@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import { TextField, FlatButton } from 'material-ui';
 
-import { PopupContainer } from '../../hocs/hi.jsx';
-
 class PBImageEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +10,8 @@ class PBImageEditor extends React.Component {
   }
 
   getConfig() {
-    return { showBullets: true };
+    const duration = this.refs.duration.getValue();
+    return { duration };
   }
 
   handlerSubmit() {
@@ -26,7 +25,10 @@ class PBImageEditor extends React.Component {
         width: '100%',
         height: '100%',
       }}>
-        {this.state.data}
+        <TextField ref="duration"
+          hintText="动画延迟时间"
+          defaultValue={this.props.config.duration}
+          floatingLabelText="动画延迟时间" />
         <div style={{
           position: 'absolute',
           right: '8px',
@@ -54,7 +56,7 @@ PBImageEditor.propTypes = {
   onSave: PropTypes.func.isRequired,
 };
 PBImageEditor.defaultProps = {
-  config: { title: 'wfk' },
+  config: { duration: 500 },
 };
 
-export default PopupContainer(PBImageEditor);
+export default PBImageEditor;
