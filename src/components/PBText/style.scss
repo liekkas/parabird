@@ -1,0 +1,26 @@
+.root {
+  width: 100%;
+  height: 100%;
+  padding: 1vh;
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  margin: 0 2vw 2vw;
+}
+
+.editorLeft {
+  width: 50%;
+  margin-left: 2vh;
+}
+
+.editorRight {
+  width: 50%;
+  margin-right: 2vh;
+}
