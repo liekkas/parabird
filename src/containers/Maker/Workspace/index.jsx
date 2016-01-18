@@ -112,7 +112,8 @@ class WorkSpace extends React.Component {
     const yValue = ((calcY - xywh.y) / xywh.h * 100).toFixed(4);
 
     const layout = { name: createUniqueId('Placer'), x: Number(xValue), y: Number(yValue),
-      w: 30, h: 30, componentType: type, componentId: createUniqueId(type), componentConfig: {} };
+      w: Lookup[type].w, h: Lookup[type].h, componentType: type, componentId: createUniqueId(type),
+      componentConfig: Lookup[type].initConfig };
     this.setState(update(this.state, {
       placers: {
         $push: [layout],
@@ -269,7 +270,7 @@ class WorkSpace extends React.Component {
     if (open) {
       const index = _.findIndex(placers, 'name', editorPlacer);
       return React.createElement(
-        Lookup[editorType + 'Editor'],
+        Lookup[editorType].editor,
         {
           config: placers[index].componentConfig,
           onSave: (config) => this.handleConfigSubmit(config),
@@ -283,6 +284,7 @@ class WorkSpace extends React.Component {
 
   render() {
     const { screenRatio, screenNums } = this.props;
+    const { open, placers, editorPlacer, editorType,  } = this.state;
 
     const [wR, hR] = screenRatio.split(':');
     const [row, column] = screenNums.split('*');
@@ -299,7 +301,7 @@ class WorkSpace extends React.Component {
                    onComponentDrop={(item, nodeXY) => this.handleComponentDrop(item, nodeXY)}
                    onCanPlacerDrop={(item, nodeXY) => this.handleCanPlacerDrop(item, nodeXY)}
                    onPlacerHover={(item, nodeXY, mouseXYOffset) => this.handlePlacerHover(item, nodeXY, mouseXYOffset)}>
-        {this.state.placers.map(({ name, x, y, w, h, componentType, componentId, componentConfig }, i) =>
+        {placers.map(({ name, x, y, w, h, componentType, componentId, componentConfig }, i) =>
           <Placer name={name} x={x} y={y} w={w} h={h} componentType={componentType}
                   componentId={componentId} componentConfig={componentConfig} key={i}
                   onRemovePlacer={(placeName) => this.handleRemovePlacer(placeName)}
@@ -307,15 +309,15 @@ class WorkSpace extends React.Component {
         )}
 
         {
-          this.state.open ? <Dialog
-            title="Placer47 设置"
+          open ? <Dialog
+            title={editorType + '设置'}
             style={{
             //width: '75%',
             height: '50%',
             //left: '25%',
           }}
             modal={true}
-            open={this.state.open}
+            open={open}
             onRequestClose={this.handleClose}>
             { this.renderEditor() }
           </Dialog> : null
