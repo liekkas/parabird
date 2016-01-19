@@ -10,5 +10,9 @@ export { default as PBTextEditor } from './PBText/PBTextEditor';
 export { default as PBTry } from './PBTry/PBTry';
 export { default as PBTryEditor } from './PBTry/PBTryEditor';
 
+// --- echarts 系列组件 ---
 export { default as PBBarChartByECharts } from './echarts/BarChart/BarChart';
 export { default as PBBarChartEditorByECharts } from './echarts/BarChart/BarChartEditor';
+
+export { default as PBLineChartByECharts } from './echarts/LineChart/LineChart';
+export { default as PBLineChartEditorByECharts } from './echarts/LineChart/LineChartEditor';

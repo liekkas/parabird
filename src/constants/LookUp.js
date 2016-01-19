@@ -23,13 +23,18 @@ function generate(name, comp, editor, img, initConfig = {}, w = 30, h = 30) {
 
 //-------------------- 设置组件初始化数据 --------------------
 function getInitBarChart() {
-  return {
+  const localData = JSON.stringify({
     'title': '性能TopN',
     'subTitle': '从1号到31号',
     'legend': ['最高值', '最低值'],
     'labels': ['周一', '周二', '周三', '周四', '周五'],
     '最高值': [20, 30, 32, 40, 50],
     '最低值': [10, 20, 22, 30, 40],
+  });
+  return {
+    localData: localData,
+    remoteDataUrl: 'http://localhost:4000/api/v1/chart',
+    mode: 'local',
   };
 }
 
@@ -37,8 +42,6 @@ function getInitBarChart() {
  * 组件字典
  */
 export const Lookup = {
-  LineChart: generate('线图', comps.LineChart, comps.LineChartEditor, singleLine, { title: '线状图' }),
-  PBBarChart: generate('柱图', comps.PBBarChart, comps.PBBarChartEditor, singleColumn, getInitBarChart()),
   PBImage: generate('图片', comps.PBImage, comps.PBImageEditor, image, {}, 40),
   PBClock: generate('时钟', comps.PBClock, comps.PBClockEditor, defaultImg),
   PBText: generate('文本', comps.PBText, comps.PBTextEditor, defaultImg, { title: '标题', text: '正文' }),
@@ -46,5 +49,6 @@ export const Lookup = {
 
   //ECharts
   PBBarChartByECharts: generate('柱图', comps.PBBarChartByECharts, comps.PBBarChartEditorByECharts, singleColumn, getInitBarChart()),
+  PBLineChartByECharts: generate('线图', comps.PBLineChartByECharts, comps.PBLineChartEditorByECharts, singleLine, getInitBarChart()),
 
 };
