@@ -16,3 +16,6 @@ export { default as PBBarChartEditorByECharts } from './echarts/BarChart/BarChar
 
 export { default as PBLineChartByECharts } from './echarts/LineChart/LineChart';
 export { default as PBLineChartEditorByECharts } from './echarts/LineChart/LineChartEditor';
+
+export { default as PBPieChartByECharts } from './echarts/PieChart/PieChart';
+export { default as PBPieChartEditorByECharts } from './echarts/PieChart/PieChartEditor';

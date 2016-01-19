@@ -6,6 +6,7 @@ import defaultImg from '../images/compsnaps/default.png';
 import image from '../images/compsnaps/image.png';
 import singleLine from '../images/compsnaps/singleLine.png';
 import singleColumn from '../images/compsnaps/singleColumn.png';
+import singlePie from '../images/compsnaps/single_pie.png';
 
 /**
  *
@@ -22,6 +23,7 @@ function generate(name, comp, editor, img, initConfig = {}, w = 30, h = 30) {
 }
 
 //-------------------- 设置组件初始化数据 --------------------
+//柱图/线图
 function getInitBarChart() {
   const localData = JSON.stringify({
     'title': '性能TopN',
@@ -34,6 +36,24 @@ function getInitBarChart() {
   return {
     localData: localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart',
+    mode: 'local',
+  };
+}
+//饼图/环图
+function getInitPieChart() {
+  const localData = JSON.stringify({
+    'title': '无线网',
+    'subTitle': '从1号到31号',
+    'data': [
+      { name: 'A', value: '102' },
+      { name: 'B', value: '90' },
+      { name: 'C', value: '45' },
+      { name: 'D', value: '10' },
+    ],
+  });
+  return {
+    localData: localData,
+    remoteDataUrl: 'http://localhost:4000/api/v1/chart/pie',
     mode: 'local',
   };
 }
@@ -50,5 +70,6 @@ export const Lookup = {
   //ECharts
   PBBarChartByECharts: generate('柱图', comps.PBBarChartByECharts, comps.PBBarChartEditorByECharts, singleColumn, getInitBarChart()),
   PBLineChartByECharts: generate('线图', comps.PBLineChartByECharts, comps.PBLineChartEditorByECharts, singleLine, getInitBarChart()),
+  PBPieChartByECharts: generate('饼图', comps.PBPieChartByECharts, comps.PBPieChartEditorByECharts, singlePie, getInitPieChart()),
 
 };
