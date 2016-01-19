@@ -1,0 +1,29 @@
+.react-sanfona {
+  width: 100%;
+  height: 100%;
+}
+
+.react-sanfona-item-title {
+  background-color: teal;
+  border-top: 1px solid whitesmoke;
+  font-size: 16px;
+  text-align: center;
+  color: white;
+  padding: 8px;
+  transition: background-color .3s;
+}
+
+.react-sanfona-item:first-child .react-sanfona-item-title {
+  border-top: none;
+}
+
+.react-sanfona-item-expanded .react-sanfona-item-title {
+  background-color: orange;
+  color: #fff;
+}
+
+.react-sanfona-item-body-wrapper {
+  padding: 0;
+  position: relative;
+}
+
