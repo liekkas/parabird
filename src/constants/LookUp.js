@@ -57,6 +57,21 @@ function getInitPieChart() {
     mode: 'local',
   };
 }
+//仪表盘
+function getInitGaugeChart() {
+  const localData = JSON.stringify({
+    'title': '均值得分',
+    'subTitle': '从1号到31号',
+    'data': [
+      { name: '大盘数', value: '102' },
+    ],
+  });
+  return {
+    localData: localData,
+    remoteDataUrl: 'http://localhost:4000/api/v1/chart/pie',
+    mode: 'local',
+  };
+}
 
 /**
  * 组件字典
@@ -71,5 +86,6 @@ export const Lookup = {
   PBBarChartByECharts: generate('柱图', comps.PBBarChartByECharts, comps.PBBarChartEditorByECharts, singleColumn, getInitBarChart()),
   PBLineChartByECharts: generate('线图', comps.PBLineChartByECharts, comps.PBLineChartEditorByECharts, singleLine, getInitBarChart()),
   PBPieChartByECharts: generate('饼图', comps.PBPieChartByECharts, comps.PBPieChartEditorByECharts, singlePie, getInitPieChart()),
+  PBGaugeChartByECharts: generate('仪表盘', comps.PBGaugeChartByECharts, comps.PBGaugeChartEditorByECharts, defaultImg, getInitGaugeChart()),
 
 };

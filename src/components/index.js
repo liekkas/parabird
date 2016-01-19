@@ -19,3 +19,6 @@ export { default as PBLineChartEditorByECharts } from './echarts/LineChart/LineC
 
 export { default as PBPieChartByECharts } from './echarts/PieChart/PieChart';
 export { default as PBPieChartEditorByECharts } from './echarts/PieChart/PieChartEditor';
+
+export { default as PBGaugeChartByECharts } from './echarts/GaugeChart/GaugeChart';
+export { default as PBGaugeChartEditorByECharts } from './echarts/GaugeChart/GaugeChartEditor';
