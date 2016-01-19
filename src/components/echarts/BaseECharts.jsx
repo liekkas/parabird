@@ -2,6 +2,11 @@ import React, { PropTypes } from 'react';
 import { createUniqueId } from '../../tools/ztools';
 import { config2Option } from './helper';
 import echarts from 'echarts/echarts';
+import line from 'echarts/chart/line';
+import bar from 'echarts/chart/bar';
+import pie from 'echarts/chart/pie';
+import gauge from 'echarts/chart/gauge';
+
 import fetch from 'isomorphic-fetch';
 import shallowEqual from 'react-pure-render/shallowEqual';
 import { Loader } from 'react-loaders';
