@@ -13,13 +13,14 @@ import singlePie from '../images/compsnaps/single_pie.png';
  * @param name 组件中文名称
  * @param comp 组件类
  * @param editor 组件设置类
+ * @param group 组件群组
  * @param img 组件库中的图标
  * @param w 组件默认宽度占比 如 30 即可视窗口的30%
  * @param h 组件默认高度占比
  * @param initConfig 组件初始设置值
  */
-function generate(name, comp, editor, img, initConfig = {}, w = 30, h = 30) {
-  return { name, comp, editor, img, initConfig, w, h };
+function generate(name, type, comp, editor, initConfig = {}, group = '通用', img = defaultImg, w = 30, h = 30) {
+  return { name, type, comp, editor, initConfig, group, img, w, h };
 }
 
 //-------------------- 设置组件初始化数据 --------------------
@@ -159,16 +160,21 @@ function getInitMapChart() {
  * 组件字典
  */
 export const Lookup = {
-  PBImage: generate('图片', comps.PBImage, comps.PBImageEditor, image, {}, 40),
-  PBClock: generate('时钟', comps.PBClock, comps.PBClockEditor, defaultImg),
-  PBText: generate('文本', comps.PBText, comps.PBTextEditor, defaultImg, { title: '标题', text: '正文' }),
-  PBTry: generate('试验品', comps.PBTry, comps.PBTryEditor, defaultImg, { }),
-
-  //ECharts
-  PBBarChartByECharts: generate('柱图', comps.PBBarChartByECharts, comps.PBBarChartEditorByECharts, singleColumn, getInitBarChart()),
-  PBLineChartByECharts: generate('线图', comps.PBLineChartByECharts, comps.PBLineChartEditorByECharts, singleLine, getInitBarChart()),
-  PBPieChartByECharts: generate('饼图', comps.PBPieChartByECharts, comps.PBPieChartEditorByECharts, singlePie, getInitPieChart()),
-  PBGaugeChartByECharts: generate('仪表盘', comps.PBGaugeChartByECharts, comps.PBGaugeChartEditorByECharts, defaultImg, getInitGaugeChart()),
-  PBMapChartByECharts: generate('地图', comps.PBMapChartByECharts, comps.PBMapChartEditorByECharts, defaultImg, getInitMapChart()),
-
+  //通用系列
+  PBImage: generate('图片', 'PBImage', comps.PBImage, comps.PBImageEditor, {}, '通用', image, 40),
+  PBClock: generate('时钟', 'PBClock', comps.PBClock, comps.PBClockEditor),
+  PBText: generate('文本', 'PBText', comps.PBText, comps.PBTextEditor, { title: '标题', text: '正文' }),
+  PBTry: generate('试验品', 'PBTry', comps.PBTry, comps.PBTryEditor),
+  //ECharts系列
+  PBBarChartByECharts: generate('柱图', 'PBBarChartByECharts', comps.PBBarChartByECharts, comps.PBBarChartEditorByECharts,
+    getInitBarChart(), '基础图表', singleColumn),
+  PBLineChartByECharts: generate('线图', 'PBLineChartByECharts', comps.PBLineChartByECharts, comps.PBLineChartEditorByECharts,
+    getInitBarChart(), '基础图表', singleLine),
+  PBPieChartByECharts: generate('饼图', 'PBPieChartByECharts', comps.PBPieChartByECharts, comps.PBPieChartEditorByECharts,
+    getInitPieChart(), '基础图表', singlePie),
+  PBGaugeChartByECharts: generate('仪表盘', 'PBGaugeChartByECharts', comps.PBGaugeChartByECharts, comps.PBGaugeChartEditorByECharts,
+    getInitGaugeChart(), '基础图表'),
+  PBMapChartByECharts: generate('地图', 'PBMapChartByECharts', comps.PBMapChartByECharts, comps.PBMapChartEditorByECharts,
+    getInitMapChart(), '基础图表'),
+  //D3系列
 };
