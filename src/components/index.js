@@ -22,3 +22,6 @@ export { default as PBPieChartEditorByECharts } from './echarts/PieChart/PieChar
 
 export { default as PBGaugeChartByECharts } from './echarts/GaugeChart/GaugeChart';
 export { default as PBGaugeChartEditorByECharts } from './echarts/GaugeChart/GaugeChartEditor';
+
+export { default as PBMapChartByECharts } from './echarts/MapChart/MapChart';
+export { default as PBMapChartEditorByECharts } from './echarts/MapChart/MapChartEditor';

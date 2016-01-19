@@ -72,6 +72,88 @@ function getInitGaugeChart() {
     mode: 'local',
   };
 }
+//地图
+function getInitMapChart() {
+  const localData = JSON.stringify({
+    'title': '全国电视收视率',
+    'subTitle': '从1号到31号',
+    'mapType': 'china',
+    'legend': ['白天', '晚上'],
+    '白天': [
+      {name: '北京',value: Math.round(Math.random()*10)},
+      {name: '天津',value: Math.round(Math.random()*10)},
+      {name: '上海',value: Math.round(Math.random()*10)},
+      {name: '重庆',value: Math.round(Math.random()*10)},
+      {name: '河北',value: Math.round(Math.random()*10)},
+      {name: '河南',value: Math.round(Math.random()*10)},
+      {name: '云南',value: Math.round(Math.random()*10)},
+      {name: '辽宁',value: Math.round(Math.random()*10)},
+      {name: '黑龙江',value: Math.round(Math.random()*10)},
+      {name: '湖南',value: Math.round(Math.random()*10)},
+      {name: '安徽',value: Math.round(Math.random()*10)},
+      {name: '山东',value: Math.round(Math.random()*10)},
+      {name: '新疆',value: Math.round(Math.random()*10)},
+      {name: '江苏',value: Math.round(Math.random()*10)},
+      {name: '浙江',value: Math.round(Math.random()*10)},
+      {name: '江西',value: Math.round(Math.random()*10)},
+      {name: '湖北',value: Math.round(Math.random()*10)},
+      {name: '广西',value: Math.round(Math.random()*10)},
+      {name: '甘肃',value: Math.round(Math.random()*10)},
+      {name: '山西',value: Math.round(Math.random()*10)},
+      {name: '内蒙古',value: Math.round(Math.random()*10)},
+      {name: '陕西',value: Math.round(Math.random()*10)},
+      {name: '吉林',value: Math.round(Math.random()*10)},
+      {name: '福建',value: Math.round(Math.random()*10)},
+      {name: '贵州',value: Math.round(Math.random()*10)},
+      {name: '广东',value: Math.round(Math.random()*10)},
+      {name: '青海',value: Math.round(Math.random()*10)},
+      {name: '西藏',value: Math.round(Math.random()*10)},
+      {name: '四川',value: Math.round(Math.random()*10)},
+      {name: '宁夏',value: Math.round(Math.random()*10)},
+      {name: '海南',value: Math.round(Math.random()*10)},
+      {name: '台湾',value: Math.round(Math.random()*10)},
+    ],
+    '晚上': [
+      {name: '北京',value: Math.round(Math.random()*10)},
+      {name: '天津',value: Math.round(Math.random()*10)},
+      {name: '上海',value: Math.round(Math.random()*10)},
+      {name: '重庆',value: Math.round(Math.random()*10)},
+      {name: '河北',value: Math.round(Math.random()*10)},
+      {name: '河南',value: Math.round(Math.random()*10)},
+      {name: '云南',value: Math.round(Math.random()*10)},
+      {name: '辽宁',value: Math.round(Math.random()*10)},
+      {name: '黑龙江',value: Math.round(Math.random()*10)},
+      {name: '湖南',value: Math.round(Math.random()*10)},
+      {name: '安徽',value: Math.round(Math.random()*10)},
+      {name: '山东',value: Math.round(Math.random()*10)},
+      {name: '新疆',value: Math.round(Math.random()*10)},
+      {name: '江苏',value: Math.round(Math.random()*10)},
+      {name: '浙江',value: Math.round(Math.random()*10)},
+      {name: '江西',value: Math.round(Math.random()*10)},
+      {name: '湖北',value: Math.round(Math.random()*10)},
+      {name: '广西',value: Math.round(Math.random()*10)},
+      {name: '甘肃',value: Math.round(Math.random()*10)},
+      {name: '山西',value: Math.round(Math.random()*10)},
+      {name: '内蒙古',value: Math.round(Math.random()*10)},
+      {name: '陕西',value: Math.round(Math.random()*10)},
+      {name: '吉林',value: Math.round(Math.random()*10)},
+      {name: '福建',value: Math.round(Math.random()*10)},
+      {name: '贵州',value: Math.round(Math.random()*10)},
+      {name: '广东',value: Math.round(Math.random()*10)},
+      {name: '青海',value: Math.round(Math.random()*10)},
+      {name: '西藏',value: Math.round(Math.random()*10)},
+      {name: '四川',value: Math.round(Math.random()*10)},
+      {name: '宁夏',value: Math.round(Math.random()*10)},
+      {name: '海南',value: Math.round(Math.random()*10)},
+      {name: '台湾',value: Math.round(Math.random()*10)},
+    ]
+  });
+  return {
+    localData: localData,
+    remoteDataUrl: 'http://localhost:4000/api/v1/chart/pie',
+    mode: 'local',
+  };
+}
 
 /**
  * 组件字典
@@ -87,5 +169,6 @@ export const Lookup = {
   PBLineChartByECharts: generate('线图', comps.PBLineChartByECharts, comps.PBLineChartEditorByECharts, singleLine, getInitBarChart()),
   PBPieChartByECharts: generate('饼图', comps.PBPieChartByECharts, comps.PBPieChartEditorByECharts, singlePie, getInitPieChart()),
   PBGaugeChartByECharts: generate('仪表盘', comps.PBGaugeChartByECharts, comps.PBGaugeChartEditorByECharts, defaultImg, getInitGaugeChart()),
+  PBMapChartByECharts: generate('地图', comps.PBMapChartByECharts, comps.PBMapChartEditorByECharts, defaultImg, getInitMapChart()),
 
 };
