@@ -3,49 +3,29 @@
  */
 import React from 'react';
 import { RaisedButton } from 'material-ui';
+import { Accordion, AccordionItem } from 'react-sanfona';
 import CompSnap from './CompSnap';
 import _ from 'lodash';
 import { Lookup } from '../../../constants/LookUp';
+import './override.css';
 
-//stateless 写法
+const grouped = _.groupBy(_.values(Lookup), 'group');
+
 const CompsBox = (props) =>
   <div>
-    {
-      _.keys(Lookup).map((type, index) =>
-        <CompSnap key={index} name={Lookup[type].name} type={type} image={Lookup[type].img}/>
-      )
-    }
+      <Accordion>
+        {
+          _.keys(grouped).map((category, i) =>
+            <AccordionItem title={category} key={i}>
+              {
+                (grouped[category]).map(({ name, type, img }, index) =>
+                  <CompSnap key={index} name={name} type={type} image={img}/>
+                )
+              }
+            </AccordionItem>
+          )
+        }
+      </Accordion>
   </div>;
 
 export default CompsBox;
-
-//
-//class CompsBox extends React.Component {
-//
-//  shouldComponentUpdate(nextProps, nextState) {
-//    return false;
-//  }
-//
-//  render() {
-//    console.log('>>> CompsBox:', Lookup);
-//    return (
-//      <div>
-//        {
-//          _.keys(Lookup).map((type, index) =>
-//            <CompSnap key={index} name={Lookup[type].name} type={type} image={Lookup[type].img}/>
-//          )
-//        }
-//      </div>
-//    );
-//  }
-//}
-//
-//CompsBox.propTypes = {
-//
-//};
-//
-//CompsBox.defaultProps = {
-//
-//};
-//
-//export default CompsBox;
