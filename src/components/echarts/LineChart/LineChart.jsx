@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import BaseECharts from '../BaseECharts';
 
-class BarChart extends React.Component {
+class LineChart extends React.Component {
 
   render() {
     return (
@@ -10,8 +10,8 @@ class BarChart extends React.Component {
   }
 }
 
-BarChart.propTypes = {
+LineChart.propTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default BarChart;
+export default LineChart;

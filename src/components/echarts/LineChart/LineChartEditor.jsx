@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import BaseEChartsEditor from '../BaseEChartsEditor';
 
-class BarChartEditor extends React.Component {
+class LineChartEditor extends React.Component {
   render() {
     const { config, onCancel, onSave } = this.props;
     return (
@@ -10,10 +10,10 @@ class BarChartEditor extends React.Component {
   }
 }
 
-BarChartEditor.propTypes = {
+LineChartEditor.propTypes = {
   config: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };
 
-export default BarChartEditor;
+export default LineChartEditor;
