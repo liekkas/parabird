@@ -1,22 +1,20 @@
 import React, { PropTypes } from 'react';
 import { createUniqueId } from '../../tools/ztools';
-import { config2Option } from './helper';
-import echarts from 'echarts/echarts';
-import line from 'echarts/chart/line';
-import bar from 'echarts/chart/bar';
-import pie from 'echarts/chart/pie';
-import gauge from 'echarts/chart/gauge';
-
+import echarts from 'echarts';
 import fetch from 'isomorphic-fetch';
 import shallowEqual from 'react-pure-render/shallowEqual';
 import { Loader } from 'react-loaders';
 import { LOADING_STYLE } from '../../config';
+import chinaJson from './geo/china.json';
 
-class BaseECharts extends React.Component {
+//map register
+echarts.registerMap('china', chinaJson);
+
+class PBECharts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: createUniqueId('EChartsLine'),
+      id: createUniqueId('PBECharts'),
       remoteLoading: false,
       remoteUrlChanged: false,
       option: {},
@@ -30,12 +28,12 @@ class BaseECharts extends React.Component {
   componentDidMount() {
     const chart = echarts.init(document.getElementById(this.state.id));
     //option.title.text = this.props.config.title;
-    console.log('>>> BaseECharts:componentDidMount', this.state.option);
+    console.log('>>> PBECharts:componentDidMount', this.state.option);
     chart.setOption(this.state.option);
   }
 
   componentWillReceiveProps(nextProps, nextState) {
-    console.log('>>> BaseECharts:componentWillReceiveProps', nextProps, nextState);
+    console.log('>>> PBECharts:componentWillReceiveProps', nextProps, nextState);
     if (this.props.config.mode !== nextProps.config.mode
         || this.props.config.localData !== nextProps.config.localData
         || this.props.config.remoteDataUrl !== nextProps.config.remoteDataUrl
@@ -45,7 +43,7 @@ class BaseECharts extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('>>> BaseECharts:shouldComponentUpdate', nextProps, nextState);
+    console.log('>>> PBECharts:shouldComponentUpdate', nextProps, nextState);
     return (this.props.config.mode !== nextProps.config.mode
       || this.props.config.localData !== nextProps.config.localData
       || this.props.config.remoteDataUrl !== nextProps.config.remoteDataUrl
@@ -55,12 +53,12 @@ class BaseECharts extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    console.log('>>> BaseECharts:componentWillUpdate', nextProps, nextState);
+    console.log('>>> PBECharts:componentWillUpdate', nextProps, nextState);
     //this._getData(this, nextProps);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('>>> BaseECharts:componentDidUpdate', this.state.option);
+    console.log('>>> PBECharts:componentDidUpdate', this.state.option);
     //const chart = echarts.init(document.getElementById(this.state.id));
     //chart.setOption(this.props.option);
     //chart.resize();
@@ -70,10 +68,10 @@ class BaseECharts extends React.Component {
 
   _getData(bind, props) {
     const { config, type, custom } = props;
-    console.log('>>> BaseECharts:_getData:', config);
+    console.log('>>> PBECharts:_getData:', config);
     //local是同步获取,remote是通过远程api异步获取
     if (config.mode === 'local') {
-      this.setState({ option: config2Option(JSON.parse(config.localData), type, custom), remoteLoading: false });
+      this.setState({ option: JSON.parse(config.localData), remoteLoading: false });
     } else {
       this.setState({ remoteLoading: true });
       fetch(config.remoteDataUrl)
@@ -81,8 +79,8 @@ class BaseECharts extends React.Component {
           return response.json();
         })
         .then(function (result) {
-          console.log('>>> BaseECharts:fetch', result);
-          bind.setState({ option: config2Option(result, type, custom), remoteLoading: false });
+          console.log('>>> PBECharts:fetch', result);
+          bind.setState({ option: result, remoteLoading: false });
           return result;
         })
         .catch(function (ex) {
@@ -92,7 +90,9 @@ class BaseECharts extends React.Component {
   }
 
   render() {
-    console.log('>>> BaseECharts:render:', this.state.id, this.state.option);
+    console.log('>>> PBECharts:render:', this.state.id, this.state.option);
+    console.log('>>> PBECharts', this.context);
+
     return (
       <div style={{
         position: 'absolute',
@@ -113,10 +113,12 @@ class BaseECharts extends React.Component {
   }
 }
 
-BaseECharts.propTypes = {
-  custom: PropTypes.object.isRequired,
+PBECharts.propTypes = {
   config: PropTypes.object.isRequired,
-  type: PropTypes.string.isRequired,
 };
 
-export default BaseECharts;
+PBECharts.contextTypes = {
+  theme: PropTypes.string,
+};
+
+export default PBECharts;

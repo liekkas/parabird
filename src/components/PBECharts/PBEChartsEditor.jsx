@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
-import { findDOMNode } from 'react-dom';
 import { TextField, FlatButton, RadioButtonGroup, RadioButton } from 'material-ui';
 import style from './style.scss';
 
-class BaseEChartsEditor extends React.Component {
+class PBEChartsEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -72,10 +71,10 @@ class BaseEChartsEditor extends React.Component {
   }
 }
 
-BaseEChartsEditor.propTypes = {
+PBEChartsEditor.propTypes = {
   config: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };
 
-export default BaseEChartsEditor;
+export default PBEChartsEditor;
