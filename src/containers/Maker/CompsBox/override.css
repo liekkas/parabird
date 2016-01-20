@@ -23,7 +23,7 @@
 }
 
 .react-sanfona-item-body-wrapper {
-  padding: 0;
+  padding-bottom: 6px;
   position: relative;
 }
 
