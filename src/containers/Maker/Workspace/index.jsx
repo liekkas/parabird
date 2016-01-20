@@ -285,6 +285,7 @@ class WorkSpace extends React.Component {
   render() {
     const { screenRatio, screenNums } = this.props;
     const { open, placers, editorPlacer, editorType,  } = this.state;
+    console.log('>>> WorkSpace', this.context.theme);
 
     const [wR, hR] = screenRatio.split(':');
     const [row, column] = screenNums.split('*');
@@ -310,7 +311,7 @@ class WorkSpace extends React.Component {
 
         {
           open ? <Dialog
-            title={editorType + '设置'}
+            title={Lookup[editorType].name + '设置'}
             style={{
             //width: '75%',
             height: '50%',
@@ -328,6 +329,9 @@ class WorkSpace extends React.Component {
   }
 }
 
+WorkSpace.contextTypes = {
+  theme: PropTypes.string,
+};
 WorkSpace.propTypes = {
   placers: React.PropTypes.array.isRequired,
   screenRatio: React.PropTypes.string.isRequired,
