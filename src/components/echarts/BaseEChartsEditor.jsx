@@ -22,8 +22,8 @@ class BaseEChartsEditor extends React.Component {
     const { config, onSave, onCancel } = this.props;
     return (
       <div className={style.root}>
-        <div className={style.left}>
-          <RadioButtonGroup name="mode" defaultSelected={config.mode} className={style.rgb}
+        <div className={style.rgb}>
+          <RadioButtonGroup name="mode" defaultSelected={config.mode} className={style.rbg}
                             onChange={(event, selected) => this.setState({ mode: selected })}>
             <RadioButton
               value="local"
@@ -32,28 +32,24 @@ class BaseEChartsEditor extends React.Component {
               value="remote"
               label="远程模式" />
           </RadioButtonGroup>
-          <div>
-            <TextField ref="remoteDataUrl"
-                       style={{ display: this.state.mode === 'local' ? 'none' : '', }}
-                       hintText="远程服务URL"
-                       defaultValue={config.remoteDataUrl}
-                       floatingLabelText="远程服务URL" />
-            <TextField ref="localData"
-                       style={{ display: this.state.mode === 'remote' ? 'none' : '', }}
-                       multiLine={true}
-                       fullWidth={true}
-                       rows={4}
-                       rowsMax={8}
-                       hintText="请输入正文"
-                       defaultValue={config.localData}
-                       floatingLabelText="正文(按Enter键换行)"/>
-          </div>
         </div>
         <div className={style.right}>
-          <TextField
-            hintText="远程服务URL" ref="dataUrl"
-            defaultValue={''}
-            floatingLabelText="颜色" />
+          <TextField ref="remoteDataUrl"
+                     style={{ display: this.state.mode === 'local' ? 'none' : '', }}
+                     hintText="远程服务URL"
+                     fullWidth={true}
+                     multiLine={false}
+                     defaultValue={config.remoteDataUrl}
+                     floatingLabelText="远程服务URL" />
+          <TextField ref="localData"
+                     style={{ display: this.state.mode === 'remote' ? 'none' : '', }}
+                     multiLine={true}
+                     fullWidth={true}
+                     rows={4}
+                     rowsMax={8}
+                     hintText="请输入正文"
+                     defaultValue={config.localData}
+                     floatingLabelText="正文(按Enter键换行)"/>
         </div>
         <div style={{
           position: 'absolute',
