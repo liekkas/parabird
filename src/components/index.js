@@ -13,18 +13,3 @@ export { default as PBTryEditor } from './PBTry/PBTryEditor';
 // --- echarts 系列组件 ---
 export { default as PBECharts } from './PBECharts/PBECharts';
 export { default as PBEChartsEditor } from './PBECharts/PBEChartsEditor';
-
-export { default as PBBarChartByECharts } from './echarts/BarChart/BarChart';
-export { default as PBBarChartEditorByECharts } from './echarts/BarChart/BarChartEditor';
-
-export { default as PBLineChartByECharts } from './echarts/LineChart/LineChart';
-export { default as PBLineChartEditorByECharts } from './echarts/LineChart/LineChartEditor';
-
-export { default as PBPieChartByECharts } from './echarts/PieChart/PieChart';
-export { default as PBPieChartEditorByECharts } from './echarts/PieChart/PieChartEditor';
-
-export { default as PBGaugeChartByECharts } from './echarts/GaugeChart/GaugeChart';
-export { default as PBGaugeChartEditorByECharts } from './echarts/GaugeChart/GaugeChartEditor';
-
-export { default as PBMapChartByECharts } from './echarts/MapChart/MapChart';
-export { default as PBMapChartEditorByECharts } from './echarts/MapChart/MapChartEditor';
