@@ -6,6 +6,7 @@ import shallowEqual from 'react-pure-render/shallowEqual';
 import { Loader } from 'react-loaders';
 import { LOADING_STYLE } from '../../config';
 import chinaJson from './geo/china.json';
+import { parse } from '../../tools/jsonEx';
 
 //map register
 echarts.registerMap('china', chinaJson);
@@ -71,7 +72,7 @@ class PBECharts extends React.Component {
     console.log('>>> PBECharts:_getData:', config);
     //local是同步获取,remote是通过远程api异步获取
     if (config.mode === 'local') {
-      this.setState({ option: JSON.parse(config.localData), remoteLoading: false });
+      this.setState({ option: parse(config.localData), remoteLoading: false });
     } else {
       this.setState({ remoteLoading: true });
       fetch(config.remoteDataUrl)

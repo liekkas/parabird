@@ -1,4 +1,4 @@
-import stringify from 'json-stringify-pretty-compact';
+import { stringify } from '../tools/jsonEx';
 import _ from 'lodash';
 
 //-------------------- 设置组件初始化数据 --------------------
@@ -8,7 +8,9 @@ export function getInitLineBarChart(type) {
     title: {
       text: '某收视率',
     },
-    tooltip: {},
+    tooltip: {
+      formatter: (item) => item.name + item.seriesName + ':' + item.value + '%',
+    },
     legend: {
       data: ['白天', '晚上'],
     },
@@ -479,7 +481,7 @@ export function getInitHeatChart() {
     tooltip: {
       trigger: 'value',
       position: 'top',
-      formatter: '{a} - {b}',
+      formatter: (item) => item.name + item.seriesName + ':' + item.value[2] + '级',
     },
     animation: false,
     grid: {
