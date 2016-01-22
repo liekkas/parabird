@@ -11,6 +11,7 @@ import PlacerSpace from './PlacerSpace';
 import { createUniqueId } from '../../../tools/ztools';
 import { Dialog, FlatButton } from 'material-ui';
 import { Lookup } from '../../../constants/LookUp';
+import shallowEqual from 'react-pure-render/shallowEqual';
 
 //使用scrollwidth有效
 //let s = "";
@@ -241,9 +242,9 @@ class WorkSpace extends React.Component {
     this.setState({ placers: nextProps.placers });
   }
 
-  //shouldComponentUpdate(nextProps, nextState) {
-  //  console.log('>>> WorkSpace:shouldComponentUpdate', nextProps, nextState);
-  //  return true;
+  //shouldComponentUpdate(nextProps, nextState, nextContext) {
+  //  console.log('>>> WorkSpace:shouldComponentUpdate', nextProps, nextState, this.context, nextContext);
+  //  return !shallowEqual(this.state.placers,nextState.placers) || this.context.theme !== nextContext.theme;
   //}
   /*
 
@@ -283,9 +284,8 @@ class WorkSpace extends React.Component {
   }
 
   render() {
-    const { screenRatio, screenNums } = this.props;
+    const { screenRatio, screenNums, theme } = this.props;
     const { open, placers, editorPlacer, editorType,  } = this.state;
-    console.log('>>> WorkSpace', this.context.theme);
 
     const [wR, hR] = screenRatio.split(':');
     const [row, column] = screenNums.split('*');
@@ -303,7 +303,7 @@ class WorkSpace extends React.Component {
                    onCanPlacerDrop={(item, nodeXY) => this.handleCanPlacerDrop(item, nodeXY)}
                    onPlacerHover={(item, nodeXY, mouseXYOffset) => this.handlePlacerHover(item, nodeXY, mouseXYOffset)}>
         {placers.map(({ name, x, y, w, h, componentType, componentId, componentConfig }, i) =>
-          <Placer name={name} x={x} y={y} w={w} h={h} componentType={componentType}
+          <Placer name={name} x={x} y={y} w={w} h={h} componentType={componentType} theme={theme}
                   componentId={componentId} componentConfig={componentConfig} key={i}
                   onRemovePlacer={(placeName) => this.handleRemovePlacer(placeName)}
                   onConfigPlacer={(placeName, type, config) => this.handleConfigPlacer(placeName, type, config)} />
@@ -329,10 +329,8 @@ class WorkSpace extends React.Component {
   }
 }
 
-WorkSpace.contextTypes = {
-  theme: PropTypes.string,
-};
 WorkSpace.propTypes = {
+  theme: PropTypes.string.isRequired,
   placers: React.PropTypes.array.isRequired,
   screenRatio: React.PropTypes.string.isRequired,
   screenNums: React.PropTypes.string.isRequired,
