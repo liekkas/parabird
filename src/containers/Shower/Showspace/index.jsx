@@ -24,7 +24,7 @@ class Showspace extends React.Component {
   renderScene() {
     //return null;
     return this.props.scene.placers.map(({ name, x, y, w, h, componentType, componentId, componentConfig }, i) =>
-      <PurePlacer name={name} x={x} y={y} w={w} h={h}
+      <PurePlacer name={name} x={x} y={y} w={w} h={h} theme={this.props.scene.theme}
                   componentType={componentType} componentId={componentId}
                   componentConfig={componentConfig} key={i}/>);
   }
@@ -39,7 +39,7 @@ class Showspace extends React.Component {
         width: '100vw',
         backgroundColor: bgColor,
         height: '100vh',
-        zIndex: '999',
+        zIndex: 32,
       }}>
         {this.renderScene()}
         {
@@ -47,6 +47,7 @@ class Showspace extends React.Component {
             padding: '2vh',
             display: 'flex',
             justifyContent: 'center',
+            zIndex: '3',
           }}>
             <RaisedButton label="关闭预览" primary={true} onClick={onClosePreView} />
           </div> : <div style={{
@@ -59,6 +60,7 @@ class Showspace extends React.Component {
             cursor: 'pointer',
             backgroundColor: Colors.red400,
             opacity: this.state.showClose ? 1 : 0,
+            zIndex: '999',
           }} onClick={this._handleClick} onMouseEnter={() => this.setState({ showClose: true })}
                         onMouseLeave={() => this.setState({ showClose: false })}>
             <label style={{ cursor: 'pointer' }}>退出该场景</label>

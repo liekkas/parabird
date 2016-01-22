@@ -18,14 +18,13 @@ class PurePlacer extends React.Component {
   //}
 
   renderComponent() {
-    const { componentType, componentId, componentConfig } = this.props;
+    const { componentType, componentId, componentConfig, theme } = this.props;
     if (Lookup.hasOwnProperty(componentType)) {
       return React.createElement(
-        Lookup[componentType], { id: componentId, config: componentConfig }
+        Lookup[componentType].comp, { id: componentId, config: componentConfig, theme }
       );
-    } else {
-      return null;
     }
+    return null;
   }
 
   render() {
@@ -58,6 +57,7 @@ PurePlacer.propTypes = {
   componentType: PropTypes.string.isRequired,
   componentId: PropTypes.string.isRequired,
   componentConfig: PropTypes.object.isRequired,
+  theme: PropTypes.string.isRequired,
 };
 
 PurePlacer.defaultProps = {
