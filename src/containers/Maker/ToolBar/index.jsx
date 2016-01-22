@@ -1,26 +1,13 @@
 import React, { PropTypes } from 'react';
 import { Checkbox, RaisedButton, DropDownMenu, MenuItem } from 'material-ui';
-import _ from 'lodash';
 import logo from './logo.png';
 import style from './style.scss';
 import { themes, screenRatios, screenNums } from '../../../constants/Consts';
 
 class ToolBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      //theme: this.context.theme,
-    };
-  }
-
-  //onThemeChanged(event, index, value) {
-  //  this.setState({ theme: value });
-  //  this.props.onThemeChanged();
-  //}
 
   render() {
-    //console.log('此刻:', this.context.theme);
-    const { onThemeChanged, curScene, onScreenRatioChanged, onScreenNumChanged,
+    const { onThemeChanged, curScene, theme, onScreenRatioChanged, onScreenNumChanged,
       onNewScene, onSaveScene, onScenesMgr, onPreviewScene } = this.props;
 
     return (
@@ -41,7 +28,7 @@ class ToolBar extends React.Component {
           <RaisedButton label="保存" primary={true} onClick={onSaveScene}/>
           <RaisedButton label="场景管理" primary={true} onClick={onScenesMgr}/>
           <RaisedButton label="预览" primary={true} onClick={onPreviewScene}/>
-          <DropDownMenu value={this.context.theme}
+          <DropDownMenu value={theme}
                         onChange={onThemeChanged}>
             { themes }
           </DropDownMenu>
@@ -51,13 +38,9 @@ class ToolBar extends React.Component {
   }
 }
 
-ToolBar.contextTypes = {
-  theme: PropTypes.string,
-};
-
 ToolBar.propTypes = {
   curScene: PropTypes.object,
-
+  theme: PropTypes.string.isRequired,
   onThemeChanged: PropTypes.func.isRequired,
   onScreenRatioChanged: PropTypes.func.isRequired,
   onScreenNumChanged: PropTypes.func.isRequired,
@@ -67,16 +50,4 @@ ToolBar.propTypes = {
   onPreviewScene: PropTypes.func.isRequired,
 };
 
-ToolBar.defaultProps = {
-
-};
-
 export default ToolBar;
-
-//<DropDownMenu menuItems={screenRatios}
-//              onChange={onScreenRatioChanged}/>
-//<DropDownMenu menuItems={screenNums}
-//onChange={onScreenNumChanged}/>
-//  <DropDownMenu menuItems={themes}
-//selectedIndex={this.getThemeIndex()}
-//onChange={onThemeChanged}/>
