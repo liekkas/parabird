@@ -9,8 +9,8 @@ import flood from '../images/covers/flood.png';
 import key from '../images/covers/key.png';
 
 export const themes = [
-  <MenuItem key={1} value="TealTheme" primaryText="青葱少年"/>,
-  <MenuItem key={2} value="RedTheme" primaryText="红色风暴"/>,
+  <MenuItem key={1} value="DefaultTheme" primaryText="宇宙蓝"/>,
+  <MenuItem key={2} value="ChinaRed" primaryText="中国红"/>,
 ];
 
 //场景封面图
