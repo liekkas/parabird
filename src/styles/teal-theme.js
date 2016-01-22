@@ -27,7 +27,7 @@ export default {
     alternateTextColor: Colors.white, //按钮上的文本颜色
     canvasColor: Colors.teal300,
     borderColor: Colors.yellow400,
-    disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
+    disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.9),
     pickerHeaderColor: Colors.orange500,
     clockCircleColor: ColorManipulator.fade(Colors.darkBlack, 0.07),
   },
