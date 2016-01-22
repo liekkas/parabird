@@ -23,20 +23,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { saveParabird, updateParabird } from '../../services';
 import SaveWindow from './SaveWindow';
 
-const customStyles = {
-  content: {
-    top: '0',
-    left: '0',
-    right: '0',
-    bottom: '0',
-    padding: '0',
-    border: 'none',
-  }
-};
-
 const Maker = React.createClass({
 
-  contextTypes: {
+  /*contextTypes: {
     muiTheme: React.PropTypes.object,
     theme: React.PropTypes.string,
   },
@@ -44,13 +33,13 @@ const Maker = React.createClass({
   childContextTypes: {
     muiTheme: React.PropTypes.object,
     theme: React.PropTypes.string,
-  },
+  },*/
 
   getInitialState() {
-    const { muiTheme } = getThemeByName(this.props.themeP);
+    //const { muiTheme } = getThemeByName(this.props.theme);
     return {
-      muiTheme: muiTheme,
-      theme: this.props.themeP,
+      //muiTheme: muiTheme,
+      theme: this.props.theme,
       screenRatio: this.props.screenRatio,
       screenNums: this.props.screenNums,
       openPreview: false,
@@ -59,21 +48,21 @@ const Maker = React.createClass({
     };
   },
 
-  getChildContext() {
+  /*getChildContext() {
     return {
       muiTheme: this.state.muiTheme,
       theme: this.state.theme,
     };
-  },
+  },*/
 
   componentWillReceiveProps(nextProps, nextState) {
     //console.log('>>> Maker:WillReceiveRrops:', nextProps, nextState);
     const { needSave, user, curScene, scenes } = nextProps;
-    const { muiTheme } = getThemeByName(nextProps.themeP);
-    this.setState({ 'theme': nextProps.themeP });
+    //const { muiTheme } = getThemeByName(nextProps.theme);
+    this.setState({ 'theme': nextProps.theme });
     this.setState({ 'screenRatio': nextProps.screenRatio });
     this.setState({ 'screenNums': nextProps.screenNums });
-    this.setState({ 'muiTheme': muiTheme });
+    //this.setState({ 'muiTheme': muiTheme });
 
     console.log('>>> Maker:WillReceiveRrops', needSave);
     if (needSave) {
@@ -178,16 +167,17 @@ const Maker = React.createClass({
   },
 
   render() {
-    const appTheme = getThemeByName(this.state.theme).appTheme;
-    const headerBG = { 'background': appTheme.toolbarBgColor };
-    const compsBoxBG = { 'background': appTheme.compsBoxBgColor };
-    const workspaceBG = { 'background': appTheme.workspaceBgColor };
-    const { curScene, scenes, user } = this.props;
+    const commonStyle = getThemeByName(this.state.theme).common;
+    //const headerBG = { 'background': appTheme.toolbarBgColor };
+    //const compsBoxBG = { 'background': appTheme.compsBoxBgColor };
+    //const workspaceBG = { 'background': appTheme.workspaceBgColor };
+    const { curScene, scenes, user, theme } = this.props;
 
     return (
       <div className={style.myroot}>
-        <div className={style.header} style={headerBG}>
+        <div className={style.header}>
           <ToolBar curScene={curScene}
+                   theme={theme}
                    onThemeChanged={this.onThemeChanged}
                    onScreenRatioChanged={this.onScreenRatioChanged}
                    onScreenNumChanged={this.onScreenNumChanged}
@@ -197,11 +187,12 @@ const Maker = React.createClass({
                    onPreviewScene={this.onPreviewScene}/>
         </div>
         <div className={style.hbox}>
-          <div className={style.sidebar} style={compsBoxBG}>
+          <div className={style.sidebar}>
             <CompsBox />
           </div>
-          <div className={style.workspace} style={workspaceBG}>
+          <div className={style.workspace} style={commonStyle.sceneBg}>
             <Workspace placers={curScene.placers}
+                       theme={theme}
                        screenRatio={this.state.screenRatio}
                        screenNums={this.state.screenNums}
                        dropPlacerOnWorkspace={ payload => this.onDropPlacerOnWorkspace(payload)}
@@ -213,7 +204,6 @@ const Maker = React.createClass({
 
         { this.state.openPreview ? <Showspace isPreview={true}
                                        scene={curScene}
-                                       bgColor={appTheme.workspaceBgColor}
                                        onClosePreView={this.handleClose} /> : null
         }
 
@@ -254,7 +244,7 @@ const Maker = React.createClass({
 });
 
 Maker.propTypes = {
-  themeP: React.PropTypes.string.isRequired,
+  theme: React.PropTypes.string.isRequired,
   screenRatio: React.PropTypes.string.isRequired,
   screenNums: React.PropTypes.string.isRequired,
   needSave: React.PropTypes.bool.isRequired,
@@ -264,13 +254,13 @@ Maker.propTypes = {
 };
 
 Maker.defaultProps = {
-  themeP: 'TealTheme',
+  theme: 'TealTheme',
 };
 
 function select(state) {
   //console.log('>>> Maker:Selector', state.get('global'), state.get('curScene'));
   return {
-    themeP: state.getIn(['global', 'theme']),
+    theme: state.getIn(['global', 'theme']),
     screenRatio: state.getIn(['global', 'screenRatio']),
     screenNums: state.getIn(['global', 'screenNums']),
     user: state.getIn(['global', 'user']).toJS(),
