@@ -3,6 +3,7 @@ import { RaisedButton } from 'material-ui';
 import PurePlacer from './PurePlacer';
 import style from './style.scss';
 import { Colors } from 'material-ui/lib/styles';
+import { getThemeByName } from '../../../tools/styleTools';
 
 /**
  * 单个场景呈现界面
@@ -30,17 +31,19 @@ class Showspace extends React.Component {
   }
 
   render() {
-    const { scene, bgColor, isPreview, onClosePreView } = this.props;
+    const { scene, isPreview, onClosePreView } = this.props;
+    const commonStyle = getThemeByName(scene.theme).common;
+    const bgStyle = Object.assign({
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      zIndex: 32,
+    }, commonStyle.sceneBg);
+
     return (
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        backgroundColor: bgColor,
-        height: '100vh',
-        zIndex: 32,
-      }}>
+      <div style={bgStyle}>
         {this.renderScene()}
         {
           isPreview ? <div style={{
@@ -79,7 +82,6 @@ Showspace.propTypes = {
 };
 Showspace.defaultProps = {
   isPreview: false,
-  bgColor: '#FFFFFF',
   scene: { placers: [] },
 };
 
