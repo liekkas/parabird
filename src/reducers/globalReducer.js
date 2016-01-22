@@ -5,7 +5,7 @@ import { GlobalActionTypes, CurSceneActionTypes, ScenesActionTypes } from '../co
 import { fromJS } from 'immutable';
 
 const initState = fromJS({
-  theme: 'TealTheme',
+  theme: 'DefaultTheme',
   screenRatio: '16:9',
   screenNums: '2*4',
   liveSave: false, //实时保存,拖拽啥的立马就存上
@@ -21,7 +21,8 @@ const initState = fromJS({
 export default function globalReducer(state = initState, action = {}) {
   switch (action.type) {
     case CurSceneActionTypes.INIT_SCENE:
-      return state.updateIn(['user', 'configed'], () => true);
+      return state.updateIn(['user', 'configed'], () => true)
+                  .update('theme', () => action.payload.curScene.theme);
     case CurSceneActionTypes.SAVE_SCENE:
     case ScenesActionTypes.DELETE_GROUP:
     case ScenesActionTypes.DELETE_SCENE:
