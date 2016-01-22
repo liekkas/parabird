@@ -5,7 +5,6 @@ import style from './style.scss';
 import { FontIcon, IconButton, RaisedButton } from 'material-ui';
 import { Colors } from 'material-ui/lib/styles';
 import classNames from 'classnames/bind';
-import ReactTooltip from 'react-tooltip';
 import { Lookup } from '../../../constants/LookUp';
 import shallowEqual from 'react-pure-render/shallowEqual';
 
@@ -47,7 +46,7 @@ class Placer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      //theme: this.context.theme,
     };
   }
 
@@ -58,20 +57,18 @@ class Placer extends React.Component {
     img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAG66AABuugHW3rEXAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAAADElEQVQIHWNgIAoAAAAnAAFYYnoBAAAAAElFTkSuQmCC';
   }
 
-  //shouldComponentUpdate(nextProps, nextState) {
-  //  console.log('>>> Placer:shouldComponentUpdate', nextProps, nextState);
-  //  return false;
-  //}
+  componentWillReceiveProps(nextProps, nextState, nextContext) {
+    console.log('>>> Placer:componentWillReceiveProps', nextProps, nextState, this.context, nextContext);
+  }
 
   renderComponent() {
-    const { componentType, componentId, componentConfig } = this.props;
+    const { componentType, componentId, componentConfig, theme } = this.props;
     if (Lookup.hasOwnProperty(componentType)) {
       return React.createElement(
-        Lookup[componentType], { id: componentId, config: componentConfig }
+        Lookup[componentType].comp, {id: componentId, config: componentConfig, theme}
       );
-    } else {
-      return null;
     }
+    return null;
   }
 
   onConfig() {
@@ -82,12 +79,15 @@ class Placer extends React.Component {
   //这个组合比mouseDown和mouseUp靠谱
   setDrag(flag) {
     isDrag = flag;
+
+    if (isDrag !== flag) {
+      console.log('>>> Placer:setDrag', flag);
+    }
   }
 
   render() {
     const { x, y, w, h, name, componentType, componentConfig, connectDragSource, isDragging,
       onRemovePlacer, onConfigPlacer } = this.props;
-
     //console.log('>>> Placer:render:', name);
     //
     //if (isDragging) {
@@ -119,7 +119,7 @@ class Placer extends React.Component {
           right: '0',
           fontSize: '24px',
           backgroundColor: 'rgba(255,255,255,0.6)',
-          zIndex: '3',
+          //zIndex: '3',
         }}>
           <span className={configClassName}
                 onClick={() => onConfigPlacer(name, componentType, componentConfig)} />
@@ -143,6 +143,7 @@ Placer.propTypes = {
   componentType: PropTypes.string.isRequired,
   componentId: PropTypes.string.isRequired,
   componentConfig: PropTypes.object.isRequired,
+  theme: PropTypes.string.isRequired,
 
   connectDragSource: PropTypes.func.isRequired,
   connectDragPreview: PropTypes.func.isRequired,
@@ -151,23 +152,13 @@ Placer.propTypes = {
   onConfigPlacer: PropTypes.func,
 };
 
-Placer.defaultProps = {
-  x: 2,
-  y: 2,
-  w: 100,
-  h: 100,
-  name: '_Placer',
-  componentType: 'Void',
-  componentId: '_Void',
-  componentConfig: {},
-};
-
 //只有位置,尺寸变化才重新渲染
 function arePropsEqual(nextProps, props) {
   return nextProps.x === props.x &&
     nextProps.y === props.y &&
     nextProps.w === props.w &&
     nextProps.h === props.h &&
+    nextProps.theme === props.theme &&
     shallowEqual(nextProps.componentConfig, props.componentConfig);
 }
 
