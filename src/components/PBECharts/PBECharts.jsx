@@ -7,6 +7,8 @@ import { Loader } from 'react-loaders';
 import { LOADING_STYLE } from '../../config';
 import chinaJson from './geo/china.json';
 import { parse } from '../../tools/jsonEx';
+import { getThemeByName } from '../../tools/styleTools';
+import _ from 'lodash';
 
 //map register
 echarts.registerMap('china', chinaJson);
@@ -27,10 +29,16 @@ class PBECharts extends React.Component {
   }
 
   componentDidMount() {
+    echarts.registerTheme('vintage', {
+      color: ['#d87c7c','#919e8b', '#d7ab82', '#6e7074','#61a0a8','#efa18d', '#787464', '#cc7e63', '#724e58', '#4b565b'],
+      backgroundColor: '#fef8ef'
+    });
+
     const chart = echarts.init(document.getElementById(this.state.id));
     //option.title.text = this.props.config.title;
     console.log('>>> PBECharts:componentDidMount', this.state.option);
-    chart.setOption(this.state.option);
+    const theme = getThemeByName(this.props.theme);
+    chart.setOption(_.merge(this.state.option, theme.echarts));
   }
 
   componentWillReceiveProps(nextProps, nextState) {
@@ -44,11 +52,12 @@ class PBECharts extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('>>> PBECharts:shouldComponentUpdate', nextProps, nextState);
+    console.log('>>> PBECharts:shouldComponentUpdate', this.props.theme, nextProps, nextState);
     return (this.props.config.mode !== nextProps.config.mode
       || this.props.config.localData !== nextProps.config.localData
       || this.props.config.remoteDataUrl !== nextProps.config.remoteDataUrl
       || this.state.remoteLoading !== nextState.remoteLoading
+      || this.props.theme !== nextProps.theme
       //|| shallowEqual(this.state.option, nextState.option)
     );
   }
@@ -64,7 +73,8 @@ class PBECharts extends React.Component {
     //chart.setOption(this.props.option);
     //chart.resize();
     const chart = echarts.init(document.getElementById(this.state.id));
-    chart.setOption(this.state.option);
+    const theme = getThemeByName(this.props.theme);
+    chart.setOption(_.merge(this.state.option, theme.echarts));
   }
 
   _getData(bind, props) {
@@ -92,7 +102,6 @@ class PBECharts extends React.Component {
 
   render() {
     console.log('>>> PBECharts:render:', this.state.id, this.state.option);
-    console.log('>>> PBECharts', this.context);
 
     return (
       <div style={{
@@ -115,11 +124,8 @@ class PBECharts extends React.Component {
 }
 
 PBECharts.propTypes = {
+  theme: PropTypes.string.isRequired,
   config: PropTypes.object.isRequired,
-};
-
-PBECharts.contextTypes = {
-  theme: PropTypes.string,
 };
 
 export default PBECharts;
