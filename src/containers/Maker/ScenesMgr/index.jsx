@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Popover, Checkbox, FlatButton, RaisedButton } from 'material-ui';
+import { Colors } from 'material-ui/lib/styles';
 import { screenCoverImages } from '../../../constants/Consts';
 import { BASE_URL } from '../../../config';
 import style from './style.scss';
@@ -11,7 +12,8 @@ const cx = classNames.bind(style);
 
 /**
  * 场景管理
- * //TODO Popover有个Bug,当不设置anchorEl时,会报getBoundingClientRect错
+ * //TODO BUG Popover有个Bug,当不设置anchorEl时,会报getBoundingClientRect错
+ * //TODO BUG Slider 删除item时如果刚好这个item在第二页中且第二页只有一个item,则会出现空白情况不会更新.
  */
 class ScenesMgr extends React.Component {
   constructor(props) {
@@ -84,7 +86,7 @@ class ScenesMgr extends React.Component {
 
     console.log('>>> SceneMgr:', curGroup, curScenes, groups, this.props.entries);
     return (
-      <Popover zDepth={2} open={true} className={style.root}
+      <Popover zDepth={2} open={true} className={style.root} style={{backgroundColor: Colors.teal300}}
                onRequestClose={onScenesMgrClose} >
         <Slider className={style.slickBox} dots={false} draggable={true} slickGoTo={slickIndex} arrows={groups.length > 3}
                 lazyLoad={false} infinite={false} speed={500} slidesToShow={3} slidesToScroll={3}>
