@@ -36,6 +36,9 @@ export default function globalReducer(state = initState, action = {}) {
       return state.update('screenRatio', () => action.payload);
     case GlobalActionTypes.SCREEN_NUMS_CHANGED:
       return state.update('screenNums', () => action.payload);
+    //编辑场景时把主题也带过来
+    case CurSceneActionTypes.EDIT_SCENE:
+      return state.update('theme', () => action.payload.theme);
     default:
       return state;
   }
