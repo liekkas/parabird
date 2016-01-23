@@ -28,7 +28,7 @@ class ToolBar extends React.Component {
           <RaisedButton label="保存" primary={true} onClick={onSaveScene}/>
           <RaisedButton label="场景管理" primary={true} onClick={onScenesMgr}/>
           <RaisedButton label="预览" primary={true} onClick={onPreviewScene}/>
-          <DropDownMenu value={theme}
+          <DropDownMenu value={theme} labelStyle={{color: '#FFF'}}
                         onChange={onThemeChanged}>
             { themes }
           </DropDownMenu>
