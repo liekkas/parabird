@@ -15,7 +15,7 @@ const initState = fromJS({
   createDate: '',
   updateDate: '',
   createUser: '',
-  theme: 'TealTheme',
+  theme: 'DefaultTheme',
   placers: [],
 });
 
