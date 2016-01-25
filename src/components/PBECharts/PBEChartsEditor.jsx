@@ -14,7 +14,7 @@ class PBEChartsEditor extends React.Component {
   getConfig() {
     const localData = this.refs.localData.getValue();
     const remoteDataUrl = this.refs.remoteDataUrl.getValue();
-    return { localData, remoteDataUrl, mode: this.state.mode, };
+    return { type: this.props.config.type, localData, remoteDataUrl, mode: this.state.mode, };
   }
 
   render() {
