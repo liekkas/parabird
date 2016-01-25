@@ -92,7 +92,7 @@ class PBECharts extends React.Component {
         })
         .then(function (result) {
           const convert = _.merge(parse(config.localData),generateOption(result, config.type));
-          console.log('>>> PBECharts:fetch', result, convert);
+          //console.log('>>> PBECharts:fetch', result, convert);
           bind.setState({ option: convert, remoteLoading: false });
           return result;
         })
