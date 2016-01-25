@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const ParaBird = require('./server/parabird');
 const _ = require('lodash');
+const dataMock = require('./server/dataMock');
 
 // BASE SETUP
 const mongoose = require('mongoose');
@@ -85,17 +86,13 @@ router.route('/parabirds/:name/:id')
 
 
 //模拟柱状图/线状图/面积图数据
-router.route('/chart')
+router.route('/chart/singleLineBar')
   .get(function (req, res) {
-    const result = {
-      title: '性能TopN',
-      subTitle: '从1号到31号',
-      legend: ['最高值', '最低值'],
-      labels: ['周一', '周二', '周三', '周四', '周五'],
-      最高值: [20, 30, 32, 40, 50],
-      最低值: [10, 20, 22, 30, 40],
-    };
-    res.json(result);
+    res.json(dataMock.singleLineBar);
+  });
+router.route('/chart/multiLineBar')
+  .get(function (req, res) {
+    res.json(dataMock.multiLineBar);
   });
 
 app.use('/api/v1', router);
