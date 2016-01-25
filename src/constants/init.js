@@ -6,13 +6,15 @@ import _ from 'lodash';
 export function getInitLineBarChart(type) {
   const localData = stringify({
     title: {
-      text: '某收视率',
+      text: '某指标一周情况',
+      x:'center',
     },
     tooltip: {
       formatter: (item) => item.name + item.seriesName + ':' + item.value + '%',
     },
     legend: {
-      data: ['白天', '晚上'],
+      top: 'bottom',
+      data: ['收视率'],
     },
     grid: {
       //height: '60%',
@@ -26,22 +28,19 @@ export function getInitLineBarChart(type) {
     },
     yAxis: {
       axisLabel: {
-        formatter: '{value} %'
+        formatter: '{value}%'
       },
     },
     series: [{
-      name: '白天',
-      type: type,
-      data: [1.2, 1.1, 0.8, 1.0, 0.7, 0.5, 1.4]
-    },{
-      name: '晚上',
+      name: '收视率',
       type: type,
       data: [1.6, 1.5, 1.3, 1.5, 1.2, 0.8, 1.8]
     }]
   });
   return {
+    type: type,
     localData: localData,
-    remoteDataUrl: 'http://localhost:4000/api/v1/chart',
+    remoteDataUrl: 'http://localhost:4000/api/v1/chart/lineBar/3',
     mode: 'local',
   };
 }
@@ -86,8 +85,9 @@ export function getInitPieChart() {
     ]
   });
   return {
+    type: 'pie',
     localData: localData,
-    remoteDataUrl: 'http://localhost:4000/api/v1/chart/pie',
+    remoteDataUrl: 'http://localhost:4000/api/v1/chart/pie/5',
     mode: 'local',
   };
 }
@@ -164,6 +164,7 @@ export function getInitScatterChart() {
     ]
   });
   return {
+    type: 'scatter',
     localData: localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart',
     mode: 'local',
@@ -186,6 +187,7 @@ export function getInitGaugeChart() {
     ]
   });
   return {
+    type:'gauge',
     localData: localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart/pie',
     mode: 'local',
@@ -295,6 +297,7 @@ export function getInitMapChart() {
     ]
   });
   return {
+    type: 'map',
     localData: localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart/pie',
     mode: 'local',
@@ -445,6 +448,7 @@ export function getInitParallelChart() {
     ]
   });
   return {
+    type: 'parallel',
     localData: localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart',
     mode: 'local',
@@ -525,6 +529,7 @@ export function getInitHeatChart() {
     }]
   });
   return {
+    type: 'heatmap',
     localData: localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart',
     mode: 'local',
