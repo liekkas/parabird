@@ -1,34 +1,55 @@
 /**
  * Created by liekkas on 16/1/25.
  */
+const _ = require('lodash');
 
 /**
- * 单柱/线图
+ * 柱/线图
  */
-function singleLineBar() {
+function lineBar(num) {
+  const legend = [];
+  for (var ii = 1; ii <= num; ii++) {
+    legend.push('类别' + ii);
+  }
+
+  const data = [];
+  for (var i = 1; i <= 7; i++) {
+    var obj = { label: i + '号' };
+    for (var i2 = 0; i2 < num; i2++) {
+      obj[legend[i2]] = _.random(100);
+    }
+    data.push(obj);
+  }
+
   return {
-    title: '性能TopN',
-    subTitle: '从1号到31号',
-    labels: ['周一', '周二', '周三', '周四', '周五'],
-    最低值: [10, 20, 22, 30, 40],
+    title: '图表标题',
+    subTitle: '从1号到7号',
+    legend: legend,
+    data: data,
+    unit: '单位',
   };
 }
 
 /**
- * 多柱/线图
+ * 饼/环图
  */
-function multiLineBar() {
+function pie(num) {
+  const data = [];
+  for (var ii = 1; ii <= num; ii++) {
+    data.push({
+      name: '类别' + ii,
+      value: _.random(100),
+    });
+  }
+
   return {
-    title: '性能TopN',
-    subTitle: '从1号到31号',
-    legend: ['最高值', '最低值'],
-    labels: ['周一', '周二', '周三', '周四', '周五'],
-    最高值: [20, 30, 32, 40, 50],
-    最低值: [10, 20, 22, 30, 40],
+    title: '饼图标题',
+    category: '大分类',
+    data: data,
   };
 }
 
 module.exports = {
-  singleLineBar: singleLineBar(),
-  multiLineBar: multiLineBar(),
+  lineBar: (num) => lineBar(num),
+  pie: (num) => pie(num),
 };

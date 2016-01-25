@@ -85,14 +85,16 @@ router.route('/parabirds/:name/:id')
   });
 
 
-//模拟柱状图/线状图/面积图数据
-router.route('/chart/singleLineBar')
+//模拟图表数据
+router.route('/chart/lineBar/:num')
   .get(function (req, res) {
-    res.json(dataMock.singleLineBar);
+    var num = req.params.num;
+    res.json(dataMock.lineBar(num));
   });
-router.route('/chart/multiLineBar')
+router.route('/chart/pie/:num')
   .get(function (req, res) {
-    res.json(dataMock.multiLineBar);
+    var num = req.params.num;
+    res.json(dataMock.pie(num));
   });
 
 app.use('/api/v1', router);
