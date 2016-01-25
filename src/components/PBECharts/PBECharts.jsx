@@ -8,6 +8,7 @@ import { LOADING_STYLE } from '../../config';
 import chinaJson from './geo/china.json';
 import { parse } from '../../tools/jsonEx';
 import { getThemeByName } from '../../tools/styleTools';
+import { generateOption } from '../../tools/echartsOption';
 import _ from 'lodash';
 
 //map register
@@ -90,8 +91,9 @@ class PBECharts extends React.Component {
           return response.json();
         })
         .then(function (result) {
-          console.log('>>> PBECharts:fetch', result);
-          bind.setState({ option: result, remoteLoading: false });
+          const convert = _.merge(parse(config.localData),generateOption(result, config.type));
+          console.log('>>> PBECharts:fetch', result, convert);
+          bind.setState({ option: convert, remoteLoading: false });
           return result;
         })
         .catch(function (ex) {
