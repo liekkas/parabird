@@ -7,6 +7,7 @@ import { Colors } from 'material-ui/lib/styles';
 import classNames from 'classnames/bind';
 import { Lookup } from '../../../constants/LookUp';
 import shallowEqual from 'react-pure-render/shallowEqual';
+import { Loader } from 'react-loaders';
 
 const cx = classNames.bind(style);
 let isDrag = true;
@@ -56,10 +57,14 @@ class Placer extends React.Component {
     img.onload = () => this.props.connectDragPreview(img);
     img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAG66AABuugHW3rEXAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAAADElEQVQIHWNgIAoAAAAnAAFYYnoBAAAAAElFTkSuQmCC';
   }
-
-  componentWillReceiveProps(nextProps, nextState, nextContext) {
-    console.log('>>> Placer:componentWillReceiveProps', nextProps, nextState, this.context, nextContext);
-  }
+  //
+  //componentWillReceiveProps(nextProps, nextState) {
+  //  console.log('>>> Placer:componentWillReceiveProps:', this.props,nextProps);
+  //}
+  //
+  //componentDidUpdate(prevProps, prevState) {
+  //  console.log('>>> Placer:componentDidUpdate:', this.props.name);
+  //}
 
   renderComponent() {
     const { componentType, componentId, componentConfig, theme } = this.props;
@@ -85,6 +90,13 @@ class Placer extends React.Component {
     }
   }
 
+  onRefresh() {
+
+    this.forceUpdate();
+  }
+
+  //因为缩放涉及组件外观发生很大变化,所以当缩放时那么需要卸载组件再重装组件,中间用个过渡效果来指示
+  //这样缩放后立马就能看到效果了
   render() {
     const { x, y, w, h, name, componentType, componentConfig, connectDragSource, isDragging,
       onRemovePlacer, onConfigPlacer } = this.props;
@@ -96,6 +108,7 @@ class Placer extends React.Component {
 
     const configClassName = cx('config', 'zmdi', 'zmdi-settings');
     const removeClassName = cx('remove', 'zmdi', 'zmdi-delete');
+    const resizeClassName = cx('resize', 'zmdi', 'zmdi-aspect-ratio-alt');
 
     return connectDragSource(
       <div style={{
@@ -110,9 +123,10 @@ class Placer extends React.Component {
         //visibility: isDragging ? 'hidden' : 'visible',
         opacity: isDragging ? 0.6 : 1,
         border: isDragging ? 'solid 2px rgba(255, 0, 0, 0.8)' : 'solid 2px rgba(255, 255, 255, 0.4)',
-        backgroundColor: isDragging ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.1)',
+        backgroundColor: isDragging ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.1)',
       }}>
-        {this.renderComponent()}
+        { !isDragging ? this.renderComponent() : isDrag ? this.renderComponent() :
+          <div className={style.resizeBox}><Loader type="ball-beat" active={true} /></div> }
         <div style={{
           position: 'absolute',
           top: '0',
@@ -126,9 +140,9 @@ class Placer extends React.Component {
           <span className={removeClassName}
                 onClick={() => onRemovePlacer(name)} />
         </div>
-        <div className={style.resize}
+        <div className={resizeClassName}
              onMouseLeave={ () => this.setDrag(true) }
-             onMouseEnter={ () => this.setDrag(false) }/>
+             onMouseEnter={ () => this.setDrag(false) } />
       </div>
     );
   }
