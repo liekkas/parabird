@@ -30,20 +30,14 @@ class PBECharts extends React.Component {
   }
 
   componentDidMount() {
-    echarts.registerTheme('vintage', {
-      color: ['#d87c7c','#919e8b', '#d7ab82', '#6e7074','#61a0a8','#efa18d', '#787464', '#cc7e63', '#724e58', '#4b565b'],
-      backgroundColor: '#fef8ef'
-    });
-
     const chart = echarts.init(document.getElementById(this.state.id));
-    //option.title.text = this.props.config.title;
     console.log('>>> PBECharts:componentDidMount', this.state.option);
     const theme = getThemeByName(this.props.theme);
     chart.setOption(_.merge(this.state.option, theme.echarts));
   }
 
   componentWillReceiveProps(nextProps, nextState) {
-    console.log('>>> PBECharts:componentWillReceiveProps', nextProps, nextState);
+    console.log('>>> PBECharts:componentWillReceiveProps', this.props, nextProps, nextState);
     if (this.props.config.mode !== nextProps.config.mode
         || this.props.config.localData !== nextProps.config.localData
         || this.props.config.remoteDataUrl !== nextProps.config.remoteDataUrl
@@ -70,17 +64,14 @@ class PBECharts extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log('>>> PBECharts:componentDidUpdate', this.state.option);
-    //const chart = echarts.init(document.getElementById(this.state.id));
-    //chart.setOption(this.props.option);
-    //chart.resize();
     const chart = echarts.init(document.getElementById(this.state.id));
     const theme = getThemeByName(this.props.theme);
     chart.setOption(_.merge(this.state.option, theme.echarts));
   }
 
   _getData(bind, props) {
-    const { config, type, custom } = props;
-    console.log('>>> PBECharts:_getData:', config);
+    const { config } = props;
+    //console.log('>>> PBECharts:_getData:', config);
     //local是同步获取,remote是通过远程api异步获取
     if (config.mode === 'local') {
       this.setState({ option: parse(config.localData), remoteLoading: false });
