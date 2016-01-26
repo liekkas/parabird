@@ -242,9 +242,9 @@ class WorkSpace extends React.Component {
     this.setState({ placers: nextProps.placers });
   }
 
-  //shouldComponentUpdate(nextProps, nextState, nextContext) {
-  //  console.log('>>> WorkSpace:shouldComponentUpdate', nextProps, nextState, this.context, nextContext);
-  //  return !shallowEqual(this.state.placers,nextState.placers) || this.context.theme !== nextContext.theme;
+  //shouldComponentUpdate(nextProps, nextState) {
+  //  console.log('>>> WorkSpace:shouldComponentUpdate', nextProps, nextState);
+  //  return !shallowEqual(this.state.placers,nextState.placers) || this.props.theme !== nextProps.theme;
   //}
   /*
 
@@ -297,6 +297,10 @@ class WorkSpace extends React.Component {
     //
     //console.log('workSpaceRatio:'+workSpaceRatio+' ratio:'+ratio + ' w:' + w + ' h:' + h);
 
+    console.log('>>> Workspace:render', placers);
+    //注意:在遍历placers的时候,给每个Placer设置key=name可以避免组件混用的情况
+    //比如我添加了 c1,c2,c3,如果删除c1,那么在key=i的情况下,c2会用c1的实例,c3会用c2的实例,造成后面两个不需要重绘的组件
+    //也发生重绘
     return (
       <PlacerSpace onPlacerDrop={(item, nodeXY) => this.handlePlacerDrop(item, nodeXY)}
                    onComponentDrop={(item, nodeXY) => this.handleComponentDrop(item, nodeXY)}
@@ -304,7 +308,7 @@ class WorkSpace extends React.Component {
                    onPlacerHover={(item, nodeXY, mouseXYOffset) => this.handlePlacerHover(item, nodeXY, mouseXYOffset)}>
         {placers.map(({ name, x, y, w, h, componentType, componentId, componentConfig }, i) =>
           <Placer name={name} x={x} y={y} w={w} h={h} componentType={componentType} theme={theme}
-                  componentId={componentId} componentConfig={componentConfig} key={i}
+                  componentId={componentId} componentConfig={componentConfig} key={name}
                   onRemovePlacer={(placeName) => this.handleRemovePlacer(placeName)}
                   onConfigPlacer={(placeName, type, config) => this.handleConfigPlacer(placeName, type, config)} />
         )}
