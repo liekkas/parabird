@@ -13,8 +13,7 @@ import ScenesMgr from './ScenesMgr';
 import Home from '../Home/Home';
 import style from './style.scss';
 import { connect } from 'react-redux';
-import { createAction } from '../../actions';
-import { GlobalActionTypes, CurSceneActionTypes, ScenesActionTypes } from '../../constants/ActionTypes';
+import { createAction, ActionTypes} from '../../actions';
 
 import { getThemeByName } from '../../tools/styleTools';
 import * as actionCreators from '../../actions';
@@ -64,7 +63,7 @@ const Maker = React.createClass({
     this.setState({ 'screenNums': nextProps.screenNums });
     //this.setState({ 'muiTheme': muiTheme });
 
-    console.log('>>> Maker:WillReceiveRrops', needSave);
+    //console.log('>>> Maker:WillReceiveRrops', needSave);
     if (needSave) {
       user.configed ?
         updateParabird('root', { curScene, scenes }, this.props.dispatch) :
@@ -73,19 +72,19 @@ const Maker = React.createClass({
   },
 
   onThemeChanged(event, index, value) {
-    this.props.dispatch(createAction(GlobalActionTypes.THEME_CHANGED, value));
+    this.props.dispatch(createAction(ActionTypes.THEME_CHANGED, value));
   },
 
   onScreenRatioChanged(event, selectedIndex, menuItem) {
-    this.props.dispatch(createAction(GlobalActionTypes.SCREEN_RATIO_CHANGED, menuItem.payload));
+    this.props.dispatch(createAction(ActionTypes.SCREEN_RATIO_CHANGED, menuItem.payload));
   },
 
   onScreenNumChanged(event, selectedIndex, menuItem) {
-    this.props.dispatch(createAction(GlobalActionTypes.SCREEN_NUMS_CHANGED, menuItem.payload));
+    this.props.dispatch(createAction(ActionTypes.SCREEN_NUMS_CHANGED, menuItem.payload));
   },
 
   onNewScene() {
-    this.props.dispatch(createAction(CurSceneActionTypes.NEW_SCENE, this.props.user.name));
+    this.props.dispatch(createAction(ActionTypes.NEW_SCENE, this.props.user.name));
   },
 
   //两处需要保存,当前curScene的,以及scenes里的状态
@@ -98,24 +97,24 @@ const Maker = React.createClass({
   },
 
   onPreviewScene() {
-    //this.props.dispatch(createAction(CurSceneActionTypes.PREVIEW_UNSAVED_SCENE));
+    //this.props.dispatch(createAction(ActionTypes.PREVIEW_UNSAVED_SCENE));
     this.setState({ openPreview: true });
   },
 
   onDropPlacerOnWorkspace(payload) {
-    this.props.dispatch(createAction(CurSceneActionTypes.DRAG_PLACER_ON_WORKSPACE, payload));
+    this.props.dispatch(createAction(ActionTypes.DRAG_PLACER_ON_WORKSPACE, payload));
   },
 
   onDropComponentIntoWorkspace(payload) {
-    this.props.dispatch(createAction(CurSceneActionTypes.DRAG_COMPONENT_INTO_WORKSPACE, payload));
+    this.props.dispatch(createAction(ActionTypes.DRAG_COMPONENT_INTO_WORKSPACE, payload));
   },
 
   onRemovePlacer(payload) {
-    this.props.dispatch(createAction(CurSceneActionTypes.REMOVE_PLACER_FROM_WORKSPACE, payload));
+    this.props.dispatch(createAction(ActionTypes.REMOVE_PLACER_FROM_WORKSPACE, payload));
   },
 
   onConfigPlacer(payload) {
-    this.props.dispatch(createAction(CurSceneActionTypes.SAVE_COMPONENT_CONFIG, payload));
+    this.props.dispatch(createAction(ActionTypes.SAVE_COMPONENT_CONFIG, payload));
   },
 
   handleOpen() {
@@ -140,7 +139,7 @@ const Maker = React.createClass({
       curScene.createDate = config.updateDate;
       curScene.createUser = user.name;
     }
-    dispatch(createAction(CurSceneActionTypes.SAVE_SCENE, _.merge(curScene, config)));
+    dispatch(createAction(ActionTypes.SAVE_SCENE, _.merge(curScene, config)));
     this.handleSaveWindowClose();
   },
 
@@ -155,15 +154,15 @@ const Maker = React.createClass({
   },
 
   _handleSceneEdit(scene) {
-    this.props.dispatch(createAction(CurSceneActionTypes.EDIT_SCENE, scene));
+    this.props.dispatch(createAction(ActionTypes.EDIT_SCENE, scene));
   },
 
   _handleSceneDelete(sceneId) {
-    this.props.dispatch(createAction(ScenesActionTypes.DELETE_SCENE, sceneId));
+    this.props.dispatch(createAction(ActionTypes.DELETE_SCENE, sceneId));
   },
 
   _handleGroupDelete(groupName) {
-    this.props.dispatch(createAction(ScenesActionTypes.DELETE_GROUP, groupName));
+    this.props.dispatch(createAction(ActionTypes.DELETE_GROUP, groupName));
   },
 
   render() {

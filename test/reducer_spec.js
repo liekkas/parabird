@@ -4,7 +4,7 @@
 import { Map, fromJS } from 'immutable';
 import { expect } from 'chai';
 
-import { GlobalActionTypes, CurSceneActionTypes, ScenesActionTypes } from '../src/constants/ActionTypes';
+import { ActionTypes } from '../src/actions';
 import globalReducer from '../src/reducers/globalReducer';
 import curSceneReducer from '../src/reducers/curSceneReducer';
 import scenesReducer from '../src/reducers/scenesReducer';
@@ -24,7 +24,7 @@ describe('globalReducer', ()=> {
       }
     });
     const action = {
-      type: GlobalActionTypes.THEME_CHANGED,
+      type: ActionTypes.THEME_CHANGED,
       payload: 'RedTheme'
     };
     const nextState = globalReducer(initialState, action);
@@ -55,7 +55,7 @@ describe('curSceneReducer', ()=> {
       placers: [],
     });
     const action = {
-      type: GlobalActionTypes.INIT_USER,
+      type: ActionTypes.INIT_USER,
       payload: 'root'
     };
     const nextState = curSceneReducer(initialState, action);
@@ -84,7 +84,7 @@ describe('curSceneReducer', ()=> {
       }],
     });
     const action = {
-      type: CurSceneActionTypes.INIT_SCENE,
+      type: ActionTypes.INIT_SCENE,
       payload: {
         curScene: {
           id: 'Scene11',
@@ -128,7 +128,7 @@ describe('curSceneReducer', ()=> {
       }],
     });
     const action = {
-      type: CurSceneActionTypes.NEW_SCENE,
+      type: ActionTypes.NEW_SCENE,
     };
     const nextState = curSceneReducer(initialState, action);
 
@@ -153,7 +153,7 @@ describe('curSceneReducer', ()=> {
       }],
     });
     const action = {
-      type: CurSceneActionTypes.SAVE_SCENE,
+      type: ActionTypes.SAVE_SCENE,
       payload: {
         name: '平安夜监控',
         desc: '这个夜晚不寻常',
@@ -192,7 +192,7 @@ describe('curSceneReducer', ()=> {
       placers: [],
     });
     const action = {
-      type: CurSceneActionTypes.DRAG_COMPONENT_INTO_WORKSPACE,
+      type: ActionTypes.DRAG_COMPONENT_INTO_WORKSPACE,
       payload: {
         name: 'Placer1', x: 10, y: 10, w: 10, h: 10, componentType: 'LineChart', componentConfig: {},
       }
@@ -217,7 +217,7 @@ describe('curSceneReducer', ()=> {
       }],
     });
     const action = {
-      type: CurSceneActionTypes.DRAG_COMPONENT_INTO_WORKSPACE,
+      type: ActionTypes.DRAG_COMPONENT_INTO_WORKSPACE,
       payload: {
         name: 'Placer2', x: 20, y: 10, w: 10, h: 20, componentType: 'LineChart', componentConfig: {},
       }
@@ -243,7 +243,7 @@ describe('curSceneReducer', ()=> {
       ],
     });
     const action = {
-      type: CurSceneActionTypes.DRAG_PLACER_ON_WORKSPACE,
+      type: ActionTypes.DRAG_PLACER_ON_WORKSPACE,
       payload: {
         name: 'Placer1', x: 30, y: 20, w: 10, h: 20,
       }
@@ -265,7 +265,7 @@ describe('curSceneReducer', ()=> {
       ],
     });
     const action = {
-      type: CurSceneActionTypes.SAVE_COMPONENT_CONFIG,
+      type: ActionTypes.SAVE_COMPONENT_CONFIG,
       payload: {
         name: 'Placer1', componentConfig: { dataApi: 'http://www.baidu.com/rest', style: {} },
       }
@@ -286,7 +286,7 @@ describe('curSceneReducer', ()=> {
       ],
     });
     const action = {
-      type: CurSceneActionTypes.REMOVE_PLACER_FROM_WORKSPACE,
+      type: ActionTypes.REMOVE_PLACER_FROM_WORKSPACE,
       payload: 'Placer1'
     };
     const nextState = curSceneReducer(initialState, action);
@@ -311,7 +311,7 @@ describe('curSceneReducer', ()=> {
       }],
     });
     const action = {
-      type: ScenesActionTypes.DELETE_SCENE,
+      type: ActionTypes.DELETE_SCENE,
       payload: 'Scene11',
     };
     const nextState = curSceneReducer(initialState, action);
@@ -337,7 +337,7 @@ describe('curSceneReducer', ()=> {
       }],
     });
     const action = {
-      type: ScenesActionTypes.DELETE_SCENE,
+      type: ActionTypes.DELETE_SCENE,
       payload: 'Scene2',
     };
     const nextState = curSceneReducer(initialState, action);
@@ -371,7 +371,7 @@ describe('curSceneReducer', ()=> {
       }],
     });
     const action = {
-      type: ScenesActionTypes.DELETE_GROUP,
+      type: ActionTypes.DELETE_GROUP,
       payload: 'A',
     };
     const nextState = curSceneReducer(initialState, action);
@@ -397,7 +397,7 @@ describe('curSceneReducer', ()=> {
       }],
     });
     const action = {
-      type: CurSceneActionTypes.EDIT_SCENE,
+      type: ActionTypes.EDIT_SCENE,
       payload: {
         id: 'Scene12',
         group: 'B',
@@ -440,7 +440,7 @@ describe('ScenesReducer', ()=> {
       entries: [],
     });
     const action = {
-      type: CurSceneActionTypes.INIT_SCENE,
+      type: ActionTypes.INIT_SCENE,
       payload: {
         curScene: {},
         scenes: {
@@ -485,7 +485,7 @@ describe('ScenesReducer', ()=> {
       entries: [],
     });
     const action = {
-      type: CurSceneActionTypes.SAVE_SCENE,
+      type: ActionTypes.SAVE_SCENE,
       payload: {
         id: 'Scene1', group: '未启用', name: '未命名', desc: '', createDate: '2015-12-31', updateDate: '2015-12-31', createUser: 'root', theme: 'TealTheme', placers: [],
       }
@@ -514,7 +514,7 @@ describe('ScenesReducer', ()=> {
       ],
     });
     const action = {
-      type: CurSceneActionTypes.SAVE_SCENE,
+      type: ActionTypes.SAVE_SCENE,
       payload: {
         id: 'Scene1', group: '未启用', name: 'haha', desc: '', createDate: '2016-11-30', updateDate: '2016-12-4', createUser: 'root', theme: 'TealTheme', placers: [],
       }
@@ -543,7 +543,7 @@ describe('ScenesReducer', ()=> {
       ],
     });
     const action = {
-      type: CurSceneActionTypes.SAVE_SCENE,
+      type: ActionTypes.SAVE_SCENE,
       payload: {
         id: 'Scene1', group: 'A', name: 'haha', desc: '', createDate: '2016-11-30', updateDate: '2016-12-4', createUser: 'root', theme: 'TealTheme', placers: [],
       }
@@ -575,7 +575,7 @@ describe('ScenesReducer', ()=> {
       ],
     });
     const action = {
-      type: CurSceneActionTypes.SAVE_SCENE,
+      type: ActionTypes.SAVE_SCENE,
       payload: {
         id: 'Scene3', group: 'A', name: '未命名', desc: '', createDate: '2020-12-31', updateDate: '2021-12-31', createUser: 'root', theme: 'TealTheme', placers: [],
       },
@@ -607,7 +607,7 @@ describe('ScenesReducer', ()=> {
       ],
     });
     const action = {
-      type: CurSceneActionTypes.SAVE_SCENE,
+      type: ActionTypes.SAVE_SCENE,
       payload: {
         id: 'Scene1', group: '未启用', name: 'AAA', desc: 'BBB', createDate: '2015-12-31', updateDate: '2017-12-31', createUser: 'root', theme: 'TealTheme', placers: [],
       }
@@ -634,7 +634,7 @@ describe('ScenesReducer', ()=> {
       entries: [],
     });
     const action = {
-      type: CurSceneActionTypes.SAVE_SCENE,
+      type: ActionTypes.SAVE_SCENE,
       payload: {
         id: 'Scene1', group: 'A', name: '未命名', desc: '', createDate: '2015-12-31', updateDate: '2016-12-31', createUser: 'root', theme: 'TealTheme', placers: [],
       }
@@ -664,7 +664,7 @@ describe('ScenesReducer', ()=> {
       ],
     });
     const action = {
-      type: CurSceneActionTypes.SAVE_SCENE,
+      type: ActionTypes.SAVE_SCENE,
       payload: {
         id: 'Scene1', group: 'A', name: 'haha', desc: 'hehe', createDate: '2015-12-31', updateDate: '2017-12-31', createUser: 'root', theme: 'TealTheme', placers: [],
       }
@@ -696,7 +696,7 @@ describe('ScenesReducer', ()=> {
       ],
     });
     const action = {
-      type: CurSceneActionTypes.SAVE_SCENE,
+      type: ActionTypes.SAVE_SCENE,
       payload: {
         id: 'Scene1', group: 'A', name: '未命名', desc: '', createDate: '2015-12-31', updateDate: '2019-12-31', createUser: 'root', theme: 'TealTheme', placers: [],
       },
@@ -730,7 +730,7 @@ describe('ScenesReducer', ()=> {
       ],
     });
     const action = {
-      type: ScenesActionTypes.DELETE_GROUP,
+      type: ActionTypes.DELETE_GROUP,
       payload: 'A',
     };
     const nextState = scenesReducer(initialState, action);
@@ -762,7 +762,7 @@ describe('ScenesReducer', ()=> {
       ],
     });
     const action = {
-      type: ScenesActionTypes.DELETE_GROUP,
+      type: ActionTypes.DELETE_GROUP,
       payload: 'B',
     };
     const nextState = scenesReducer(initialState, action);
@@ -792,7 +792,7 @@ describe('ScenesReducer', ()=> {
       ],
     });
     const action = {
-      type: ScenesActionTypes.DELETE_SCENE,
+      type: ActionTypes.DELETE_SCENE,
       payload: 'Scene2',
     };
     const nextState = scenesReducer(initialState, action);

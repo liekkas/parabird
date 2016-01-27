@@ -22,8 +22,7 @@ import { createHistory } from 'history';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
-import { createAction } from './actions';
-import { GlobalActionTypes, CurSceneActionTypes, ScenesActionTypes } from './constants/ActionTypes';
+import { createAction, ActionTypes } from './actions';
 
 const store = configureStore();
 
@@ -33,9 +32,9 @@ fetch('http://localhost:4000/api/v1/parabirds/root')
   }).then(function(json) {
     console.log('parsed json', json);
     if (json.hasOwnProperty('curScene')) {
-      store.dispatch(createAction(CurSceneActionTypes.INIT_SCENE, json));
+      store.dispatch(createAction(ActionTypes.INIT_SCENE, json));
     }
-    store.dispatch(createAction(GlobalActionTypes.INIT_USER, 'root'));
+    store.dispatch(createAction(ActionTypes.INIT_USER, 'root'));
   }).catch(function(ex) {
     console.log('parsing failed', ex);
   });

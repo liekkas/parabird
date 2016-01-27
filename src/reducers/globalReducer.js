@@ -1,7 +1,7 @@
 /**
  * Created by liekkas on 15/12/17.
  */
-import { GlobalActionTypes, CurSceneActionTypes, ScenesActionTypes } from '../constants/ActionTypes';
+import { ActionTypes } from '../actions';
 import { fromJS } from 'immutable';
 
 const initState = fromJS({
@@ -20,24 +20,24 @@ const initState = fromJS({
 
 export default function globalReducer(state = initState, action = {}) {
   switch (action.type) {
-    case CurSceneActionTypes.INIT_SCENE:
+    case ActionTypes.INIT_SCENE:
       return state.updateIn(['user', 'configed'], () => true)
                   .update('theme', () => action.payload.curScene.theme);
-    case CurSceneActionTypes.SAVE_SCENE:
-    case ScenesActionTypes.DELETE_GROUP:
-    case ScenesActionTypes.DELETE_SCENE:
+    case ActionTypes.SAVE_SCENE:
+    case ActionTypes.DELETE_GROUP:
+    case ActionTypes.DELETE_SCENE:
       return state.update('needSave', () => true);
-    case CurSceneActionTypes.SAVE_SUCCESS:
-    case CurSceneActionTypes.SAVE_FAILURE:
+    case ActionTypes.SAVE_SUCCESS:
+    case ActionTypes.SAVE_FAILURE:
       return state.update('needSave', () => false);
-    case GlobalActionTypes.THEME_CHANGED:
+    case ActionTypes.THEME_CHANGED:
       return state.update('theme', () => action.payload);
-    case GlobalActionTypes.SCREEN_RATIO_CHANGED:
+    case ActionTypes.SCREEN_RATIO_CHANGED:
       return state.update('screenRatio', () => action.payload);
-    case GlobalActionTypes.SCREEN_NUMS_CHANGED:
+    case ActionTypes.SCREEN_NUMS_CHANGED:
       return state.update('screenNums', () => action.payload);
     //编辑场景时把主题也带过来
-    case CurSceneActionTypes.EDIT_SCENE:
+    case ActionTypes.EDIT_SCENE:
       return state.update('theme', () => action.payload.theme);
     default:
       return state;

@@ -1,7 +1,7 @@
 /**
  * Created by liekkas on 15/12/17.
  */
-import { ScenesActionTypes, CurSceneActionTypes } from '../constants/ActionTypes';
+import { ActionTypes } from '../actions';
 import { fromJS } from 'immutable';
 import { createUniqueId } from '../tools/ztools';
 import _ from 'lodash';
@@ -15,16 +15,16 @@ const initState = fromJS({
 
 export default function scenesReducer(state = initState, action = {}) {
   switch (action.type) {
-    case CurSceneActionTypes.INIT_SCENE:
+    case ActionTypes.INIT_SCENE:
       return state.merge(action.payload.scenes);
-    case ScenesActionTypes.DELETE_SCENE:
+    case ActionTypes.DELETE_SCENE:
       return state.update('entries', () => state.get('entries').filterNot(item => item.get('id') === action.payload));
-    case ScenesActionTypes.DELETE_GROUP:
+    case ActionTypes.DELETE_GROUP:
       const i = state.get('groups').findIndex(item => item.get('name') === action.payload);
       //处理groups
       const temp = state.update('groups', () => state.get('groups').remove(i));
       return temp.update('entries', () => temp.get('entries').filterNot(item => item.get('group') === action.payload));
-    case CurSceneActionTypes.SAVE_SCENE: //保存当前场景时同时更新场景组里面的内容
+    case ActionTypes.SAVE_SCENE: //保存当前场景时同时更新场景组里面的内容
       //组所在索引
       const index = state.get('groups').findIndex(item => item.get('name') === action.payload.group);
       //场景所在索引
