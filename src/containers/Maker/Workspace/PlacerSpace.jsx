@@ -4,21 +4,6 @@ import { ItemTypes } from '../../../constants/DndTypes';
 import { DropTarget } from 'react-dnd';
 
 const target = {
-  canDrop(props, monitor) {
-
-    const item = monitor.getItem();
-    const itemType = monitor.getItemType();
-    //const mouseInitXY = monitor.getInitialClientOffset(); //初始鼠标位置
-    //const nodeInitXY = monitor.getInitialSourceClientOffset(); //初始组件位置
-    //const lastMouseXY = monitor.getClientOffset(); //完成时鼠标位置
-    //const mouseXYOffset = monitor.getDifferenceFromInitialOffset(); //完成时鼠标相对初始值的偏差
-    const lastNodeXY = monitor.getSourceClientOffset(); //完成时组件位置
-    //console.log(nodeInitXY, lastNodeXY);
-    //if(itemType === 'Placer') {
-    //  return props.onCanPlacerDrop(item, lastNodeXY);
-    //}
-    return true;
-  },
 
   hover(props, monitor, component) {
     const item = monitor.getItem();
@@ -42,7 +27,7 @@ const target = {
     //const lastMouseXY = monitor.getClientOffset(); //完成时鼠标位置
     //const mouseXYOffset = monitor.getDifferenceFromInitialOffset(); //完成时鼠标相对初始值的偏差
     const lastNodeXY = monitor.getSourceClientOffset(); //完成时组件位置
-    //console.log('>> drop', itemType);
+    console.log('>> drop', itemType);
     if(itemType !== 'Placer') {
       props.onComponentDrop(item, lastNodeXY);
     } else {
@@ -65,8 +50,9 @@ class PlacerSpace extends React.Component {
     return connectDropTarget(
       <div style={{
         position: 'relative',
-        width: '100%',
-        height: '100%',
+        width: '98%',
+        height: '98%',
+        padding: '1%',
       }}>
         {children}
       </div>
@@ -77,10 +63,7 @@ class PlacerSpace extends React.Component {
 PlacerSpace.propTypes = {
   onPlacerDrop: PropTypes.func.isRequired,
   onPlacerHover: PropTypes.func.isRequired,
-  onCanPlacerDrop: PropTypes.func.isRequired,
   onComponentDrop: PropTypes.func.isRequired,
-};
-PlacerSpace.defaultProps = {
 };
 
 export default DropTarget([ItemTypes.Placer, ItemTypes.CompSnap], target, collect)(PlacerSpace);

@@ -30,11 +30,11 @@ const source = {
   //},
   //
   //endDrag: function (props, monitor, component) {
-  //  if (!monitor.didDrop()) {
-  //    return;
+  //  if (monitor.didDrop()) {
+  //    const result = monitor.getDropResult();
+  //    console.log('>>> Placer:EndDrag',result);
   //  }
   //},
-
 };
 
 function collect(connect, monitor) {

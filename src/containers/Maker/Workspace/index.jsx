@@ -67,13 +67,13 @@ function calcPlacerXYWH(x,y,w,h) {
   const nodeW = xywh.w * w * 0.01;
   const nodeH = xywh.h * h * 0.01;
 
-  if (nodeW + calcX > xywh.w + xywh.x) {
-    calcX = xywh.x + xywh.w - nodeW;
+  if (nodeW + calcX + xywh.w * 0.01 > xywh.w + xywh.x) {
+    calcX = xywh.x + xywh.w - nodeW - xywh.w * 0.01;
   }
-  if (nodeH + calcY > xywh.h + xywh.y) {
-    calcY = xywh.y + xywh.h - nodeH;
+  if (nodeH + calcY  + xywh.h * 0.02 > xywh.h + xywh.y) {
+    calcY = xywh.y + xywh.h - nodeH - xywh.h * 0.02;
   }
-  return { calcX, calcY };
+  return { calcX: Math.max(calcX,xywh.x + xywh.w * 0.01), calcY: Math.max(calcY, xywh.y + xywh.h * 0.01) };
 }
 
 class WorkSpace extends React.Component {
@@ -159,8 +159,8 @@ class WorkSpace extends React.Component {
       const nodeH = xywh.h * compH * 0.01;
       const nodeX = xywh.w * compX * 0.01;
       const nodeY = xywh.h * compY * 0.01;
-      let calcW = nodeW + Math.min(mouseXYOffset.x, xywh.w - nodeX - nodeW);
-      let calcH = nodeH + Math.min(mouseXYOffset.y, xywh.h - nodeY - nodeH);
+      let calcW = nodeW + Math.min(mouseXYOffset.x, xywh.w - nodeX - nodeW - xywh.w*0.01);
+      let calcH = nodeH + Math.min(mouseXYOffset.y, xywh.h - nodeY - nodeH - xywh.h*0.02);
       const wValue = (calcW / xywh.w * 100).toFixed(4);
       const hValue = (calcH / xywh.h * 100).toFixed(4);
       this.setState(update(this.state, {
@@ -171,8 +171,6 @@ class WorkSpace extends React.Component {
         },
       }));
     }
-
-    //console.log('>>> handlePlacerHover:', name, index);
   }
 
   handleCanPlacerDrop(item, nodeXY) {
@@ -248,24 +246,6 @@ class WorkSpace extends React.Component {
   //    || this.props.theme !== nextProps.theme
   //    || this.state.hasDraggingPlacer !== nextState.hasDraggingPlacer;
   //}
-  /*
-
-    renderLayout(row, column) {
-      const { dropTargetPlaceholder } = this.state;
-      return _.range(row).map((index) =>
-        <HBox w="100%" h={100 / row + '%'} key={index}>
-          {
-            _.range(column).map((i) =>
-              <Placeholder w={100 / column + '%'} h="100%"
-                           name={_.uniqueId('Placeholder')} key={i}
-                           droppedEleType="void"
-                           onDrop={(item) => this.handleDrop(item, i)} />
-            )
-          }
-        </HBox>
-      );
-    }
-  */
 
   //渲染组件的设置器
   renderEditor() {
@@ -306,7 +286,6 @@ class WorkSpace extends React.Component {
     return (
       <PlacerSpace onPlacerDrop={(item, nodeXY) => this.handlePlacerDrop(item, nodeXY)}
                    onComponentDrop={(item, nodeXY) => this.handleComponentDrop(item, nodeXY)}
-                   onCanPlacerDrop={(item, nodeXY) => this.handleCanPlacerDrop(item, nodeXY)}
                    onPlacerHover={(item, nodeXY, mouseXYOffset) => this.handlePlacerHover(item, nodeXY, mouseXYOffset)}>
         { enableGridLinesHelper ? <GridLinesHelper /> : null }
 
