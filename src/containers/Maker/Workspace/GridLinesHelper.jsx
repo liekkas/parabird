@@ -20,8 +20,8 @@ class GridLinesHelper extends React.Component {
           )
         }
         {
-          _.range(1,50).map((i) =>
-            <line key={i} x1={i * 2 + '%'} y1="0" x2={i * 2 + '%'} y2="100%" strokeWidth="1" stroke="white" />
+          _.range(1,80).map((i) =>
+            <line key={i} x1={i * 1.25 + '%'} y1="0" x2={i * 1.25 + '%'} y2="100%" strokeWidth="1" stroke="white" />
           )
         }
       </svg>
