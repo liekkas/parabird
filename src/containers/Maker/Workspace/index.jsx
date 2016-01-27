@@ -51,18 +51,25 @@ function calcXYWH(clientWidth, clientHeight) {
   };
 }
 
+//WorkSpace的尺寸和位置
 let xywh = calcXYWH(document.body.scrollWidth, document.body.scrollHeight);
 
-function handleConfigPlacer() {
-  //const index = _.findIndex(this.state.placers, 'name', name);
-  console.log('>>> Config,');
+//限制Placer的位置在WorkSpace里面
+function calcPlacerXYWH(x,y,w,h) {
 
-  //this.setState(update(this.state, {
-  //  placers: {
-  //    $splice: [[index, 1]]
-  //  }
-  //}));
-  //this.props.onRemovePlacer(name);
+  let calcX = Math.max(xywh.x, x);
+  let calcY = Math.max(xywh.y, y);
+
+  const nodeW = xywh.w * w * 0.01;
+  const nodeH = xywh.h * h * 0.01;
+
+  if (nodeW + calcX > xywh.w + xywh.x) {
+    calcX = xywh.x + xywh.w - nodeW;
+  }
+  if (nodeH + calcY > xywh.h + xywh.y) {
+    calcY = xywh.y + xywh.h - nodeH;
+  }
+  return { calcX, calcY };
 }
 
 class WorkSpace extends React.Component {
@@ -104,16 +111,14 @@ class WorkSpace extends React.Component {
   handleComponentDrop(item, nodeXY) {
     const { name, type } = item;
     const { x, y } = nodeXY;
-
-    //限制在workspace内
-    const calcX = Math.max(xywh.x, x);
-    const calcY = Math.max(xywh.y, y);
+    const { w, h } = Lookup[type];
+    const { calcX, calcY } = calcPlacerXYWH(x,y,w,h);
 
     const xValue = ((calcX - xywh.x) / xywh.w * 100).toFixed(4);
     const yValue = ((calcY - xywh.y) / xywh.h * 100).toFixed(4);
 
     const layout = { name: createUniqueId('Placer'), x: Number(xValue), y: Number(yValue),
-      w: Lookup[type].w, h: Lookup[type].h, componentType: type, componentId: createUniqueId(type),
+      w, h, componentType: type, componentId: createUniqueId(type),
       componentConfig: Lookup[type].initConfig };
     this.setState(update(this.state, {
       placers: {
@@ -128,23 +133,9 @@ class WorkSpace extends React.Component {
 
   //处理拖拽和缩放
   handlePlacerHover(item, nodeXY, mouseXYOffset) {
-    const { name, w, h, isDrag } = item;
-
-    //限制在workspace内
-    let calcX = Math.max(xywh.x, nodeXY.x);
-    let calcY = Math.max(xywh.y, nodeXY.y);
-
-    const nodeW = xywh.w * w * 0.01;
-    const nodeH = xywh.h * h * 0.01;
-
-    if (nodeW + calcX > xywh.w + xywh.x) {
-      calcX = xywh.x + xywh.w - nodeW;
-    }
-    if (nodeH + calcY > xywh.h + xywh.y) {
-      calcY = xywh.y + xywh.h - nodeH;
-    }
-
-    //console.log('>>> handlePlacerHover:', isDrag, nodeW, nodeH, calcX, calcY);
+    const { name, compW, compH, compX, compY, isDrag } = item;
+    const { x, y } = nodeXY;
+    const { calcX, calcY } = calcPlacerXYWH(x,y,compW,compH);
 
     const index = _.findIndex(this.state.placers, 'name', name);
 
@@ -159,8 +150,12 @@ class WorkSpace extends React.Component {
         },
       }));
     } else {
-      let calcW = nodeW + mouseXYOffset.x;
-      let calcH = nodeH + mouseXYOffset.y;
+      const nodeW = xywh.w * compW * 0.01;
+      const nodeH = xywh.h * compH * 0.01;
+      const nodeX = xywh.w * compX * 0.01;
+      const nodeY = xywh.h * compY * 0.01;
+      let calcW = nodeW + Math.min(mouseXYOffset.x, xywh.w - nodeX - nodeW);
+      let calcH = nodeH + Math.min(mouseXYOffset.y, xywh.h - nodeY - nodeH);
       const wValue = (calcW / xywh.w * 100).toFixed(4);
       const hValue = (calcH / xywh.h * 100).toFixed(4);
       this.setState(update(this.state, {
@@ -244,7 +239,9 @@ class WorkSpace extends React.Component {
 
   //shouldComponentUpdate(nextProps, nextState) {
   //  console.log('>>> WorkSpace:shouldComponentUpdate', nextProps, nextState);
-  //  return !shallowEqual(this.state.placers,nextState.placers) || this.props.theme !== nextProps.theme;
+  //  return !shallowEqual(this.state.placers,nextState.placers)
+  //    || this.props.theme !== nextProps.theme
+  //    || this.state.hasDraggingPlacer !== nextState.hasDraggingPlacer;
   //}
   /*
 
@@ -297,7 +294,7 @@ class WorkSpace extends React.Component {
     //
     //console.log('workSpaceRatio:'+workSpaceRatio+' ratio:'+ratio + ' w:' + w + ' h:' + h);
 
-    console.log('>>> Workspace:render', placers);
+    //console.log('>>> Workspace:render', placers);
     //注意:在遍历placers的时候,给每个Placer设置key=name可以避免组件混用的情况
     //比如我添加了 c1,c2,c3,如果删除c1,那么在key=i的情况下,c2会用c1的实例,c3会用c2的实例,造成后面两个不需要重绘的组件
     //也发生重绘
