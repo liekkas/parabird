@@ -16,8 +16,10 @@ const source = {
   beginDrag(props) {
     return {
       name: props.name,
-      w: props.w,
-      h: props.h,
+      compW: props.w,
+      compH: props.h,
+      compX: props.x,
+      compY: props.y,
       isDrag: isDrag,
     };
   },
