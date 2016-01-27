@@ -12,6 +12,10 @@ import { createUniqueId } from '../../../tools/ztools';
 import { Dialog, FlatButton } from 'material-ui';
 import { Lookup } from '../../../constants/LookUp';
 import shallowEqual from 'react-pure-render/shallowEqual';
+import style from './style.scss';
+import GridLinesHelper from './GridLinesHelper';
+import Switch from 'rc-switch';
+import 'rc-switch/assets/index.css';
 
 //使用scrollwidth有效
 //let s = "";
@@ -78,6 +82,7 @@ class WorkSpace extends React.Component {
     this.state = {
       placers: this.props.placers,
       open: false,
+      enableGridLinesHelper: true,
     };
   }
 
@@ -282,7 +287,7 @@ class WorkSpace extends React.Component {
 
   render() {
     const { screenRatio, screenNums, theme } = this.props;
-    const { open, placers, editorPlacer, editorType,  } = this.state;
+    const { open, placers, enableGridLinesHelper, editorType,  } = this.state;
 
     const [wR, hR] = screenRatio.split(':');
     const [row, column] = screenNums.split('*');
@@ -303,6 +308,8 @@ class WorkSpace extends React.Component {
                    onComponentDrop={(item, nodeXY) => this.handleComponentDrop(item, nodeXY)}
                    onCanPlacerDrop={(item, nodeXY) => this.handleCanPlacerDrop(item, nodeXY)}
                    onPlacerHover={(item, nodeXY, mouseXYOffset) => this.handlePlacerHover(item, nodeXY, mouseXYOffset)}>
+        { enableGridLinesHelper ? <GridLinesHelper /> : null }
+
         {placers.map(({ name, x, y, w, h, componentType, componentId, componentConfig }, i) =>
           <Placer name={name} x={x} y={y} w={w} h={h} componentType={componentType} theme={theme}
                   componentId={componentId} componentConfig={componentConfig} key={name}
@@ -325,6 +332,15 @@ class WorkSpace extends React.Component {
           </Dialog> : null
         }
 
+        <div className={style.toolbox}>
+          <label onClick={() => this.setState({enableGridLinesHelper: !enableGridLinesHelper})}>辅助线</label>
+          <Switch
+            checked={enableGridLinesHelper}
+            checkedChildren={'开'}
+            unCheckedChildren={'关'}
+            onChange={() => this.setState({enableGridLinesHelper: !enableGridLinesHelper})} />
+        </div>
+
       </PlacerSpace>
     );
   }
@@ -340,15 +356,5 @@ WorkSpace.propTypes = {
   onRemovePlacer: React.PropTypes.func.isRequired,
   onConfigPlacer: React.PropTypes.func.isRequired,
 };
-WorkSpace.defaultProps = {
-  placers: [],
-};
 
 export default WorkSpace;
-/*
-
- <VBox w={w} h={h}>
- {this.renderLayout(row, column, ratio)}
- </VBox>
-
-</HBox>*/

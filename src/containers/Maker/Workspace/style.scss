@@ -1,13 +1,5 @@
 @import "../../../styles/colors";
-$primary-color: $palette-blue-300;
-//@import 'loaders.css/src/animations/line-scale.scss';
 
-.loader-hidden {
-  display: none;
-}
-.loader-active {
-  display: block;
-}
 .config {
   padding: 5px;
   padding-left: 10px;
@@ -59,4 +51,16 @@ $primary-color: $palette-blue-300;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.toolbox {
+  position: absolute;
+  font-size: 1rem;
+  color: white;
+  bottom: 1vw;
+  right: 1vw;
+  label {
+    margin-right: 4px;
+    cursor: pointer;
+  }
 }
