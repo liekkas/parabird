@@ -3,6 +3,7 @@ import { Checkbox, RaisedButton, DropDownMenu, MenuItem } from 'material-ui';
 import logo from './logo.png';
 import style from './style.scss';
 import { themes, screenRatios, screenNums } from '../../../constants/Consts';
+import { BASE_URL } from '../../../config';
 
 class ToolBar extends React.Component {
 
@@ -13,7 +14,8 @@ class ToolBar extends React.Component {
     return (
       <div className={style.full}>
         <div className={style.left}>
-          <image src={logo} className={style.round}/>
+          <image src={logo} className={style.round}
+                 onClick={() => window.open(BASE_URL + '#/shownav')}/>
           <div style={{ width: '2vh' }}/>
           <label>Screen Show</label>
         </div>
