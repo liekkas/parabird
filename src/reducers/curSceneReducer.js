@@ -42,6 +42,10 @@ export default function curSceneReducer(state = initState, action = {}) {
     case ActionTypes.REMOVE_PLACER_FROM_WORKSPACE:
       const i = state.get('placers').findIndex(item => item.get('name') === action.payload);
       return state.update('placers', () => state.get('placers').remove(i));
+    case ActionTypes.BRING_PLACER_TO_FRONT:
+      const j = state.get('placers').findIndex(item => item.get('name') === action.payload);
+      const temp = state.get('placers').get(j);
+      return state.update('placers', () => state.get('placers').remove(j).push(temp));
     case ActionTypes.EDIT_SCENE:
       return fromJS(action.payload);
     //如果删除的场景是当前curScene那么就相当于新建,不是就什么也没发生

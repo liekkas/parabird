@@ -125,14 +125,8 @@ class WorkSpace extends React.Component {
     const layout = { name: createUniqueId('Placer'), x: Number(xValue), y: Number(yValue),
       w, h, componentType: type, componentId: createUniqueId(type),
       componentConfig: Lookup[type].initConfig };
-    this.setState(update(this.state, {
-      placers: {
-        $push: [layout],
-      },
-    }));
 
     this.props.dropComponentIntoWorkspace(layout);
-
     console.log('>>> handleComponentDrop:', name, type);
   }
 
@@ -183,49 +177,28 @@ class WorkSpace extends React.Component {
   }
 
   handleRemovePlacer(name) {
-    console.log('>>> Remove,', name);
-    const index = _.findIndex(this.state.placers, 'name', name);
-    this.setState(update(this.state, {
-      placers: {
-        $splice: [[index, 1]]
-      }
-    }));
     this.props.onRemovePlacer(name);
   }
 
   handleConfigPlacer(name, type, config) {
     const index = _.findIndex(this.state.placers, 'name', name);
     this.setState({ open: true, editorPlacer: name, editorType: type });
+  }
 
-    //if(!this.state.hasOwnProperty('editorConfig')) {
-    //  this.setState({ editorConfig: config });
-    //}
-    console.log('>>> Config,', name, index);
-
-    //this.setState(update(this.state, {
-    //  placers: {
-    //    $splice: [[index, 1]]
-    //  }
-    //}));
-    //this.props.onRemovePlacer(name);
+  handleFocusPlacer(name) {
+    const { placers } = this.state;
+    const index = _.findIndex(placers, 'name', name);
+    if (index !== placers.length - 1) {
+      this.props.onFocusPlacer(name);
+    }
   }
 
   //单个组件设置保存
-  handleConfigSubmit = (config) => {
-    const { editorPlacer, placers } = this.state;
-    const index = _.findIndex(placers, 'name', editorPlacer);
-    this.setState(update(this.state, {
-      placers: {
-        [index]: {
-          $merge: { componentConfig: config }
-        }
-      },
-    }));
-
+  handleConfigSubmit(config) {
+    const { editorPlacer } = this.state;
     this.setState({ open: false });
     this.props.onConfigPlacer({ name: editorPlacer, componentConfig: config });
   };
-
 
   handleOpen = () => {
     this.setState({open: true});
@@ -279,7 +252,7 @@ class WorkSpace extends React.Component {
     //
     //console.log('workSpaceRatio:'+workSpaceRatio+' ratio:'+ratio + ' w:' + w + ' h:' + h);
 
-    //console.log('>>> Workspace:render', placers);
+    console.log('>>> Workspace:render', placers);
     //注意:在遍历placers的时候,给每个Placer设置key=name可以避免组件混用的情况
     //比如我添加了 c1,c2,c3,如果删除c1,那么在key=i的情况下,c2会用c1的实例,c3会用c2的实例,造成后面两个不需要重绘的组件
     //也发生重绘
@@ -291,8 +264,10 @@ class WorkSpace extends React.Component {
 
         {placers.map(({ name, x, y, w, h, componentType, componentId, componentConfig }, i) =>
           <Placer name={name} x={x} y={y} w={w} h={h} componentType={componentType} theme={theme}
+                  isFront={i === placers.length - 1}
                   componentId={componentId} componentConfig={componentConfig} key={name}
                   onRemovePlacer={(placeName) => this.handleRemovePlacer(placeName)}
+                  onFocusPlacer={(placeName) => this.handleFocusPlacer(placeName)}
                   onConfigPlacer={(placeName, type, config) => this.handleConfigPlacer(placeName, type, config)} />
         )}
 
@@ -334,6 +309,7 @@ WorkSpace.propTypes = {
   dropComponentIntoWorkspace: React.PropTypes.func.isRequired,
   onRemovePlacer: React.PropTypes.func.isRequired,
   onConfigPlacer: React.PropTypes.func.isRequired,
+  onFocusPlacer: React.PropTypes.func.isRequired,
 };
 
 export default WorkSpace;

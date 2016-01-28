@@ -46,12 +46,6 @@ function collect(connect, monitor) {
 }
 
 class Placer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      //theme: this.context.theme,
-    };
-  }
 
   //使用一张1px的空白图来实现preview隐藏效果
   componentDidMount() {
@@ -59,14 +53,12 @@ class Placer extends React.Component {
     img.onload = () => this.props.connectDragPreview(img);
     img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAG66AABuugHW3rEXAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAAADElEQVQIHWNgIAoAAAAnAAFYYnoBAAAAAElFTkSuQmCC';
   }
-  //
-  //componentWillReceiveProps(nextProps, nextState) {
-  //  console.log('>>> Placer:componentWillReceiveProps:', this.props,nextProps);
-  //}
-  //
-  //componentDidUpdate(prevProps, prevState) {
-  //  console.log('>>> Placer:componentDidUpdate:', this.props.name);
-  //}
+
+  //通过mouseEnter和mouseLeave来控制当前是拖拽模式还是缩放模式
+  //这个组合比mouseDown和mouseUp靠谱
+  setDrag(flag) {
+    isDrag = flag;
+  }
 
   renderComponent() {
     const { componentType, componentId, componentConfig, theme } = this.props;
@@ -78,35 +70,12 @@ class Placer extends React.Component {
     return null;
   }
 
-  onConfig() {
-    alert('haaa');
-  }
-
-  //通过mouseEnter和mouseLeave来控制当前是拖拽模式还是缩放模式
-  //这个组合比mouseDown和mouseUp靠谱
-  setDrag(flag) {
-    isDrag = flag;
-
-    if (isDrag !== flag) {
-      console.log('>>> Placer:setDrag', flag);
-    }
-  }
-
-  onRefresh() {
-
-    this.forceUpdate();
-  }
-
   //因为缩放涉及组件外观发生很大变化,所以当缩放时那么需要卸载组件再重装组件,中间用个过渡效果来指示
   //这样缩放后立马就能看到效果了
   render() {
-    const { x, y, w, h, name, componentType, componentConfig, connectDragSource, isDragging,
-      onRemovePlacer, onConfigPlacer } = this.props;
+    const { x, y, w, h, name, componentType, componentConfig, connectDragSource, isDragging, isFront,
+      onRemovePlacer, onConfigPlacer, onFocusPlacer } = this.props;
     //console.log('>>> Placer:render:', name);
-    //
-    //if (isDragging) {
-    //  return null;
-    //}
 
     const configClassName = cx('config', 'zmdi', 'zmdi-settings');
     const removeClassName = cx('remove', 'zmdi', 'zmdi-delete');
@@ -122,11 +91,10 @@ class Placer extends React.Component {
         top: y + '%',
         margin: 0,
         padding: 0,
-        //visibility: isDragging ? 'hidden' : 'visible',
         opacity: isDragging ? 0.6 : 1,
-        border: isDragging ? 'solid 2px rgba(255, 0, 0, 0.8)' : 'solid 2px rgba(255, 255, 255, 0.4)',
-        backgroundColor: isDragging ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.1)',
-      }}>
+        border: isFront ? 'solid 2px rgba(255, 0, 0, 0.8)' : 'solid 2px rgba(255, 255, 255, 0.4)',
+        backgroundColor: isDragging ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.3)',
+      }} onClick={() => onFocusPlacer(name)} onDrag={() => onFocusPlacer(name)}>
         { !isDragging ? this.renderComponent() : isDrag ? this.renderComponent() :
           <div className={style.resizeBox}><Loader type="ball-beat" active={true} /></div> }
         <div style={{
@@ -160,12 +128,14 @@ Placer.propTypes = {
   componentId: PropTypes.string.isRequired,
   componentConfig: PropTypes.object.isRequired,
   theme: PropTypes.string.isRequired,
+  isFront: PropTypes.bool.isRequired,
 
   connectDragSource: PropTypes.func.isRequired,
   connectDragPreview: PropTypes.func.isRequired,
   isDragging: React.PropTypes.bool.isRequired,
   onRemovePlacer: PropTypes.func,
   onConfigPlacer: PropTypes.func,
+  onFocusPlacer: PropTypes.func,
 };
 
 //只有位置,尺寸变化才重新渲染
@@ -175,6 +145,7 @@ function arePropsEqual(nextProps, props) {
     nextProps.w === props.w &&
     nextProps.h === props.h &&
     nextProps.theme === props.theme &&
+    nextProps.isFront === props.isFront &&
     shallowEqual(nextProps.componentConfig, props.componentConfig);
 }
 

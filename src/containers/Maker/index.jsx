@@ -117,6 +117,10 @@ const Maker = React.createClass({
     this.props.dispatch(createAction(ActionTypes.SAVE_COMPONENT_CONFIG, payload));
   },
 
+  onFocusPlacer(payload) {
+    this.props.dispatch(createAction(ActionTypes.BRING_PLACER_TO_FRONT, payload));
+  },
+
   handleOpen() {
     this.setState({ openPreview: true });
   },
@@ -197,7 +201,8 @@ const Maker = React.createClass({
                        dropPlacerOnWorkspace={ payload => this.onDropPlacerOnWorkspace(payload)}
                        dropComponentIntoWorkspace={ payload => this.onDropComponentIntoWorkspace(payload)}
                        onRemovePlacer={ payload => this.onRemovePlacer(payload) }
-                       onConfigPlacer={ payload => this.onConfigPlacer(payload) }/>
+                       onConfigPlacer={ payload => this.onConfigPlacer(payload) }
+                       onFocusPlacer={ payload => this.onFocusPlacer(payload) }/>
           </div>
         </div>
 
