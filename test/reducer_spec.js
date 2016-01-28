@@ -256,6 +256,27 @@ describe('curSceneReducer', ()=> {
     ]));
   });
 
+  it('handle BRING_PLACER_TO_FRONT', ()=> {
+    const initialState = fromJS({
+      placers: [
+        { name: 'Placer1', x: 10, y: 10, w: 10, h: 10, componentType: 'LineChart', componentConfig: {} },
+        { name: 'Placer2', x: 10, y: 10, w: 10, h: 10, componentType: 'LineChart', componentConfig: {} },
+        { name: 'Placer3', x: 10, y: 10, w: 10, h: 10, componentType: 'LineChart', componentConfig: {} },
+      ],
+    });
+    const action = {
+      type: ActionTypes.BRING_PLACER_TO_FRONT,
+      payload: 'Placer2'
+    };
+    const nextState = curSceneReducer(initialState, action);
+
+    expect(nextState.get('placers')).to.equal(fromJS([
+      { name: 'Placer1', x: 10, y: 10, w: 10, h: 10, componentType: 'LineChart', componentConfig: {} },
+      { name: 'Placer3', x: 10, y: 10, w: 10, h: 10, componentType: 'LineChart', componentConfig: {} },
+      { name: 'Placer2', x: 10, y: 10, w: 10, h: 10, componentType: 'LineChart', componentConfig: {} },
+    ]));
+  });
+
   //只更新config部分
   it('handle SAVE_COMPONENT_CONFIG', ()=> {
     const initialState = fromJS({
