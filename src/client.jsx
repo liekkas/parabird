@@ -23,10 +23,11 @@ import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 import { createAction, ActionTypes } from './actions';
+import { REST_API_BASE_URL } from './config';
 
 const store = configureStore();
 
-fetch('http://localhost:4000/api/v1/parabirds/root')
+fetch(REST_API_BASE_URL + 'root')
   .then(function(response) {
     return response.json();
   }).then(function(json) {
