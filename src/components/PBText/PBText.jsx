@@ -1,14 +1,13 @@
 import React, { PropTypes } from 'react';
 import style from './style.scss';
 import { TextField } from 'material-ui';
-import {Motion, spring} from 'react-motion';
+//import {Motion, spring} from 'react-motion';
 
 class PBText extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      foo: 'bar',
-    };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (this.props.config.title !== nextProps.config.title
+      || this.props.config.text !== nextProps.config.text);
   }
 
   render() {
@@ -16,10 +15,12 @@ class PBText extends React.Component {
     return (
       <div className={style.root}>
         <div className={style.title}>{config.title}</div>
-        <TextField multiLine={true} disabled={true}
+        <TextField multiLine={true} disabled={false}
                    hintText="请输入正文" fullWidth={true}
+                   inputStyle={{ color: '#FF0000' }}
                    underlineDisabledStyle={{ visibility: 'hidden' }}
-                   defaultValue={config.text}/>
+                   underlineStyle={{ visibility: 'hidden' }}
+                   value={config.text}/>
       </div>
     );
   }
@@ -28,16 +29,5 @@ class PBText extends React.Component {
 PBText.propTypes = {
   config: PropTypes.object.isRequired,
 };
-PBText.defaultProps = {
-};
 
 export default PBText;
-/*
-
-<Motion defaultStyle={{x: 0}}  style={{x: spring(80,[100,20])}}>
-  {({x}) => <div style={{
-            height: '80%',
-            transform: `translate3d(0, ${x}%, 0)`,
-          }}>
-  </div>}
-</Motion>*/
