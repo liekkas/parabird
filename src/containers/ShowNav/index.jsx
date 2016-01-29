@@ -19,8 +19,9 @@ class ShowNav extends React.Component {
     return (
       <div className={style.root}>
         {
-          scenes.entries.length > 0 ?
-            <Cover user={user} showScenes={scenes.entries} /> : <Loader type={LOADING_STYLE} active={true} />
+          scenes.entries.length > 0
+            ? <Cover user={user} showScenes={scenes.entries} />
+            : <Loader type={LOADING_STYLE} active={true} />
         }
       </div>
     );

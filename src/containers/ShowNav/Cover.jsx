@@ -24,17 +24,17 @@ class Cover extends React.Component {
                  navigation={false}
                  enableScroll={true}
                  media={{
-                  '@media (max-width: 100vw)': {
-                    width: '90vw',
-                    height: '100vh',
-                    background: 'none',
-                  },
-                  '@media (min-width: 900px)': {
-                    width: '90vw',
-                    height: '100vh',
-                    background: 'none',
-                  }
-                }}>
+                   '@media (max-width: 100vw)': {
+                     width: '90vw',
+                     height: '100vh',
+                     background: 'none',
+                   },
+                   '@media (min-width: 900px)': {
+                     width: '90vw',
+                     height: '100vh',
+                     background: 'none',
+                   }
+                 }}>
         {
           showScenes.map(({ id, name, cover }, index) =>
             <img className={style.img} key={index} src={this.getCover(cover)}
