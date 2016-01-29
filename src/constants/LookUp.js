@@ -30,7 +30,7 @@ function generate(name, type, comp, editor, initConfig = {}, group = '通用', i
 export const Lookup = {
   //通用系列
   PBImage: generate('图片', 'PBImage', comps.PBImage, comps.PBImageEditor, {}, '通用', image, 40),
-  PBClock: generate('时钟', 'PBClock', comps.PBClock, comps.PBClockEditor),
+  //PBClock: generate('时钟', 'PBClock', comps.PBClock, comps.PBClockEditor),
   PBText: generate('文本', 'PBText', comps.PBText, comps.PBTextEditor, { title: '标题', text: '正文' }),
   PBTry: generate('试验品', 'PBTry', comps.PBTry, comps.PBTryEditor),
   //ECharts系列,共用一个组件,但为了方便演示,弄出一系列组件,通过初始值来区分

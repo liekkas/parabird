@@ -27,7 +27,7 @@ function generateLineBarOption(obj, type) {
     const datas = _.map(obj.data, item);
     series.push({
       name: item,
-      type: type,
+      type,
       data: datas,
     })
   });
@@ -62,7 +62,7 @@ function generatePieOption(obj, type) {
     legend: {data: legend},
     series: {
       name: obj.category,
-      type: type,
+      type,
       data: obj.data,
     },
   }

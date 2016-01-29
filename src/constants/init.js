@@ -33,13 +33,13 @@ export function getInitLineBarChart(type) {
     },
     series: [{
       name: '收视率',
-      type: type,
+      type,
       data: [1.6, 1.5, 1.3, 1.5, 1.2, 0.8, 1.8]
     }]
   });
   return {
-    type: type,
-    localData: localData,
+    type,
+    localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart/lineBar/3',
     mode: 'local',
   };
@@ -86,7 +86,7 @@ export function getInitPieChart() {
   });
   return {
     type: 'pie',
-    localData: localData,
+    localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart/pie/5',
     mode: 'local',
   };
@@ -165,7 +165,7 @@ export function getInitScatterChart() {
   });
   return {
     type: 'scatter',
-    localData: localData,
+    localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart',
     mode: 'local',
   };
@@ -188,7 +188,7 @@ export function getInitGaugeChart() {
   });
   return {
     type:'gauge',
-    localData: localData,
+    localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart/pie',
     mode: 'local',
   };
@@ -298,7 +298,7 @@ export function getInitMapChart() {
   });
   return {
     type: 'map',
-    localData: localData,
+    localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart/pie',
     mode: 'local',
   };
@@ -361,7 +361,7 @@ export function getInitParallelChart() {
       backgroundColor: '#222',
       borderColor: '#777',
       borderWidth: 1,
-      formatter: function (obj) {
+      formatter (obj) {
         var value = obj[0].value;
         return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
           + obj[0].seriesName + ' ' + value[0] + '日期：'
@@ -436,20 +436,20 @@ export function getInitParallelChart() {
       {
         name: '湖南卫视',
         type: 'parallel',
-        lineStyle: lineStyle,
+        lineStyle,
         data: data1
       },
       {
         name: '浙江卫视',
         type: 'parallel',
-        lineStyle: lineStyle,
+        lineStyle,
         data: data2
       },
     ]
   });
   return {
     type: 'parallel',
-    localData: localData,
+    localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart',
     mode: 'local',
   };
@@ -514,7 +514,7 @@ export function getInitHeatChart() {
     series: [{
       name: '收视热度',
       type: 'heatmap',
-      data: data,
+      data,
       label: {
         normal: {
           show: true
@@ -530,7 +530,7 @@ export function getInitHeatChart() {
   });
   return {
     type: 'heatmap',
-    localData: localData,
+    localData,
     remoteDataUrl: 'http://localhost:4000/api/v1/chart',
     mode: 'local',
   };

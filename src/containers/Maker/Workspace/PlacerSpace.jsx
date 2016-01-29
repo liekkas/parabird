@@ -14,7 +14,7 @@ const target = {
     const mouseXYOffset = monitor.getDifferenceFromInitialOffset(); //完成时鼠标相对初始值的偏差
     const lastNodeXY = monitor.getSourceClientOffset(); //完成时组件位置
     //console.log(nodeInitXY, lastNodeXY);
-    if(itemType === 'Placer') {
+    if (itemType === 'Placer') {
       props.onPlacerHover(item, lastNodeXY, mouseXYOffset);
     }
   },
@@ -28,7 +28,7 @@ const target = {
     //const mouseXYOffset = monitor.getDifferenceFromInitialOffset(); //完成时鼠标相对初始值的偏差
     const lastNodeXY = monitor.getSourceClientOffset(); //完成时组件位置
     console.log('>> drop', itemType);
-    if(itemType !== 'Placer') {
+    if (itemType !== 'Placer') {
       props.onComponentDrop(item, lastNodeXY);
     } else {
       props.onPlacerDrop(item, lastNodeXY);

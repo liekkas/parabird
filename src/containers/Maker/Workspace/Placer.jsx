@@ -20,7 +20,7 @@ const source = {
       compH: props.h,
       compX: props.x,
       compY: props.y,
-      isDrag: isDrag,
+      isDrag,
     };
   },
 
@@ -95,8 +95,13 @@ class Placer extends React.Component {
         border: isFront ? 'solid 2px rgba(255, 0, 0, 0.8)' : 'solid 2px rgba(255, 255, 255, 0.4)',
         backgroundColor: isDragging ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.3)',
       }} onClick={() => onFocusPlacer(name)} onDrag={() => onFocusPlacer(name)}>
-        { !isDragging ? this.renderComponent() : isDrag ? this.renderComponent() :
-          <div className={style.resizeBox}><Loader type="ball-beat" active={true} /></div> }
+        {
+          !isDragging
+            ? this.renderComponent()
+            : isDrag
+              ? this.renderComponent()
+              : <div className={style.resizeBox}><Loader type="ball-beat" active={true} /></div>
+        }
         <div style={{
           position: 'absolute',
           top: '0',
@@ -140,13 +145,13 @@ Placer.propTypes = {
 
 //只有位置,尺寸变化才重新渲染
 function arePropsEqual(nextProps, props) {
-  return nextProps.x === props.x &&
-    nextProps.y === props.y &&
-    nextProps.w === props.w &&
-    nextProps.h === props.h &&
-    nextProps.theme === props.theme &&
-    nextProps.isFront === props.isFront &&
-    shallowEqual(nextProps.componentConfig, props.componentConfig);
+  return nextProps.x === props.x
+    && nextProps.y === props.y
+    && nextProps.w === props.w
+    && nextProps.h === props.h
+    && nextProps.theme === props.theme
+    && nextProps.isFront === props.isFront
+    && shallowEqual(nextProps.componentConfig, props.componentConfig);
 }
 
 const options = { arePropsEqual };

@@ -39,9 +39,8 @@ class PBECharts extends React.Component {
   componentWillReceiveProps(nextProps, nextState) {
     console.log('>>> PBECharts:componentWillReceiveProps', this.props, nextProps, nextState);
     if (this.props.config.mode !== nextProps.config.mode
-        || this.props.config.localData !== nextProps.config.localData
-        || this.props.config.remoteDataUrl !== nextProps.config.remoteDataUrl
-      ) {
+      || this.props.config.localData !== nextProps.config.localData
+      || this.props.config.remoteDataUrl !== nextProps.config.remoteDataUrl) {
       this._getData(this, nextProps);
     }
   }

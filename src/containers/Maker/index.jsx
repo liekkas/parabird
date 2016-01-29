@@ -10,10 +10,9 @@ import ToolBar from './ToolBar';
 import Workspace from './Workspace';
 import Showspace from '../Shower/Showspace';
 import ScenesMgr from './ScenesMgr';
-import Home from '../Home/Home';
 import style from './style.scss';
 import { connect } from 'react-redux';
-import { createAction, ActionTypes} from '../../actions';
+import { createAction, ActionTypes } from '../../actions';
 
 import { getThemeByName } from '../../tools/styleTools';
 import * as actionCreators from '../../actions';
@@ -65,9 +64,9 @@ const Maker = React.createClass({
 
     //console.log('>>> Maker:WillReceiveRrops', needSave);
     if (needSave) {
-      user.configed ?
-        updateParabird('root', { curScene, scenes }, this.props.dispatch) :
-        saveParabird('root', { curScene, scenes }, this.props.dispatch);
+      user.configed
+        ? updateParabird('root', { curScene, scenes }, this.props.dispatch)
+        : saveParabird('root', { curScene, scenes }, this.props.dispatch)
     }
   },
 

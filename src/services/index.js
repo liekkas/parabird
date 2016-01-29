@@ -25,10 +25,7 @@ export function saveParabird(name, config, dispatch) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      name: name,
-      config: config,
-    })
+    body: JSON.stringify({name, config})
   }).then(function () {
     dispatch(createAction(ActionTypes.SAVE_SUCCESS));
   })
@@ -44,10 +41,7 @@ export function updateParabird(name, config, dispatch) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      name: name,
-      config: config,
-    })
+    body: JSON.stringify({name, config})
   }).then(function () {
     //console.log('>>> services:updateParabird 成功!');
     dispatch(createAction(ActionTypes.SAVE_SUCCESS));

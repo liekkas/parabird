@@ -60,7 +60,6 @@ let xywh = calcXYWH(document.body.scrollWidth, document.body.scrollHeight);
 
 //限制Placer的位置在WorkSpace里面
 function calcPlacerXYWH(x,y,w,h) {
-
   let calcX = Math.max(xywh.x, x);
   let calcY = Math.max(xywh.y, y);
 
@@ -70,7 +69,7 @@ function calcPlacerXYWH(x,y,w,h) {
   if (nodeW + calcX + xywh.w * 0.01 > xywh.w + xywh.x) {
     calcX = xywh.x + xywh.w - nodeW - xywh.w * 0.01;
   }
-  if (nodeH + calcY  + xywh.h * 0.02 > xywh.h + xywh.y) {
+  if (nodeH + calcY + xywh.h * 0.02 > xywh.h + xywh.y) {
     calcY = xywh.y + xywh.h - nodeH - xywh.h * 0.02;
   }
   return { calcX: Math.max(calcX,xywh.x + xywh.w * 0.01), calcY: Math.max(calcY, xywh.y + xywh.h * 0.01) };
@@ -153,8 +152,8 @@ class WorkSpace extends React.Component {
       const nodeH = xywh.h * compH * 0.01;
       const nodeX = xywh.w * compX * 0.01;
       const nodeY = xywh.h * compY * 0.01;
-      let calcW = nodeW + Math.min(mouseXYOffset.x, xywh.w - nodeX - nodeW - xywh.w*0.01);
-      let calcH = nodeH + Math.min(mouseXYOffset.y, xywh.h - nodeY - nodeH - xywh.h*0.02);
+      let calcW = nodeW + Math.min(mouseXYOffset.x, xywh.w - nodeX - nodeW - xywh.w * 0.01);
+      let calcH = nodeH + Math.min(mouseXYOffset.y, xywh.h - nodeY - nodeH - xywh.h * 0.02);
       const wValue = (calcW / xywh.w * 100).toFixed(4);
       const hValue = (calcH / xywh.h * 100).toFixed(4);
       this.setState(update(this.state, {
@@ -221,7 +220,7 @@ class WorkSpace extends React.Component {
 
   //渲染组件的设置器
   renderEditor() {
-    const { open, placers, editorPlacer, editorType,  } = this.state;
+    const { open, placers, editorPlacer, editorType, } = this.state;
     if (open) {
       const index = _.findIndex(placers, 'name', editorPlacer);
       return React.createElement(
@@ -239,7 +238,7 @@ class WorkSpace extends React.Component {
 
   render() {
     const { screenRatio, screenNums, theme } = this.props;
-    const { open, placers, enableGridLinesHelper, editorType,  } = this.state;
+    const { open, placers, enableGridLinesHelper, editorType, } = this.state;
 
     const [wR, hR] = screenRatio.split(':');
     const [row, column] = screenNums.split('*');
@@ -275,9 +274,9 @@ class WorkSpace extends React.Component {
             title={Lookup[editorType].name + '设置'}
             style={{
             //width: '75%',
-            height: '50%',
+              height: '50%',
             //left: '25%',
-          }}
+            }}
             modal={true}
             open={open}
             onRequestClose={this.handleClose}>
