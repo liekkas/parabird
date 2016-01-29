@@ -1,16 +1,36 @@
 {
-  "extends": "airbnb",
-  "env": {
+  "parser"  : "babel-eslint",
+  "extends" : [
+    "standard",
+    "standard-react"
+  ],
+  "env"     : {
     "mocha": true,
     "browser": true,
     "node": true,
     "es6": true
   },
-  "rules": {
-
+  "globals" : {
+    "__DEV__"      : false,
+    "__PROD__"     : false,
+    "__DEBUG__"    : false,
+    "__DEBUG_NEW_WINDOW__" : false,
+    "__BASENAME__" : false
   },
-  "parser": "babel-eslint",
-  "plugins": [
-    "react"
-  ]
+  "rules": {
+    "semi" : 0,
+    "space-before-function-paren": 0,
+    "object-shorthand": 1,
+    "no-unused-vars": 0,
+    "object-curly-spacing": 0,
+    "comma-spacing": 0,
+    "key-spacing": 0,
+    "no-trailing-spaces": 0,
+    "quotes": 0,
+    "new-cap": 0,
+    "comma-dangle": 0, //不强制对象/数组里面每个对象需要逗号
+    "spaced-comment": 0, //不强制注释前需要空一格
+    "react/jsx-boolean-value": 0,
+    "react/prop-types": 0
+  }
 }
