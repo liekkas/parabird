@@ -1,6 +1,7 @@
 /**
  * Created by liekkas on 16/1/21.
  */
+/* eslint no-eval:0 */
 
 // Note: This regex matches even invalid JSON strings, but since we’re
 // working on the output of `JSON.stringify` we know that only valid strings
