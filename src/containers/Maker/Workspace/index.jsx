@@ -180,8 +180,7 @@ class WorkSpace extends React.Component {
     this.props.onRemovePlacer(name);
   }
 
-  handleConfigPlacer(name, type, config) {
-    const index = _.findIndex(this.state.placers, 'name', name);
+  handleConfigPlacer(name, type) {
     this.setState({ open: true, editorPlacer: name, editorType: type });
   }
 
@@ -252,7 +251,7 @@ class WorkSpace extends React.Component {
     //
     //console.log('workSpaceRatio:'+workSpaceRatio+' ratio:'+ratio + ' w:' + w + ' h:' + h);
 
-    console.log('>>> Workspace:render', placers);
+    //console.log('>>> Workspace:render', placers);
     //注意:在遍历placers的时候,给每个Placer设置key=name可以避免组件混用的情况
     //比如我添加了 c1,c2,c3,如果删除c1,那么在key=i的情况下,c2会用c1的实例,c3会用c2的实例,造成后面两个不需要重绘的组件
     //也发生重绘
