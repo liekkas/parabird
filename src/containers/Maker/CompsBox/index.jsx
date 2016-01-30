@@ -7,7 +7,6 @@ import { Accordion, AccordionItem } from 'react-sanfona';
 import CompSnap from './CompSnap';
 import _ from 'lodash';
 import { Lookup } from '../../../constants/LookUp';
-import './override.css';
 
 const grouped = _.groupBy(_.values(Lookup), 'group');
 
