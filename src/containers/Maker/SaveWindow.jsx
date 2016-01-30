@@ -140,22 +140,7 @@ SaveWindow.propTypes = {
   onSave: PropTypes.func.isRequired,
 };
 SaveWindow.defaultProps = {
-  theme: 'TealTheme',
-  group: '未分组',
-  groups: [],
   cover: screenCoverImages[0].name,
 };
 
 export default SaveWindow;
-//
-//<div className={style.div}><img src="https://randomuser.me/api/portraits/women/62.jpg" /></div>
-//<div className={style.div}><img src="https://randomuser.me/api/portraits/women/63.jpg" /></div>
-//  <div className={style.div}><img src="https://randomuser.me/api/portraits/women/64.jpg" /></div>
-
-/*
-<SelectField
-  value={theme}
-  onChange={(event, index, value) => this.setState({ theme: value })}
-  floatingLabelText="场景主题">
-  {themes}
-</SelectField>*/
