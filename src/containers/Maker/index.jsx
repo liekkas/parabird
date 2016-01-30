@@ -4,6 +4,8 @@
  */
 import React from 'react';
 import { Dialog, FlatButton } from 'material-ui';
+import { Colors } from 'material-ui/lib/styles';
+
 import _ from 'lodash';
 import CompsBox from './CompsBox';
 import ToolBar from './ToolBar';
@@ -224,10 +226,11 @@ const Maker = React.createClass({
         {
           this.state.openSave ? <Dialog
             title="保存"
-            style={{
-            //width: '75%',
-            //height: '50%',
-            //left: '25%',
+            titleStyle={{
+              backgroundColor: Colors.teal300
+            }}
+            bodyStyle={{
+              backgroundColor: Colors.teal300
             }}
             modal={true}
             open={this.state.openSave}
