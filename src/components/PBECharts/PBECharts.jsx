@@ -68,6 +68,11 @@ class PBECharts extends React.Component {
     chart.setOption(_.merge(this.state.option, theme.echarts));
   }
 
+  componentWillUnmount() {
+    const chart = echarts.init(document.getElementById(this.state.id))
+    chart.dispose()
+  }
+
   _getData(bind, props) {
     const { config } = props;
     //console.log('>>> PBECharts:_getData:', config);
