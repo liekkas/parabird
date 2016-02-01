@@ -31,13 +31,13 @@ class PBECharts extends React.Component {
 
   componentDidMount() {
     const chart = echarts.init(document.getElementById(this.state.id));
-    console.log('>>> PBECharts:componentDidMount', this.state.option);
+//    console.log('>>> PBECharts:componentDidMount', this.state.option);
     const theme = getThemeByName(this.props.theme);
     chart.setOption(_.merge(this.state.option, theme.echarts));
   }
 
   componentWillReceiveProps(nextProps, nextState) {
-    console.log('>>> PBECharts:componentWillReceiveProps', this.props, nextProps, nextState);
+//    console.log('>>> PBECharts:componentWillReceiveProps', this.props, nextProps, nextState);
     if (this.props.config.mode !== nextProps.config.mode
       || this.props.config.localData !== nextProps.config.localData
       || this.props.config.remoteDataUrl !== nextProps.config.remoteDataUrl) {
@@ -46,7 +46,7 @@ class PBECharts extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('>>> PBECharts:shouldComponentUpdate', this.props.theme, nextProps, nextState);
+//    console.log('>>> PBECharts:shouldComponentUpdate', this.props.theme, nextProps, nextState);
     return (this.props.config.mode !== nextProps.config.mode
       || this.props.config.localData !== nextProps.config.localData
       || this.props.config.remoteDataUrl !== nextProps.config.remoteDataUrl
@@ -57,12 +57,12 @@ class PBECharts extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    console.log('>>> PBECharts:componentWillUpdate', nextProps, nextState);
+//    console.log('>>> PBECharts:componentWillUpdate', nextProps, nextState);
     //this._getData(this, nextProps);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('>>> PBECharts:componentDidUpdate', this.state.option);
+//    console.log('>>> PBECharts:componentDidUpdate', this.state.option);
     const chart = echarts.init(document.getElementById(this.state.id));
     const theme = getThemeByName(this.props.theme);
     chart.setOption(_.merge(this.state.option, theme.echarts));
