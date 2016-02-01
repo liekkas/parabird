@@ -77,16 +77,16 @@ class ScenesMgr extends React.Component {
   }
 
   render() {
-    const { onScenesMgrClose, onSceneEdit, groups, user } = this.props;
+    const { onScenesMgrClose, onSceneEdit, entries, groups, user } = this.props;
     const editClassName = cx('edit', 'zmdi', 'zmdi-edit');
     const removeClassName = cx('remove', 'zmdi', 'zmdi-delete');
     const removeGroupClassName = cx('groupRemove', 'zmdi', 'zmdi-delete');
     const confirmBoxClassName = cx('confirmBox');
-    const { slickIndex, alertText, showAlert, curGroup, curScenes } = this.state;
+    const { slickIndex, alertText, showAlert, curGroup } = this.state;
+    const curScenes = _.filter(entries, { 'group': curGroup })
 
-    console.log('>>> SceneMgr:', curGroup, curScenes, groups, this.props.entries);
     return (
-      <Popover zDepth={2} open={true} className={style.root} style={{backgroundColor: Colors.teal300}}
+      <Popover zDepth={2} open={true} className={style.root} style={{backgroundColor: Colors.teal200}}
                onRequestClose={onScenesMgrClose} >
         <Slider className={style.slickBox} dots={false} draggable={true} slickGoTo={slickIndex} arrows={groups.length > 3}
                 lazyLoad={false} infinite={false} speed={500} slidesToShow={3} slidesToScroll={3}>
@@ -94,7 +94,7 @@ class ScenesMgr extends React.Component {
             groups.map(({ name, num }, index) =>
               <div className={style.wrapper} key={index}>
                 <div className={style.groupCard} style={{
-                  border: curGroup === name ? 'solid 2px white' : 'none',
+                  backgroundColor: curGroup === name ? Colors.limeA200 : Colors.lime400,
                 }}>
                   <FlatButton style={{ width: '90%' }} label={name} primary={true}
                               onTouchTap={() => this._handleGroupClicked(name)}/>
@@ -116,10 +116,10 @@ class ScenesMgr extends React.Component {
                       onClick={() => this._handleAlertShow(false)} />
         </div>
 
-        <Slider className={style.slickBox} dots={true} draggable={true} arrows={_.filter(this.props.entries, { 'group': curGroup }).length > 4} initialSlide={0}
+        <Slider className={style.slickBox} dots={false} draggable={true} arrows={curScenes.length > 4} initialSlide={0}
                 animating={false} lazyLoad={false} infinite={false} speed={500} slidesToShow={4} slidesToScroll={4}>
           {
-            _.filter(this.props.entries, { 'group': curGroup }).map((scene, index) =>
+            curScenes.map((scene, index) =>
               <div className={style.wrapper} key={index}>
                 <div className={style.sceneCard}>
                   <h4>{scene.name}</h4>
@@ -138,11 +138,11 @@ class ScenesMgr extends React.Component {
           }
         </Slider>
 
-        <div className={style.sceneDimmer} style={{
-          visibility: showAlert ? 'visible' : 'hidden',
-        }}>
-
-        </div>
+        {
+          curScenes.length > 0
+            ? <div className={style.sceneDimmer} style={{ visibility: showAlert ? 'visible' : 'hidden' }} />
+            : null
+        }
       </Popover>
     );
   }

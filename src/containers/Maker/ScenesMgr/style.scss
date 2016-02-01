@@ -1,23 +1,19 @@
 @import "../../../styles/colors";
 
 .root {
-  //position: absolute;
   width: 60vw;
+  height: 410px;
   left: 20vw;
   top: 10vh;
-  //opacity: 0.5;
+  margin: 0;
   padding: 6px;
-  //display: flex;
-  //flex-direction: row;
-  //align-items: center;
-  //justify-content: center;
 }
 
 .confirmBox {
   position: absolute;
   //margin: 4vh auto 4vh;
-  padding: 5px;
   width: 100%;
+  height: 45px;
   color: white;
   top: 0;
   background-color: $palette-red-400;
@@ -48,25 +44,20 @@
   position: absolute;
   top: 50px;
   width: 100%;
-  height: 100%;
+  height: 320px;
   background-color: rgba(0,0,0,0.2);
 }
 
 .slickBox {
-  //margin-top: 10px;
-  //margin-left: 5%;
-  //margin-right: 5%;
-  //padding: 10px;
-  margin: 4vh auto 4vh;
+  margin: 10px auto 20px;
   width: 90%;
-  height: 100%;
-  //background-color: $palette-teal-600;
 }
 
 .groupCard {
-  margin: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
   background-color: $palette-lime-400;
-  color: white;
+  color: black;
   display: flex;
   flex-direction: row;
 
@@ -90,16 +81,13 @@
 
 .wrapper {
   margin: auto;
-  width: 100%;
-  height: 100%;
+  background-color: #00acc1;
+  //width: 100%;
+  //height: 90%;
 }
 
 .sceneCard {
   margin: 2px;
-  //margin: 0;
-  //width: 12vw;
-  //height: 24vh;
-  //border: solid 2px rgba(255,255,255,0.6);
   text-align: center;
   padding: 8px 6px 8px;
   color: #ffffff;
