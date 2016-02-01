@@ -227,10 +227,10 @@ const Maker = React.createClass({
           this.state.openSave ? <Dialog
             title="保存"
             titleStyle={{
-              backgroundColor: Colors.teal300
+              backgroundColor: Colors.teal100
             }}
             bodyStyle={{
-              backgroundColor: Colors.teal300
+              backgroundColor: Colors.teal100
             }}
             modal={true}
             open={this.state.openSave}

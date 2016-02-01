@@ -96,7 +96,7 @@ class SaveWindow extends React.Component {
 
           </div>
           <div className={style.saveRight}>
-            <label style={{color: '#ffffff'}}>场景封面</label>
+            <label style={{color: '#444444'}}>场景封面</label>
             <Slider className={style.slickBox} dots={true} arrows={true} initialSlide={this.getCoverIndex()} adaptiveHeight={true}
                     lazyLoad={false} infinite={false} speed={500} slidesToShow={1} slidesToScroll={1}
                     afterChange={ (index) => this.setState({ cover: screenCoverImages[index].name }) } >
