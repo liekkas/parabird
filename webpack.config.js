@@ -23,7 +23,7 @@ const webpackConfig = {
 // ------------------------------------
 // Entry Points
 // ------------------------------------
-const APP_ENTRY_PATH = paths.base(config.dir_client) + '/main.jsx'
+const APP_ENTRY_PATH = paths.base(config.dir_client) + '/main.js'
 
 webpackConfig.entry = {
   app: __DEV__
@@ -71,8 +71,8 @@ if (__DEV__) {
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        unused: true,
-        dead_code: true,
+        unused: false,
+        dead_code: false,
         warnings: false
       }
     })
@@ -116,20 +116,20 @@ webpackConfig.module.loaders = [{
       : ['es2015', 'react', 'stage-0']
   }
 },
-  {
-    test: /\.json$/,
-    loader: 'json'
-  }]
+{
+  test: /\.json$/,
+  loader: 'json'
+}]
 
 // Styles
 const cssLoader = !config.compiler_css_modules
   ? 'css?sourceMap'
   : [
-  'css?modules',
-  'sourceMap',
-  'importLoaders=1',
-  'localIdentName=[name]__[local]___[hash:base64:5]'
-].join('&')
+    'css?modules',
+    'sourceMap',
+    'importLoaders=1',
+    'localIdentName=[name]__[local]___[hash:base64:5]'
+  ].join('&')
 
 webpackConfig.module.loaders.push({
   test: /\.scss$/,
@@ -197,12 +197,12 @@ webpackConfig.postcss = [
 // File loaders
 /* eslint-disable */
 webpackConfig.module.loaders.push(
-  { test: /\.woff(\?.*)?$/,  loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff' },
-  { test: /\.woff2(\?.*)?$/, loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff2' },
-  { test: /\.otf(\?.*)?$/,   loader: 'file?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=font/opentype' },
-  { test: /\.ttf(\?.*)?$/,   loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/octet-stream' },
-  { test: /\.eot(\?.*)?$/,   loader: 'file?prefix=fonts/&name=[path][name].[ext]' },
-  { test: /\.svg(\?.*)?$/,   loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=image/svg+xml' },
+  { test: /\.woff(\?.*)?$/,  loader: 'url?limit=10000&mimetype=application/font-woff' },
+  { test: /\.woff2(\?.*)?$/, loader: 'url?limit=10000&mimetype=application/font-woff2' },
+  { test: /\.otf(\?.*)?$/,   loader: 'file?limit=10000&mimetype=font/opentype' },
+  { test: /\.ttf(\?.*)?$/,   loader: 'url?limit=10000&mimetype=application/octet-stream' },
+  { test: /\.eot(\?.*)?$/,   loader: 'file' },
+  { test: /\.svg(\?.*)?$/,   loader: 'url?limit=10000&mimetype=image/svg+xml' },
   { test: /\.(png|jpg|gif)$/,loader: 'url?limit=8192' }
 )
 /* eslint-enable */
