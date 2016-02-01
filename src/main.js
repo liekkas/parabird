@@ -15,11 +15,11 @@ import '../vendors/react-sanfona.css'
 import configureStore from './store/configureStore';
 import { createAction, ActionTypes } from './actions';
 import { REST_API_BASE_URL } from './config';
-//import { useRouterHistory } from 'react-router'
-//import { createHistory } from 'history'
+import { useRouterHistory } from 'react-router'
+import { createHistory } from 'history'
 
-//const historyConfig = { basename: __BASENAME__ }
-//const history = useRouterHistory(createHistory)(historyConfig)
+const historyConfig = { basename: __BASENAME__ }
+const history = useRouterHistory(createHistory)(historyConfig)
 //
 //const initialState = window.__INITIAL_STATE__
 const store = configureStore()
@@ -38,7 +38,7 @@ fetch(REST_API_BASE_URL + 'root')
   });
 
 ReactDOM.render(
-  <Root route={AppRouter} store={store} />,
+  <Root history={history} route={AppRouter} store={store} />,
   document.getElementById('root')
 )
 
