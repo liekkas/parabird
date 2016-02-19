@@ -6,17 +6,12 @@
   "scripts": {
     "clean": "rm -rf dist",
     "compile": "node -r dotenv/config --harmony bin/compile",
-    "dev": "webpack-dev-server --devtool eval --progress --colors --hot --content-base build",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
-    "test:watch": "npm run test -- --watch",
-    "start": "NODE_ENV=development node -r dotenv/config bin/server",
-    "deploy": "npm run clean && NODE_ENV=production npm run compile",
-    "start2": "node devServer.js",
-    "prod": "node prodServer.js",
+    "dev": "NODE_ENV=development node -r dotenv/config bin/server",
+    "prod": "npm run clean && NODE_ENV=production npm run compile",
     "lint:test": "eslint test/eslint_boilerplate.js",
     "lint": "eslint src",
-    "build:webpack": "NODE_ENV=production webpack --verbose --profile --colors --display-error-details --config webpack.config.prod.js",
-    "build": "npm run clean && npm run build:webpack"
+    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
+    "test:watch": "npm run test -- --watch"
   },
   "author": "liekkas.zeng",
   "license": "MIT",
